@@ -1,0 +1,90 @@
+{
+  "name": "@cennznet/cli",
+  "description": "Official CLI tool to interact with CENNZnet nodes.",
+  "version": "0.6.0",
+  "author": "Centrality Development Team",
+  "bin": {
+    "cennz-cli": "./bin/run",
+    "cennz-cli.js": "./bin/run.js"
+  },
+  "bugs": "https://github.com/cennznet/cli/issues",
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^2",
+    "@cennznet/api": "^0.12.3",
+    "@cennznet/crml-generic-asset": "^0.7.2",
+    "@cennznet/crml-cennzx-spot": "^0.5.3",
+    "@cennznet/types": "^0.12.3",
+    "@cennznet/util": "^0.12.3",
+    "@cennznet/wallet": "^0.12.3",
+    "chalk": "^2.4.2",
+    "core-js": "^2.6.0",
+    "lodash.get": "^4.4.2",
+    "prompts": "2.0.1",
+    "semver": "^5.6.0",
+    "simple-git": "^1.107.0",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@oclif/test": "^1",
+    "@oclif/tslint": "^3",
+    "@types/chai": "^4",
+    "@types/chalk": "^2.2.0",
+    "@types/lodash.get": "^4.4.4",
+    "@types/mocha": "^5",
+    "@types/node": "^10",
+    "@types/prompts": "^1.2.0",
+    "@types/semver": "^5.5.0",
+    "chai": "^4",
+    "globby": "^8",
+    "mocha": "^5",
+    "nyc": "^13",
+    "ts-node": "^7",
+    "tslint": "^5",
+    "typescript": "^3.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/yarn.lock",
+    "/oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/cennznet/cli",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "cennz-cli",
+    "topics": {
+      "wallet": {
+        "description": "manage your wallet"
+      },
+      "script": {
+        "description": "manage scripts"
+      }
+    },
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "git@github.com:cennznet/cli.git",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "release": "oclif-dev pack",
+    "release:deb": "oclif-dev pack:deb",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
