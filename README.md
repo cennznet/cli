@@ -85,12 +85,13 @@ OPTIONS
 
 ```
 USAGE
-  $ cennz-cli repl
+  $ cennz-cli repl [SCRIPT] 
 
 OPTIONS
-  -e, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
+  -c, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
+  -e, --evaluate=evaluate  evaluate script and print result
   -p, --passphrase if a passphrase is needed
-  -f, --path path to the wallet's vault file
+  -f, --path path to the wallet's vault file [default: /home_directory/.cennz_cli/wallet.json] path to wallet.json
 ```
 
 Optionally, like "node" cli, `repl` command can go with a script string or file:

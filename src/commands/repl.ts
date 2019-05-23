@@ -109,7 +109,7 @@ export default class ReplCommand extends BaseWalletCommand {
     try {
       wallet = await this.loadWallet(flags);
     } catch (e) {
-      console.warn('fail to load wallet');
+      console.warn('failed to load wallet');
     }
     const apiP = Api.create({
       provider: endpoint
