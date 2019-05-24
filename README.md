@@ -7,40 +7,10 @@ commandline tool to interact with cennznet
 Prerequisites:
 
 - Node.js v 10.x
-- Access to either the `centrality` or the `centralityexternals` NPM
-  registry/repository on Gemfury (ask on the Slack channel `#dev-ops`
-  to be added to one of the working registries)
-- Gemfury login credentials
 
 ```sh-session
-$ # It is important to include a trailing slash in the registry URL
-$ # You may want to change to use the `centralityexternals` registry
-$ # depending on access.
-$ npm config set registry https://npm-proxy.fury.io/centrality/
-$ npm config set always-auth true
-$ npm login
 $ npm i @cennznet/cli -g
-$ # Test whether it works in principle.
-$ bin/run --version
-cennz-cli/0.1.3 linux-x64 node-v10.15.1
 ```
-
-You may want to create a symbolic link for easier execution (wherever
-you want it, e.g. in `/usr/local/bin`).
-
-```sh-session
-$ ln -s /path/to/bin/run /usr/local/bin/cennz-cli
-$ cennz-cli --version
-cennz-cli/0.1.3 linux-x64 node-v10.15.1
-```
-
-# Install suitable Node.js and Yarn
-
-[check nodejs.org](https://nodejs.org/en/download/package-manager/)
-
-## Install Yarn
-
-[check yarnpkg.com](https://yarnpkg.com/en/docs/install)
 
 # Usage
 
