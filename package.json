@@ -1,7 +1,7 @@
 {
   "name": "@cennznet/cli",
   "description": "Official CLI tool to interact with CENNZnet nodes.",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "Centrality Development Team",
   "bin": {
     "cennz-cli": "./bin/run",
@@ -12,12 +12,12 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
-    "@cennznet/api": "^0.13.4",
-    "@cennznet/crml-generic-asset": "^0.7.2",
-    "@cennznet/crml-cennzx-spot": "^0.5.3",
-    "@cennznet/types": "^0.13.4",
-    "@cennznet/util": "^0.13.4",
-    "@cennznet/wallet": "^0.13.4",
+    "@cennznet/api": "^0.13.5",
+    "@cennznet/crml-generic-asset": "^0.8.1",
+    "@cennznet/crml-cennzx-spot": "^0.5.5",
+    "@cennznet/types": "^0.13.5",
+    "@cennznet/util": "^0.13.5",
+    "@cennznet/wallet": "^0.13.5",
     "chalk": "^2.4.2",
     "core-js": "^2.6.0",
     "lodash.get": "^4.4.2",
@@ -43,7 +43,7 @@
     "nyc": "^13",
     "ts-node": "^7",
     "tslint": "^5",
-    "typescript": "^3.0"
+    "typescript": "^3.4.5"
   },
   "engines": {
     "node": ">=10.0.0"
