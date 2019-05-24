@@ -531,11 +531,6 @@ api = await Api.create({
 ```
 
 
-For more examples:
-
-* https://cennznet-js-docs.centrality.me/api/latest/index.html
-* https://cennznet-js-docs.centralityapp.com/wallet/latest/index.html
-
 ## Development
 
 Follow these steps to get started with running the cli

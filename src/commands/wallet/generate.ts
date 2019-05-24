@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {mnemonicGenerate, mnemonicToSeed, u8aToHex} from '@cennznet/util';
+import {cryptoWaitReady, mnemonicGenerate, mnemonicToSeed, u8aToHex} from '@cennznet/util';
 import {SimpleKeyring, Wallet} from '@cennznet/wallet';
 import chalk from 'chalk';
 
@@ -36,8 +36,8 @@ export default class WalletGenerateCommand extends BaseWalletCommand {
 
   private async generateAccount(wallet: Wallet): Promise<{address: string, seed: string}> {
     const keyring = new SimpleKeyring();
+    await cryptoWaitReady();
     const mnemonic = mnemonicGenerate();
-
     const accountSeed = mnemonicToSeed(mnemonic);
     const keypair = await keyring.addFromSeed(accountSeed);
     await wallet.addKeyring(keyring);

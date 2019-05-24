@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {flags} from '@oclif/command';
-import {hexToU8a, stringToU8a} from '@cennznet/util';
+import {cryptoWaitReady, hexToU8a} from '@cennznet/util';
+import {KeyringPair} from '@cennznet/util/types';
 import {SimpleKeyring} from '@cennznet/wallet';
+import {flags} from '@oclif/command';
 import chalk from 'chalk';
 
 import {BaseWalletCommand} from '../../BaseCommand';
-import {KeyringPair} from '@cennznet/util/types';
 
 export default class WalletAddCommand extends BaseWalletCommand {
   static strict = false;
@@ -35,6 +35,7 @@ export default class WalletAddCommand extends BaseWalletCommand {
   async run() {
     const {flags} = this.parse(WalletAddCommand);
 
+    await cryptoWaitReady();
     const wallet = await this.loadWallet(flags);
 
     const {seedHex, seedText} = flags;
