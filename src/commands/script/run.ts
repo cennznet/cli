@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {flags} from '@oclif/command';
 import {Api} from '@cennznet/api';
+import {flags} from '@oclif/command';
 import * as fs from 'fs';
 
 import {BaseWalletCommand, DEFAULT_HOME} from '../../BaseCommand';
@@ -44,7 +44,7 @@ export default class ScriptRunCommand extends BaseWalletCommand {
     this.checkExistence();
     const {flags, args: {script}, argv} = this.parse(ScriptRunCommand);
     const {endpoint} = flags;
-    const wallet = await this.loadWallet(flags);
+    const context: any = {};
 
     const replManager = new ReplManager();
     replManager.silent = true;
@@ -53,8 +53,9 @@ export default class ScriptRunCommand extends BaseWalletCommand {
     const apiP = Api.create({
       provider: endpoint
     });
-
-    await replManager.start(apiP, wallet, argv.slice(1), {prompt: ''});
+    context.argv = argv.slice(1);
+    context.loadWallet = () => this.loadWallet(flags);
+    await replManager.start(apiP, undefined, context, {prompt: ''});
     await apiP;
     const success = await replManager.evalScript(scriptPath);
 
