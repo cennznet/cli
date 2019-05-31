@@ -89,27 +89,23 @@ export default class ReplCommand extends BaseWalletCommand {
     const interactive = !evaluate && !scriptPath;
 
     const options = {prompt: interactive ? '\u001B[34;1m(cennz-cli)> \u001B[0m' : ''};
-
+    const context: any = {};
     const argv = [];
-    for (let i = 0; i < this.argv.length; ++i) {
-      const item = this.argv[i];
-      if (item.match(/^--?(.+)=(.+)/)) {
-        // --flag=value
-        continue;
-      }
-      if (item.match(/^--?(.+)/)) {
-        // --flag value
-        i += 1; // skip next one as well
-        continue;
-      }
-      argv.push(item);
+    if (scriptPath) {
+      const scriptIdx = this.argv.findIndex(arg => arg === scriptPath);
+      argv.push(...this.argv.slice(scriptIdx + 1));
     }
 
     let wallet;
-    try {
-      wallet = await this.loadWallet(flags);
-    } catch (e) {
-      console.warn('failed to load wallet');
+    if (interactive) {
+      try {
+        wallet = await this.loadWallet(flags);
+      } catch (e) {
+        console.warn('failed to load wallet');
+      }
+      context.loadWallet = () => this.loadWallet({...flags, passphrase: true});
+    } else {
+      context.loadWallet = () => this.loadWallet({...flags, passphrase: true});
     }
     const apiP = Api.create({
       provider: endpoint
@@ -117,7 +113,8 @@ export default class ReplCommand extends BaseWalletCommand {
     if (evaluate || scriptPath) {
       replManager.silent = true;
     }
-    await replManager.start(apiP, wallet, argv, options);
+    context.argv = argv;
+    await replManager.start(apiP, wallet, context, options);
 
     let success = true;
 

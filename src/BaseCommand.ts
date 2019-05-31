@@ -40,7 +40,7 @@ export abstract class BaseWalletCommand extends Command {
       const response = await prompts({
         type: 'password',
         name: 'passphrase',
-        message: 'passphrase for the new wallet'
+        message: 'passphrase for the wallet'
       });
       passphraseStr = response.passphrase;
     } else {
@@ -65,7 +65,7 @@ export abstract class BaseWalletCommand extends Command {
       } else {
         console.log(chalk.redBright('wallet format not recognized, revert to old version or create a new wallet to override'));
       }
-      this.exit(1);
+      throw e;
     }
 
     return wallet;

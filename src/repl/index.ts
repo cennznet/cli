@@ -31,7 +31,7 @@ class ReplManager extends EventEmitter {
   _repl: Repl.REPLServer;
   silent = false;
 
-  async start(apiP: Promise<Api>, wallet: AutoFlushWallet | undefined, argv: string[], options: object) {
+  async start(apiP: Promise<Api>, wallet: AutoFlushWallet | undefined, context: any, options: object) {
     const repl = Repl.start({
       breakEvalOnSigint: true,
       ...options
@@ -50,7 +50,7 @@ class ReplManager extends EventEmitter {
       util: {...util, ...moreUtil},
       console,
       Keyring: util.Keyring,
-      ...require('@cennznet/types'), ...require('@cennznet/types/polkadot')
+      ...require('@cennznet/types'), ...require('@cennznet/types/polkadot'), ...require('@cennznet/wallet')
     };
     if (wallet) {
       this.print(`${chalk.yellowBright('wallet')} is available in repl's context`);
@@ -71,9 +71,7 @@ class ReplManager extends EventEmitter {
     } catch (e) {
     }
 
-    Object.assign(repl.context, moreContext, {
-      argv
-    });
+    Object.assign(repl.context, moreContext, context);
   }
 
   evalCmd(cmd: string) {
@@ -100,7 +98,9 @@ class ReplManager extends EventEmitter {
 
   evalScript(scriptPath: string) {
     const script = fs.readFileSync(scriptPath).toString('utf-8');
-    return this.evalCmd(script);
+    const p = this.evalCmd(script);
+    this._repl.eval = () => {};
+    return p;
   }
 
   protected print(text: string): void {
