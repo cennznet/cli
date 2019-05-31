@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Command} from '@oclif/command';
+import {Command, flags} from '@oclif/command';
 import fs = require('fs');
+import rimraf from 'rimraf';
 import SimpleGit from 'simple-git/promise';
 
 import {DEFAULT_HOME} from '../../BaseCommand';
@@ -21,7 +22,7 @@ import {DEFAULT_HOME} from '../../BaseCommand';
 import ScriptListCommand from './list';
 
 const DEFAULT_REPO_DIR = `${DEFAULT_HOME}/scripts/default`;
-const DEFAULT_REPO_URL = 'git@bitbucket.org:centralitydev/cennz-cli-scripts-repo.git';
+const DEFAULT_REPO_URL = 'https://github.com/cennznet/cli-scripts.git';
 
 export default class ScriptUpdateCommand extends Command {
   static strict = false;
@@ -29,16 +30,21 @@ export default class ScriptUpdateCommand extends Command {
   static description = `Pull changes of scripts from remote
 `;
 
-  static flags = {};
+  static flags = {
+    force: flags.boolean({description: 'force checkout script repo', default: false})
+  };
 
   async run() {
-    this.initDefaultFolder();
-    const git = SimpleGit(DEFAULT_REPO_DIR);
-    if (fs.existsSync(`${DEFAULT_REPO_DIR}/.git`)) {
+    let {flags: {force}} = this.parse(ScriptUpdateCommand);
+    if (fs.existsSync(`${DEFAULT_REPO_DIR}/.git`) && !force) {
+      const git = SimpleGit(DEFAULT_REPO_DIR);
       await git.reset('hard');
       const res = await git.pull();
       this.printResult(res);
     } else {
+      rimraf.sync(DEFAULT_REPO_DIR);
+      this.initDefaultFolder();
+      const git = SimpleGit(DEFAULT_REPO_DIR);
       await git.clone(DEFAULT_REPO_URL, DEFAULT_REPO_DIR);
       const list = new ScriptListCommand([], this.config);
       await list.run();
