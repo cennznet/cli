@@ -28,7 +28,7 @@ export default class ScriptRunCommand extends BaseWalletCommand {
 `;
 
   static args = [
-    {name: 'script'}
+    {name: 'script', required: true}
   ];
 
   static flags = {
@@ -37,23 +37,24 @@ export default class ScriptRunCommand extends BaseWalletCommand {
       char: 'c',
       description: 'cennznet node endpoint',
       default: 'ws://localhost:9944'
-    })
+    }),
+    noApi: flags.boolean({default: false,
+      description: 'pass true if the script doesn\'t need to connect to the network'})
   };
 
   async run() {
     this.checkExistence();
     const {flags, args: {script}, argv} = this.parse(ScriptRunCommand);
-    const {endpoint} = flags;
+    const {endpoint, noApi} = flags;
     const context: any = {};
 
     const replManager = new ReplManager();
     replManager.silent = true;
     const scriptPath = `${DEFAULT_REPO_DIR}/${script}.js`;
-
-    const apiP = Api.create({
+    const apiP = noApi ? null : Api.create({
       provider: endpoint
     });
-    context.argv = argv.slice(1);
+    context.argv = argv;
     context.loadWallet = () => this.loadWallet(flags);
     await replManager.start(apiP, undefined, context, {prompt: ''});
     await apiP;

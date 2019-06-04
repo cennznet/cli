@@ -93,7 +93,7 @@ export default class ReplCommand extends BaseWalletCommand {
     const argv = [];
     if (scriptPath) {
       const scriptIdx = this.argv.findIndex(arg => arg === scriptPath);
-      argv.push(...this.argv.slice(scriptIdx + 1));
+      argv.push(...this.argv.slice(scriptIdx));
     }
 
     let wallet;
