@@ -31,20 +31,20 @@ export default class ReplCommand extends BaseWalletCommand {
 
   If no 'endpoint' flag, 'ws://localhost:9944' will be used as default.
 
-  -------------
   2. Optionally, like "node" cli, a expression or JS script could be provided:
 
   $ cennz-cli repl -p="toyKeyring.alice.address()"
   $ cennz-cli repl myScript.js
 
   The expression or script would be evaluated in the repl context, and the
-  result would be printed.
+  result would be printed. Note the interactive REPL would not be opened in this case.
 
-  -------------
   3. async/await is supported in repl enviroment, you can do:
 
   $ cennz-cli repl -p="const name = await api.rpc.system.chain()"
   [String: 'CENNZnet DEV']
+
+  4. To load a file while in the repl enviroment, use \`.load\` command:
   `;
 
   static flags = {
@@ -93,7 +93,7 @@ export default class ReplCommand extends BaseWalletCommand {
     const argv = [];
     if (scriptPath) {
       const scriptIdx = this.argv.findIndex(arg => arg === scriptPath);
-      argv.push(...this.argv.slice(scriptIdx + 1));
+      argv.push(...this.argv.slice(scriptIdx));
     }
 
     let wallet;

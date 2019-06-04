@@ -31,7 +31,7 @@ class ReplManager extends EventEmitter {
   _repl: Repl.REPLServer;
   silent = false;
 
-  async start(apiP: Promise<Api>, wallet: AutoFlushWallet | undefined, context: any, options: object) {
+  async start(apiP: Promise<Api> | null, wallet: AutoFlushWallet | undefined, context: any, options: object) {
     const repl = Repl.start({
       breakEvalOnSigint: true,
       ...options
@@ -56,18 +56,20 @@ class ReplManager extends EventEmitter {
       this.print(`${chalk.yellowBright('wallet')} is available in repl's context`);
     }
     try {
-      const api = await apiP;
-      this.print('api is loaded now');
-      this.print(`${chalk.yellowBright('api utilApi genericAsset spotX')} is available in repl's context`);
-      api.setSigner(wallet as AutoFlushWallet);
-      moreContext.api = api;
-      moreContext.utilApi = createUtilApi(api);
+      if (apiP) {
+        const api = await apiP;
+        this.print('api is loaded now');
+        this.print(`${chalk.yellowBright('api utilApi genericAsset spotX')} is available in repl's context`);
+        api.setSigner(wallet as AutoFlushWallet);
+        moreContext.api = api;
+        moreContext.utilApi = createUtilApi(api);
+        // runtime commands
+        // const spotX = await SpotX.create(api);
+        // const genericAsset = spotX.ga;
+        moreContext.genericAsset = api.genericAsset;
+        moreContext.spotX = api.cennzxSpot;
+      }
       moreContext.toyKeyring = toyKeyringFromNames();
-      // runtime commands
-      // const spotX = await SpotX.create(api);
-      // const genericAsset = spotX.ga;
-      moreContext.genericAsset = api.genericAsset;
-      moreContext.spotX = api.cennzxSpot;
     } catch (e) {
     }
 
