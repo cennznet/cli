@@ -1,145 +1,72 @@
-# cennz-cli
+cennz-cli
+========
 
 commandline tool to interact with cennznet
 
-# Build/Install
 
-Prerequisites:
-
-- Node.js v 10.x
-
-```sh-session
-$ npm i @cennznet/cli -g
-```
-
+<!-- toc -->
+* [Usage](#usage)
+* [Commands](#commands)
+* [The CENNZ REPL Environment](#the-cennz-repl-environment)
+<!-- tocstop -->
 # Usage
-
+<!-- usage -->
 ```sh-session
+$ npm install -g @cennznet/cli
 $ cennz-cli COMMAND
 running command...
 $ cennz-cli (-v|--version|version)
-cennz-cli/0.0.0 darwin-x64 node-v10.13.0
+@cennznet/cli/0.6.2 darwin-x64 node-v10.13.0
+$ cennz-cli --help [COMMAND]
+USAGE
+  $ cennz-cli COMMAND
+...
 ```
+<!-- usagestop -->
 
 # Commands
-
-- [`cennz-cli help [COMMAND]`](#cennz-cli-help-command)
-- [`cennz-cli api`](#cennz-cli-hello)
-- [`cennz-cli repl`](#cennz-cli-repl)
-- [`cennz-cli wallet`](#cennz-cli-wallet)
+<!-- commands -->
+* [`cennz-cli api`](#cennz-cli-api)
+* [`cennz-cli help [COMMAND]`](#cennz-cli-help-command)
+* [`cennz-cli repl [SCRIPT]`](#cennz-cli-repl-script)
+* [`cennz-cli script:list`](#cennz-cli-scriptlist)
+* [`cennz-cli script:run SCRIPT`](#cennz-cli-scriptrun-script)
+* [`cennz-cli script:update`](#cennz-cli-scriptupdate)
+* [`cennz-cli wallet:add`](#cennz-cli-walletadd)
+* [`cennz-cli wallet:create`](#cennz-cli-walletcreate)
+* [`cennz-cli wallet:generate`](#cennz-cli-walletgenerate)
+* [`cennz-cli wallet:list`](#cennz-cli-walletlist)
+* [`cennz-cli wallet:remove [ADDRESS]`](#cennz-cli-walletremove-address)
 
 ## `cennz-cli api`
+
+Send transactions
 
 ```
 USAGE
   $ cennz-cli api
 
-Example
-  $ cennz-cli api -c tx -s balances -m transfer --seed="Andrea" --ws="wss://cennznet-node-0.centrality.me:9944" "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
-or sign with account in the wallet
-  $ cennz-cli api -c tx -s balances -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' --ws="ws://cennznet-node-0.centrality.me:9944" "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
-
 OPTIONS
-  --seed  seed of sender key
-  --sender address  seed of sender key
-  --ws websocket end point url
-  -c, --category=name category name of the api call, i.e. query, tx, rpc etc.
-  -s, --section=name  section name of the api call
-  -m, --method=name method name of the api call
-  -n, --nonce=number nonce value of transaction
-  -p, --passphrase if a passphrase is needed
-  -f, --path path to the wallet's vault file
+  -c, --category=category  category of api call
+  -f, --path=path          [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -m, --method=method      calling method
+  -p, --passphrase         if a passphrase is needed
+  -s, --section=section    section of transaction
+  --help                   show CLI help
+  --seed=seed              seed of sender key
+  --sender=sender          address of sender
+  --ws=ws                  websocket end point url
+
+DESCRIPTION
+  This command sends transactions from one user to another based on flags given to the command. eg:
+     $ bin/run api -c tx -s balances -m transfer --seed="Andrea" --ws="wss://cennznet-node-0.centrality.me:9944" 
+  "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
+     or sign with account in the wallet
+     $ bin/run api -c tx -s balances -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' 
+  --ws="ws://cennznet-node-0.centrality.me:9944" "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
 ```
 
-## `cennz-cli repl`
-
-```
-USAGE
-  $ cennz-cli repl [SCRIPT] 
-
-OPTIONS
-  -c, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
-  -e, --evaluate=evaluate  evaluate script and print result
-  -p, --passphrase if a passphrase is needed
-  -f, --path path to the wallet's vault file [default: /home_directory/.cennz_cli/wallet.json] path to wallet.json
-```
-
-Optionally, like "node" cli, `repl` command can go with a script string or file:
-
-```
-$ cennz-cli repl -e="toyKeyring.alice.address()"
-$ cennz-cli repl myScript.js
-```
-
-The script would be evaluated in the REPL context, and the result would be
-printed. Note the interactive REPL would not be opened in this case.
-
-To load a file while in the repl enviroment, use `.load` command:
-
-```
-$ cennz-cli repl
-(cennz-cli)> .load path/to/myScript.js
-```
-
-## `cennz-cli wallet`
-```
-USAGE
-  $ cennz-cli wallet:COMMAND
-
-COMMANDS
-  wallet:add       add new account by either seedHex or seedText
-  wallet:create    Create a new wallet
-  wallet:generate  generate a new account and store it in wallet
-  wallet:list      list all accounts' address
-  wallet:remove    remove the specified address from wallet
-```
-### Protect Wallet
-create your wallet with `-p`
-```
-$ cennz-cli wallet:create -p
-```
-and append `-p` to all cennz-cli commands
-
-### Generate an account in Wallet
-```
-$ cennz-cli wallet:generate [-p]
-```
-
-### List all addresses managed by Wallet
-```
-  $ cennz-cli wallet:list [-p]
-```
-
-### Add an account by SEED in Wallet
-```
-USAGE
-  $ cennz-cli wallet:add [-p] --seedText Alice
-  $ cennz-cli wallet:add [-p] --seedHex 0x01234...
-  OPTIONS
-    -p, --passphrase, if a passphrase is needed
-    --seedHex=seedHex    seed in hex form (start with 0x)
-    --seedText=seedText  seed as a simple text (Alice)
-
-```
-
-### Remove account by address from Wallet
-```
-USAGE
-  $ cennz-cli wallet:remove [-p] '5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF'
-  OPTIONS
-    -p, --passphrase, if a passphrase is needed
-```
-
-## `cennz-cli script`
-```
-USAGE
-  $ cennz-cli script:COMMAND
-
-COMMANDS
-  script:list    List all available scripts
-  script:run     Run a script
-  script:update  Pull changes of scripts from remote
-```
+_See code: [src/commands/api.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/api.ts)_
 
 ## `cennz-cli help [COMMAND]`
 
@@ -156,13 +83,183 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-# The CENNZ REPL Environment
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src/commands/help.ts)_
 
-By `cennz-cli repl` command, a REPL(Read-Eval-Print-Loop) would be provided with
-prompt:
+## `cennz-cli repl [SCRIPT]`
+
+Start a repl to interact with a node
 
 ```
-(cennz-cli)>
+USAGE
+  $ cennz-cli repl [SCRIPT]
+
+ARGUMENTS
+  SCRIPT  the path of JS file which will be evaluated into context
+
+OPTIONS
+  -c, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
+  -e, --evaluate=evaluate  evaluate script and print result
+  -f, --path=path          [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase         if a passphrase is needed
+
+DESCRIPTION
+  -------------
+     1. Connect to a node by websocket:
+     $ cennz-cli repl --endpoint="ws://localhost:9944 --passphrase='passphrase' --path='path for wallet vault'
+
+     If no 'endpoint' flag, 'ws://localhost:9944' will be used as default.
+
+     -------------
+     2. Optionally, like "node" cli, a expression or JS script could be provided:
+
+     $ cennz-cli repl -p="toyKeyring.alice.address()"
+     $ cennz-cli repl myScript.js
+
+     The expression or script would be evaluated in the repl context, and the
+     result would be printed.
+
+     -------------
+     3. async/await is supported in repl enviroment, you can do:
+
+     $ cennz-cli repl -p="const name = await api.rpc.system.chain()"
+     [String: 'CENNZnet DEV']
+```
+
+_See code: [src/commands/repl.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/repl.ts)_
+
+## `cennz-cli script:list`
+
+List all available scripts
+
+```
+USAGE
+  $ cennz-cli script:list
+```
+
+_See code: [src/commands/script/list.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/script/list.ts)_
+
+## `cennz-cli script:run SCRIPT`
+
+Run a script
+
+```
+USAGE
+  $ cennz-cli script:run SCRIPT
+
+OPTIONS
+  -c, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
+  -f, --path=path          [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase         if a passphrase is needed
+  --noApi                  pass true if the script doesn't need to connect to the network
+```
+
+_See code: [src/commands/script/run.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/script/run.ts)_
+
+## `cennz-cli script:update`
+
+Pull changes of scripts from remote
+
+```
+USAGE
+  $ cennz-cli script:update
+
+OPTIONS
+  --force  force checkout script repo
+```
+
+_See code: [src/commands/script/update.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/script/update.ts)_
+
+## `cennz-cli wallet:add`
+
+add new account by either seedHex or seedText
+
+```
+USAGE
+  $ cennz-cli wallet:add
+
+OPTIONS
+  -f, --path=path      [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase     if a passphrase is needed
+  --seedHex=seedHex    seed in hex form (start with 0x)
+  --seedText=seedText  seed as a simple text (Alice)
+```
+
+_See code: [src/commands/wallet/add.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/add.ts)_
+
+## `cennz-cli wallet:create`
+
+Create a new wallet
+
+```
+USAGE
+  $ cennz-cli wallet:create
+
+OPTIONS
+  -f, --path=path   [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase  if a passphrase is needed
+```
+
+_See code: [src/commands/wallet/create.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/create.ts)_
+
+## `cennz-cli wallet:generate`
+
+generate a new account and store it in wallet
+
+```
+USAGE
+  $ cennz-cli wallet:generate
+
+OPTIONS
+  -f, --path=path   [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase  if a passphrase is needed
+```
+
+_See code: [src/commands/wallet/generate.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/generate.ts)_
+
+## `cennz-cli wallet:list`
+
+list all accounts' address
+
+```
+USAGE
+  $ cennz-cli wallet:list
+
+OPTIONS
+  -f, --path=path   [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase  if a passphrase is needed
+```
+
+_See code: [src/commands/wallet/list.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/list.ts)_
+
+## `cennz-cli wallet:remove [ADDRESS]`
+
+remove the specified address from wallet
+
+```
+USAGE
+  $ cennz-cli wallet:remove [ADDRESS]
+
+OPTIONS
+  -f, --path=path   [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase  if a passphrase is needed
+```
+
+_See code: [src/commands/wallet/remove.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/remove.ts)_
+<!-- commandsstop -->
+
+
+
+## `cennz-cli wallet`
+```
+USAGE
+  $ cennz-cli wallet:COMMAND
+
+COMMANDS
+  wallet:add       add new account by either seedHex or seedText
+  wallet:create    Create a new wallet
+  wallet:generate  generate a new account and store it in wallet
+  wallet:list      list all accounts' address
+  wallet:remove    remove the specified address from wallet
 ```
 
 ## Beyond NodeJS REPL
@@ -217,7 +314,7 @@ Courtney, Drew, Emily, Frank.
 
 For more usage of `Keyring`, check `@polkadot/keyring`.
 
-## API
+# API Cookbook
 
 On the REPL start, an websocket connection would be established to the endpoint
 provided by `-e, --endpoint` flag.
@@ -239,73 +336,14 @@ Nonce {
   _isHexJson: false }
 ```
 
-### API Cookbook
-
-Getting nonce
-
-```
-(cennz-cli)> const nonce = await api.query.system.accountNonce(toyKeyring.alice.address())
-```
-
-Balance transfer
-
-//ADDRESS1 - 1st address from wallet (wallet.getAddresses() can display all addresses)
-
-//ADDRESS2 - 2nd address from wallet (wallet.getAddresses() can display all addresses)
-```
-// Alice transfers 10 to Bob
-// Use wallet to sign
-api.setSigner(wallet);
-(cennz-cli)> const tx = api.tx.balances.transfer(ADDRESS1, 10).signAndSend(ADDRESS2);
-```
-
-Generic Assets
-
-```
-// create asset
-tx = await genericAsset.create({totalSupply: 111}).signAndSend(ADDRESS1);
-// check next asset id
-nextId = await genericAsset.getNextAssetId()
-// check free balance
-const freeBalance = await genericAsset.getFreeBalance(1000031, ADDRESS1)
-// transfer
-tx = await genericAsset.transfer(1, ADDRESS2, 12).signAndSend(ADDRESS1)
-Custom runtime storage query
+Check [@cennznet/api](https://github.com/cennznet/api.js/tree/master/packages/api) for more info.
 
 
-// query via `api.query.myStorage.myFn()`
-(cennz-cli)> const nextAssetsId = await api.query.gat.nextAssetsId();
-```
 
-Custom runtime module transaction(extrinsic)
 
-```
-// create a tx via `api.tx.myModule.myFn()`
-(cennz-cli)> const tx = api.tx.myModule.myFn(myParams);
-// signing and sending
-(cennz-cli)> tx.signAndSend(address)
-```
 
-Get storage key
-
-```
-// The first parameter is module name, and the second is fn name.
-// Note that these two params are cases sensitive.
-//
-// get storage key of system events.
-(cennz-cli)> util.storageKey('System', 'Events')
-```
-
-Get system events of a block
-
-```
-// pass the block hash as parameter
-(cennz-cli)> let events = await utilApi.getSystemEvents('0xbe63d3144ec72a5002f11e4922959edfb088da12e41eb74b43a33fb459b92135')
-```
-
-Check `Api` in `@cennznet/api` for more info.
-
-## Others
+# Write your own script
+## Argv
 
 `argv` the command line arguments
 
@@ -325,18 +363,14 @@ will print
 [ 'test.js', '1', '2' ]
 ```
 
-`util` functions.
+## Globals
+### `api`
+see above
 
-```
-// `isHex`
-(cennz-cli)> util.isHex('0xFF')
-true
-// `numberToHex`
-(cennz-cli)> util.numberToHex(1234)
-'0x04d2'
-```
+### `util`
+see [@cennznet/util](https://cennznetdocs.com/api/latest/api/modules/_cennznet_util.md).
 
-`polkadotjs` buildin types.
+### Build-in types.
 
 ```
 (cennz-cli)> Hash
@@ -345,175 +379,12 @@ true
 [Function: Gas]
 ```
 
-For more about `util` and types, check `polkadotjs` documents.
-
-## Scripts
-
-Some utility scripts are provided in `https://bitbucket.org/centralitydev/cennz-cli-scripts-repo`. 
-
-`cennz-cli script:update` to fetch them to local. (if you have access to that repo).
-
-`cennz-cli script:list` to check all available scripts.
-
-`cennz-cli script:run script-name [arguments]` to run it.
-
-if you want to run your custom script, 
-`cennz-cli repl path-to-script [arguments]`
-
-`print-block`
-
-Print the details for a block
-
-Argument:
-
-- empty to print head block
-- or a block number
-- or a block hash
-
+### loadWallet()
+get user's local wallet
 ```
-$ cennz-cli script:run print-block 1234
-block hash:  0xb45eb54f95c8487817fc4190642741a90f7417ba77c5c7bb48daf959251e1b50
-{ block:
-   { header:
-      { parentHash:
-         '0x3fcc44855cedbeb5c96792624ae6581cf7642f53695aa6d90f7ce8776b391d63',
-        number: 1234,
-        stateRoot:
-         '0x84baeb215f5e478ae346413e19aced0911cdd8567388c8b35650a4ad238a5f91',
-        extrinsicsRoot:
-         '0xb25df17546ca1c4cbdf157a7c320ef33e8fb5e99e6d06f08988f8cf22be5a44d',
-        digest: [Object] },
-     extrinsics: [ '0x30010000039429075c00000000', '0x1001010100' ] },
-  justification: '0x' }
-
-extrinsics details
-
-0x7a66f3f44a3f66c34a67678ce0e12f73eeedf4cc1b4f2e7424e3c923e389b0c4 : set { callIndex: '0x0000', args: { now: 1543973268 } }
-0x7b4e1692d4e7bdf649ec489680ab394384966cc7d4254c670e1331bd88572d59 : note_offline { callIndex: '0x0101', args: { offline_val_indices: [] } }
+const wallet = await loadWallet();
+api.setSignet(wallet);
 ```
 
-`search-tx`
-
-Search and print the details for a particular transaction/extrinsic by its hash
-
-Argument: the extrinsic hash
-
-```
-$ cennz-cli script:run search-tx 0x62eef89e8365005731188d5a5ab23c6b1a801201b477780dbb3f07409d381738
-Start searching for extrinsic hash: 0x62eef89e8365005731188d5a5ab23c6b1a801201b477780dbb3f07409d381738
-
-Check block:  79036 0x2a2e968c632d47e10d8edf47186600748b69f88932565e5820f2e5e67e7ebcfa
-................................................................
-Found extrinsic in block 0x7e99c6951ada2f93ba8288bf3ff554e4f6b247860b5a12f58932174a6f9a5ce1
-{ parentHash:
-   '0x7e8cb10eb46e3c6b9e19e5f9dfc84304c1b51770995f23b2f6780b33a3647854',
-  number: 78973,
-  stateRoot:
-   '0x05d96cb10e66cff2e0fa854706dcbf4189e18fdca1680a595e39fcdb4f15d472',
-  extrinsicsRoot:
-   '0xe278208405cff7126a10079d29defb0aaf778ffd791eeb90e915dffa4ade3428',
-  digest: { logs: [ [Seal] ] } }
-set { callIndex: '0x0000', args: { now: 1544515986 } }
-Raw data:
- 0x300100000392710f5c00000000
-```
-
-`find-common-block`
-
-Find the common blocks between local node and DEV node. Useful if you want to
-find out when does a fork start
-
-Argument: block height
-
-```
-$ cennz-cli script:run find-commom-block 1234
-Search for common block height 1234
-Found commom block 1234 0x25b95a14a7a15b082c67b641f94d27587a07129cd35add63a5d4e8623a8ddd87
-```
-
-`upgrade-runtime`
-
-Upgrade the runtime by submitting a new wasm runtime file.
-**WARNING: This could brick the network**
-
-Arguments:
-  - seed: the signer seed
-  - file: the path to wasm runtimen file
-
-```
-$ cennz-cli script:run upgrade-runtime Alice ../demo/v2-cennznet_runtime.compact.wasm
-Upgrade commited. Tx hash:  0x682625861d6548f5cbba248e303d7713a4584fefc3c2213233cd51b11ebc04d0
-```
-
-`scan-tx`
-
-Search for user created transactions
-
-Argument:
-  - blockNumber: block number to start search, 0 or empty for HEAD
-  - n: number of blocks to scan, defualt to 1000
-
-```
-$ cennz-cli script:run scan-tx 1500 30
-Scanning for transactions from block 1500 for 30 blocks
-.
-
-Found transactions in block 0x504069095246cef75e3d6ebe12ee97d77279adaa4339d43d2e509d819b0892e5
-{ parentHash:
-   '0xfdccf0a6f1ec02450d6081f78d4887eda8cc7816f72d52806976818e4b66d488',
-  number: 1500,
-  stateRoot:
-   '0x384be198a52c859349d03ac5ddfe848d2ee3bc05c4cd9d024931dc6106a6223b',
-  extrinsicsRoot:
-   '0xdda5ced65343af617b7637fe0664c4a9672aa4351c773574c7e76776849a5cd9',
-  digest: { logs: [ [Seal] ] } }
-transfer 5HoSYe9iMNvjyEs283RgucMPZH8iDoRuEz9SmWixNiRVnxxP { callIndex: '0x0200',
-  args:
-   { dest: 'FQag', value: '0x00000000000000000000000000002710' } }
-
-...................
-
-Found transactions in block 0x6ba824bde7ae759be24327a556dacc612baee63cf73e2011f06d739a9451f250
-{ parentHash:
-   '0xdfddc9814a4424422a4247cc8c4320170f5b8db4a832b9c4bb910c9c224c1f12',
-  number: 1481,
-  stateRoot:
-   '0x0a860a60053311748fe23417166e8479efb36eed25f81c2d0c9c3c954e04617d',
-  extrinsicsRoot:
-   '0x84d2751dd3ee9fcc28121749b92c8beb56dee89719a9d1a892791e33b12e2077',
-  digest: { logs: [ [Seal] ] } }
-transfer 5HoSYe9iMNvjyEs283RgucMPZH8iDoRuEz9SmWixNiRVnxxP { callIndex: '0x0200',
-  args:
-   { dest: 'FQag', value: '0x00000000000000000000000000002710' } }
-
-..........
-End
-```
-
-Create API connection via cenznet-api
-```
-bin/run repl
-
-const {Api} = require('@cennznet/api')
-api = await Api.create({
-    provider: 'ws://cennznet-node-0.centrality.cloud:9944'
-});
-```
-
-
-## Development
-
-Follow these steps to get started with running the cli
-
-1. Clone the repository
-2. Run a `yarn install`
-3. run `bin/run repl` to get the repl up and running
-
-You should be ready to start contributing to the repository. We highly recommend
-VSCode while you work with TypeScript, however, any editor with good TypeScript
-integration will be more than fine.
-
-If you do use VSCode, we highly recommend installing the `Prettier` and `TSLint`
-extensions for code linting and autoformatting. Under your Prettier settings,
-please make sure to check `Prettier: Tslint Integration` so that your prettier
-formatting follows our code style guidelines.
+## Best Practice
+* write script's own usage(). Check args required, print usage and `exit(1)` if any args is missing.  

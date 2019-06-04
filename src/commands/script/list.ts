@@ -32,7 +32,7 @@ export default class ScriptListCommand extends Command {
     this.checkExistence();
     const content = fs.readdirSync(DEFAULT_REPO_DIR);
     for (const file of content) {
-      if (!file.startsWith('.')) {
+      if (!file.startsWith('.') && file.endsWith('.js')) {
         const filePath = path.parse(file);
         console.log(filePath.name);
       }
