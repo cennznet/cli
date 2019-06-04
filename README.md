@@ -7,7 +7,8 @@ commandline tool to interact with cennznet
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
-* [The CENNZ REPL Environment](#the-cennz-repl-environment)
+* [API Cookbook](#api-cookbook)
+* [Write your own script](#write-your-own-script)
 <!-- tocstop -->
 # Usage
 <!-- usage -->
@@ -16,7 +17,7 @@ $ npm install -g @cennznet/cli
 $ cennz-cli COMMAND
 running command...
 $ cennz-cli (-v|--version|version)
-@cennznet/cli/0.6.2 darwin-x64 node-v10.13.0
+@cennznet/cli/0.7.0 darwin-x64 node-v10.13.0
 $ cennz-cli --help [COMMAND]
 USAGE
   $ cennz-cli COMMAND
@@ -66,7 +67,7 @@ DESCRIPTION
   --ws="ws://cennznet-node-0.centrality.me:9944" "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
 ```
 
-_See code: [src/commands/api.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/api.ts)_
+_See code: [src/commands/api.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/api.ts)_
 
 ## `cennz-cli help [COMMAND]`
 
@@ -109,23 +110,23 @@ DESCRIPTION
 
      If no 'endpoint' flag, 'ws://localhost:9944' will be used as default.
 
-     -------------
      2. Optionally, like "node" cli, a expression or JS script could be provided:
 
      $ cennz-cli repl -p="toyKeyring.alice.address()"
      $ cennz-cli repl myScript.js
 
      The expression or script would be evaluated in the repl context, and the
-     result would be printed.
+     result would be printed. Note the interactive REPL would not be opened in this case.
 
-     -------------
      3. async/await is supported in repl enviroment, you can do:
 
      $ cennz-cli repl -p="const name = await api.rpc.system.chain()"
      [String: 'CENNZnet DEV']
+
+     4. To load a file while in the repl enviroment, use `.load` command:
 ```
 
-_See code: [src/commands/repl.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/repl.ts)_
+_See code: [src/commands/repl.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/repl.ts)_
 
 ## `cennz-cli script:list`
 
@@ -136,7 +137,7 @@ USAGE
   $ cennz-cli script:list
 ```
 
-_See code: [src/commands/script/list.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/script/list.ts)_
+_See code: [src/commands/script/list.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/script/list.ts)_
 
 ## `cennz-cli script:run SCRIPT`
 
@@ -153,7 +154,7 @@ OPTIONS
   --noApi                  pass true if the script doesn't need to connect to the network
 ```
 
-_See code: [src/commands/script/run.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/script/run.ts)_
+_See code: [src/commands/script/run.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/script/run.ts)_
 
 ## `cennz-cli script:update`
 
@@ -167,7 +168,7 @@ OPTIONS
   --force  force checkout script repo
 ```
 
-_See code: [src/commands/script/update.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/script/update.ts)_
+_See code: [src/commands/script/update.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/script/update.ts)_
 
 ## `cennz-cli wallet:add`
 
@@ -184,7 +185,7 @@ OPTIONS
   --seedText=seedText  seed as a simple text (Alice)
 ```
 
-_See code: [src/commands/wallet/add.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/add.ts)_
+_See code: [src/commands/wallet/add.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/wallet/add.ts)_
 
 ## `cennz-cli wallet:create`
 
@@ -199,7 +200,7 @@ OPTIONS
   -p, --passphrase  if a passphrase is needed
 ```
 
-_See code: [src/commands/wallet/create.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/create.ts)_
+_See code: [src/commands/wallet/create.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/wallet/create.ts)_
 
 ## `cennz-cli wallet:generate`
 
@@ -214,7 +215,7 @@ OPTIONS
   -p, --passphrase  if a passphrase is needed
 ```
 
-_See code: [src/commands/wallet/generate.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/generate.ts)_
+_See code: [src/commands/wallet/generate.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/wallet/generate.ts)_
 
 ## `cennz-cli wallet:list`
 
@@ -229,7 +230,7 @@ OPTIONS
   -p, --passphrase  if a passphrase is needed
 ```
 
-_See code: [src/commands/wallet/list.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/list.ts)_
+_See code: [src/commands/wallet/list.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/wallet/list.ts)_
 
 ## `cennz-cli wallet:remove [ADDRESS]`
 
@@ -244,7 +245,7 @@ OPTIONS
   -p, --passphrase  if a passphrase is needed
 ```
 
-_See code: [src/commands/wallet/remove.ts](https://github.com/cennznet/cli/blob/v0.6.2/src/commands/wallet/remove.ts)_
+_See code: [src/commands/wallet/remove.ts](https://github.com/cennznet/cli/blob/v0.7.0/src/commands/wallet/remove.ts)_
 <!-- commandsstop -->
 
 
@@ -387,4 +388,4 @@ api.setSignet(wallet);
 ```
 
 ## Best Practice
-* write script's own usage(). Check args required, print usage and `exit(1)` if any args is missing.  
+* write script's own usage(). Check args required, print usage and `exit(1)` if any args is missing.
