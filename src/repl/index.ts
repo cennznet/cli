@@ -101,7 +101,7 @@ class ReplManager extends EventEmitter {
   evalScript(scriptPath: string) {
     const script = fs.readFileSync(scriptPath).toString('utf-8');
     const p = this.evalCmd(script);
-    this._repl.eval = () => {};
+    (this._repl as any).eval = () => {};
     return p;
   }
 
