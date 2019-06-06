@@ -9,4 +9,4 @@ cd "$(dirname "${SCRIPT_PATH}")" > /dev/null || exit
 SCRIPT_PATH=$(pwd);
 popd  > /dev/null || exit
 
-node --experimental-repl-await "${SCRIPT_PATH}"/run.js "$@"
+node --experimental-repl-await "${SCRIPT_PATH}"/cennz-cli.js "$@"
