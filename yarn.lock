@@ -97,12 +97,12 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@cennznet/api@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.npmjs.org/@cennznet/api/-/api-0.14.0.tgz#a64ca61272a66a14caeb83b34baa04d6916b2b18"
-  integrity sha512-nT76dswY+CcQ5AuPP0YjKKyImeODJ+oF9HimhYFEAR3WP/eNmehzkSo5waIviS7NO5ssy8PT3XS9iq+BsYfxJQ==
+"@cennznet/api@^0.14.1-beta.1":
+  version "0.14.1-beta.1"
+  resolved "https://registry.npmjs.org/@cennznet/api/-/api-0.14.1-beta.1.tgz#a03c80d0bfdc686ace52edb5db9460221e0caced"
+  integrity sha512-YSO6okuvzbKVFFyCqZB5rarO1JUR27oCLNRetrOc6R4ALA9bsVymov0rzPrOxfykNumoBw2EtxXCItRHJZ+H/g==
   dependencies:
-    "@cennznet/types" "^0.14.0"
+    "@cennznet/types" "^0.14.1-beta.1"
     "@plugnet/api" "^0.81.100"
     "@plugnet/extrinsics" "^0.81.100"
     "@plugnet/rpc-core" "^0.81.100"
@@ -121,29 +121,29 @@
   resolved "https://registry.npmjs.org/@cennznet/crml-generic-asset/-/crml-generic-asset-0.9.0.tgz#88cde96edba40ec6b10213b09b4482eac3bf8ed2"
   integrity sha512-y0TvY5o+t/h52bVgR3zT5JOX5oa0+tC5pGOXkTA5Bo1BnSaeAmlItb0jMJbZg8zrb4iS+HPD6yIUyuudgdTDdw==
 
-"@cennznet/types@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.npmjs.org/@cennznet/types/-/types-0.14.0.tgz#3e690eedb2f043f9a2d6049631ac9d9fcf5ac4ea"
-  integrity sha512-ggPMVM+ECyF4cn7GMdaRVdCJCFiVVW4YKS/NNX4H4zbDU4GXGKJ6whfM2m49sYjvvpBRbhbCB5Bke2dWzIWNKA==
+"@cennznet/types@^0.14.1-beta.1":
+  version "0.14.1-beta.1"
+  resolved "https://registry.npmjs.org/@cennznet/types/-/types-0.14.1-beta.1.tgz#aaf124f9f3c5ca39ed028c566df68dbcb56d2cf9"
+  integrity sha512-m9XMeWQULLWs7I46XqaoW+cylJ7o0xW9tgYPtZ8SYZo7+etKABWIT/+kfW7OLxqpshJF2Yb69uoCBxOx17+bKA==
   dependencies:
-    "@cennznet/util" "^0.14.0"
+    "@cennznet/util" "^0.14.1-beta.1"
     "@plugnet/types" "^0.81.100"
     "@plugnet/util" "^0.93.100"
 
-"@cennznet/util@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.npmjs.org/@cennznet/util/-/util-0.14.0.tgz#893c07dd5ef3b308644d814a4c59f942e5430aee"
-  integrity sha512-kWw5FHNcJtC/zTOlmDR1RXpeHrr0CFPFr0jbf157+w1XLNVeKsttt4BJW1bWis08dnif9eeklUYLNGcaygJE3Q==
+"@cennznet/util@^0.14.1-beta.1":
+  version "0.14.1-beta.1"
+  resolved "https://registry.npmjs.org/@cennznet/util/-/util-0.14.1-beta.1.tgz#aefe7aab312d1afce6cc37db850676fab1cac649"
+  integrity sha512-xzWTZcLmRZxNamkKYVPPpJnUM3Ohu9SpX6Ea4XqLVd7WJQinwMGl/2mMjjPwzXF1BH5SqnqGRrPN8Vi1tjNkeA==
   dependencies:
     "@plugnet/util" "^0.93.100"
     "@plugnet/util-crypto" "^0.93.100"
 
-"@cennznet/wallet@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.npmjs.org/@cennznet/wallet/-/wallet-0.14.0.tgz#16cd4a78be2d76f9b496ccb944b1b8d479850145"
-  integrity sha512-R2Sp06VTaA6RlwVyzreP248nt4/jwuLrxYb8qG9x61769ylIESp/gYF/zsUBY9F+PJZpn7TD8u3J4mQ8xwyhJQ==
+"@cennznet/wallet@^0.14.1-beta.1":
+  version "0.14.1-beta.1"
+  resolved "https://registry.npmjs.org/@cennznet/wallet/-/wallet-0.14.1-beta.1.tgz#a14b17e7062be398a8fb016666098ad6a4000295"
+  integrity sha512-eK5fMn3VKHw71aLI46IR9SDgrStVqZaMsGyx2DKMlvlsWWBIZM+PenyNN17W1gZaqIabqBYdV1XJuSlrvDZx9Q==
   dependencies:
-    "@cennznet/util" "^0.14.0"
+    "@cennznet/util" "^0.14.1-beta.1"
     "@plugnet/keyring" "^0.93.100"
     bip39 "^2.5.0"
     hdkey "^1.1.0"

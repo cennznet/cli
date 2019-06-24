@@ -56,7 +56,7 @@ export default class WalletAddCommand extends BaseWalletCommand {
       kp = keyring.addFromUri(`//${seedText}`);
     }
     await wallet.addKeyring(keyring);
-    console.log(`account ${chalk.yellowBright(kp.address())} is added`);
+    console.log(`account ${chalk.yellowBright(kp.address)} is added`);
   }
 
 }
