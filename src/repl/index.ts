@@ -70,6 +70,7 @@ class ReplManager extends EventEmitter {
         moreContext.spotX = api.cennzxSpot;
       }
       moreContext.toyKeyring = toyKeyringFromNames();
+    // tslint:disable-next-line: no-unused
     } catch (e) {
     }
 

@@ -18,6 +18,7 @@ import {seedToPair} from '../util/toyKeyring';
 
 import generateContractAddress from './generate-contract-address';
 
+// tslint:disable-next-line: no-unused
 const createUtilApi = (api: Api) => ({
   generateContractAddress,
   seedToPair

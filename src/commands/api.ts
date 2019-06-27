@@ -69,6 +69,7 @@ export default class ApiCommand extends BaseWalletCommand {
       _sender = sender;
       try {
         wallet = await this.loadWallet(flags);
+      // tslint:disable-next-line: no-unused
       } catch (e) {
         console.warn('failed to load wallet');
       }
