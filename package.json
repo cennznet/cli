@@ -21,6 +21,7 @@
     "chalk": "^2.4.2",
     "core-js": "^2.6.0",
     "lodash.get": "^4.4.2",
+    "mock-stdin": "^0.3.1",
     "prompts": "2.0.1",
     "rimraf": "^2.6.3",
     "semver": "^5.6.0",
@@ -31,6 +32,7 @@
     "@oclif/dev-cli": "^1",
     "@oclif/test": "^1",
     "@oclif/tslint": "^3",
+    "@plugnet/dev": "^0.30.6",
     "@types/chai": "^4",
     "@types/chalk": "^2.2.0",
     "@types/lodash.get": "^4.4.4",
@@ -80,13 +82,16 @@
   },
   "repository": "git@github.com:cennznet/cli.git",
   "scripts": {
-    "postpack": "rm -f oclif.manifest.json",
-    "posttest": "tslint -p test -t stylish",
+    "build": "echo 'skip build'",
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "postpack": "rm -f oclif.manifest.json",
     "release": "oclif-dev pack",
     "release:deb": "oclif-dev pack:deb",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "test": "mocha --exit 'test/**/*.e2e.ts'",
+    "test:debug": "mocha --inspect-brk --exit \"test/**/*.e2e.ts\"",
+    "posttest": "tslint -p tsconfig.json -t stylish",
+    "lint": "tslint -p tsconfig.json -t stylish"
   },
   "types": "lib/index.d.ts"
 }

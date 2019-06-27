@@ -29,6 +29,7 @@ export default class WalletRemoveCommand extends BaseWalletCommand {
     const {flags, args: {address}} = this.parse(WalletRemoveCommand);
     const wallet = await this.loadWallet(flags);
     await wallet.removeAccount(address);
+    console.log(`account ${address} is removed`);
   }
 
 }

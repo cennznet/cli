@@ -9,18 +9,15 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// See the License for the specific la
 
-import {Api} from '@cennznet/api';
+import {loadConfig} from '@oclif/test/lib/load-config';
 
-import {seedToPair} from '../util/toyKeyring';
-
-import generateContractAddress from './generate-contract-address';
-
-const createUtilApi = (api: Api) => ({
-  generateContractAddress,
-  seedToPair
-});
-
-export {createUtilApi};
+export default async function callCommand(cmdId: string, args: string[]) {
+  const config = await loadConfig({}).run({} as any);
+  const cmd = config.findCommand(cmdId);
+  if (cmd) {
+    const command = cmd.load();
+    await command.run(args, config);
+  }
+}
