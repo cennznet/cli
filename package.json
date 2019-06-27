@@ -89,7 +89,6 @@
     "release:deb": "oclif-dev pack:deb",
     "version": "oclif-dev readme && git add README.md",
     "test": "mocha --exit 'test/**/*.e2e.ts'",
-    "test:debug": "mocha --inspect-brk --exit \"test/**/*.e2e.ts\"",
     "posttest": "tslint -p tsconfig.json -t stylish",
     "lint": "tslint -p tsconfig.json -t stylish"
   },
