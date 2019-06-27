@@ -14,6 +14,7 @@
 
 import {Api} from '@cennznet/api';
 import * as util from '@cennznet/util';
+import {Keyring} from '@cennznet/wallet';
 import chalk from 'chalk';
 import EventEmitter = require('events');
 import fs = require('fs');
@@ -49,7 +50,7 @@ class ReplManager extends EventEmitter {
       wallet,
       util: {...util, ...moreUtil},
       console,
-      Keyring: util.Keyring,
+      Keyring,
       ...require('@cennznet/types'), ...require('@cennznet/types/polkadot'), ...require('@cennznet/wallet')
     };
     if (wallet) {
