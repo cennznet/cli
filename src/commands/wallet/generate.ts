@@ -41,6 +41,6 @@ export default class WalletGenerateCommand extends BaseWalletCommand {
     const accountSeed = mnemonicToSeed(mnemonic);
     const keypair = await keyring.addFromSeed(accountSeed);
     await wallet.addKeyring(keyring);
-    return {address: keypair.address(), seed: u8aToHex(accountSeed)};
+    return {address: keypair.address, seed: u8aToHex(accountSeed)};
   }
 }
