@@ -66,6 +66,6 @@ export class AutoFlushWallet extends Wallet {
     const seed = stringToU8a(seedName.padEnd(32, ' '));
     const kp = keyring.addFromSeed(seed);
     await this.addKeyring(keyring);
-    console.log(`account ${chalk.yellowBright(kp.address())} is added`);
+    console.log(`account ${chalk.yellowBright(kp.address)} is added`);
   }
 }

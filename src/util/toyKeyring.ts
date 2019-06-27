@@ -42,7 +42,7 @@ export function seedToAccount(seedHex: string): {address: string, seed: string} 
   const keyring = new SimpleKeyring();
   const seed = stringToU8a(seedHex.padEnd(32, ' '));
   const kp = keyring.addFromSeed(seed);
-  return {address: kp.address(), seed: u8aToHex(seed)};
+  return {address: kp.address, seed: u8aToHex(seed)};
 }
 
 export function seedToPair(seedHex: string) {
