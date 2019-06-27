@@ -9,19 +9,19 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// See the License for the specific la
 
-import {Api} from '@cennznet/api';
+import {expect, test} from '@oclif/test';
 
-import {seedToPair} from '../util/toyKeyring';
+const {spawn} = require('child_process');
 
-import generateContractAddress from './generate-contract-address';
+describe('cennz-cli repl', () => {
+  it('should run script successfully', (done) => {
+    const bat = spawn('./bin/cennz-cli', ['repl', '--endpoint', 'wss://rimu.unfrastructure.io/public/ws', './test/scripts/query.js']);
 
-// tslint:disable-next-line: no-unused
-const createUtilApi = (api: Api) => ({
-  generateContractAddress,
-  seedToPair
+    bat.stdout.on('data', (data: any) => {
+      expect(data).match(/nextAssetId:\s+\d+/);
+      done();
+    });
+  });
 });
-
-export {createUtilApi};

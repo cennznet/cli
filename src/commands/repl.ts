@@ -100,6 +100,7 @@ export default class ReplCommand extends BaseWalletCommand {
     if (interactive) {
       try {
         wallet = await this.loadWallet(flags);
+      // tslint:disable-next-line: no-unused
       } catch (e) {
         console.warn('failed to load wallet');
       }

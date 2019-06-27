@@ -9,19 +9,22 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// See the License for the specific la
 
-import {Api} from '@cennznet/api';
+import {expect, test} from '@oclif/test';
 
-import {seedToPair} from '../util/toyKeyring';
-
-import generateContractAddress from './generate-contract-address';
-
-// tslint:disable-next-line: no-unused
-const createUtilApi = (api: Api) => ({
-  generateContractAddress,
-  seedToPair
+describe('cennz-cli help', () => {
+  test
+    .stdout()
+    .command(['help'])
+    .it('should display correct information', ctx => {
+      expect(ctx.stdout).contains('api');
+      expect(ctx.stdout).contains('help');
+      expect(ctx.stdout).contains('repl');
+      expect(ctx.stdout).contains('script');
+      expect(ctx.stdout).contains('wallet');
+    });
 });
 
-export {createUtilApi};
+// TODO: test cases for api
+describe('api', () => {});

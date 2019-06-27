@@ -9,19 +9,11 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// See the License for the specific la
 
-import {Api} from '@cennznet/api';
+const main = async () => {
+  const nextAssetId = await api.query.genericAsset.nextAssetId();
+  console.log('nextAssetId: ', nextAssetId.toString())
+}
 
-import {seedToPair} from '../util/toyKeyring';
-
-import generateContractAddress from './generate-contract-address';
-
-// tslint:disable-next-line: no-unused
-const createUtilApi = (api: Api) => ({
-  generateContractAddress,
-  seedToPair
-});
-
-export {createUtilApi};
+main()
