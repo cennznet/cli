@@ -32,7 +32,6 @@
     "@oclif/dev-cli": "^1",
     "@oclif/test": "^1",
     "@oclif/tslint": "^3",
-    "@plugnet/dev": "^0.30.6",
     "@types/chai": "^4",
     "@types/chalk": "^2.2.0",
     "@types/lodash.get": "^4.4.4",
@@ -82,7 +81,6 @@
   },
   "repository": "git@github.com:cennznet/cli.git",
   "scripts": {
-    "build": "echo 'skip build'",
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
     "postpack": "rm -f oclif.manifest.json",
     "release": "oclif-dev pack",
