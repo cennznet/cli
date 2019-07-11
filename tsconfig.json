@@ -7,7 +7,7 @@
     "outDir": "lib",
     "rootDir": "src",
     "strict": true,
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "target": "esnext",
     "composite": false
   },
