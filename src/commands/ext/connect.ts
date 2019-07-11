@@ -28,7 +28,7 @@ export default class ExtConnectCommand extends BaseWalletCommand {
     {name: 'connectString', required: true}
   ];
 
-  static flags = BaseWalletCommand.flags
+  static flags = BaseWalletCommand.flags;
 
   async run() {
     const {flags, args: {connectString}} = this.parse(ExtConnectCommand);
@@ -39,9 +39,9 @@ export default class ExtConnectCommand extends BaseWalletCommand {
       const decompressed = LZString.decompressFromEncodedURIComponent(connectString);
       const connectRequest = JSON.parse(decompressed || connectString);
 
-      const peerId = connectRequest['peerId'];
-      const secretKey = connectRequest['secretKey'];
-      const sessionId = connectRequest['sessionId'];
+      const peerId = connectRequest.peerId;
+      const secretKey = connectRequest.secretKey;
+      const sessionId = connectRequest.sessionId;
 
       if (peerId && secretKey) {
         const p2p = await P2PSession.connect(peerId, secretKey);
@@ -49,16 +49,16 @@ export default class ExtConnectCommand extends BaseWalletCommand {
         const wallet = await this.loadWallet(flags);
         const addresses = await wallet.getAddresses();
 
-        const accounts = addresses.map((address, index) =>({
+        const accounts = addresses.map((address, index) => ({
           address,
           assets: defaultAssets,
           name: `Account ${index + 1}`
         }));
         if (addresses.length === 0) {
-          console.error('wallet is empty')
+          console.error('wallet is empty');
         }
 
-        p2p.send({
+        await p2p.send({
           sessionId,
           type: 'connectResponse',
           accounts
@@ -66,7 +66,7 @@ export default class ExtConnectCommand extends BaseWalletCommand {
 
         p2p.destroy();
       }
-      
+
       return connectRequest;
     }
   }

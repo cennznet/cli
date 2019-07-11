@@ -17,4 +17,4 @@ export const assetIds = {
   CPAY: 16001
 };
 
-export const defaultAssets = [{ assetId: assetIds.CENNZ }, { assetId: assetIds.CPAY }];
+export const defaultAssets = [{assetId: assetIds.CENNZ}, {assetId: assetIds.CPAY}];

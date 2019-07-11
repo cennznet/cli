@@ -12,33 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import './peerjs-polyfill';
-import Peer, { DataConnection } from 'peerjs';
-import { ReplaySubject, AsyncSubject, Subject } from 'rxjs';
 import CryptoJS from 'crypto-js';
-import { v4 } from 'uuid';
+
+/* tslint:disable */
+import './peerjs-polyfill';
+import Peer, {DataConnection} from 'peerjs';
+/* tslint:enable */
+
+import {AsyncSubject, ReplaySubject, Subject} from 'rxjs';
+import {v4} from 'uuid';
 
 const config: any = {
   iceServers: [
-    { urls: 'stun:stun01.sipphone.com' },
-    { urls: 'stun:stun.ekiga.net' },
-    { urls: 'stun:stun.fwdnet.net' },
-    { urls: 'stun:stun.ideasip.com' },
-    { urls: 'stun:stun.iptel.org' },
-    { urls: 'stun:stun.rixtelecom.se' },
-    { urls: 'stun:stun.schlund.de' },
-    { urls: 'stun:stun.l.google.com:19302' },
-    { urls: 'stun:stun1.l.google.com:19302' },
-    { urls: 'stun:stun2.l.google.com:19302' },
-    { urls: 'stun:stun3.l.google.com:19302' },
-    { urls: 'stun:stun4.l.google.com:19302' },
-    { urls: 'stun:stunserver.org' },
-    { urls: 'stun:stun.softjoys.com' },
-    { urls: 'stun:stun.voiparound.com' },
-    { urls: 'stun:stun.voipbuster.com' },
-    { urls: 'stun:stun.voipstunt.com' },
-    { urls: 'stun:stun.voxgratia.org' },
-    { urls: 'stun:stun.xten.com' },
+    {urls: 'stun:stun01.sipphone.com'},
+    {urls: 'stun:stun.ekiga.net'},
+    {urls: 'stun:stun.fwdnet.net'},
+    {urls: 'stun:stun.ideasip.com'},
+    {urls: 'stun:stun.iptel.org'},
+    {urls: 'stun:stun.rixtelecom.se'},
+    {urls: 'stun:stun.schlund.de'},
+    {urls: 'stun:stun.l.google.com:19302'},
+    {urls: 'stun:stun1.l.google.com:19302'},
+    {urls: 'stun:stun2.l.google.com:19302'},
+    {urls: 'stun:stun3.l.google.com:19302'},
+    {urls: 'stun:stun4.l.google.com:19302'},
+    {urls: 'stun:stunserver.org'},
+    {urls: 'stun:stun.softjoys.com'},
+    {urls: 'stun:stun.voiparound.com'},
+    {urls: 'stun:stun.voipbuster.com'},
+    {urls: 'stun:stun.voipstunt.com'},
+    {urls: 'stun:stun.voxgratia.org'},
+    {urls: 'stun:stun.xten.com'},
     {
       urls: 'turn:numb.viagenie.ca',
       credential: 'muazkh',
@@ -58,36 +62,13 @@ const config: any = {
 };
 
 class P2PSession {
-  // Session uniq identifier
-  uuid = v4();
-
-  // SecretKey used to encrypt data flow. Both connect session
-  // should use the same secretKey
-  secretKey: string;
-
-  // Id received from peer-server
-  peerId$: AsyncSubject<string> = new AsyncSubject();
-
-  // Data connection stream
-  connection$: ReplaySubject<Peer.DataConnection> = new ReplaySubject(1);
-
-  connectionClosed$: Subject<Peer.DataConnection> = new Subject();
-
-  // Data stream
-  data$ = new ReplaySubject(1);
-
-  // Error stream
-  error$ = new Subject();
-
-  peer: Peer;
-
-  static peers: { [key: string]: P2PSession } = {};
+  static peers: {[key: string]: P2PSession} = {};
 
   static getPeer = (peerId: string): P2PSession => {
     const peer = P2PSession.peers[peerId];
     if (!peer) console.error(`Cannot find peer: ${peerId}`);
     return peer;
-  };
+ }
 
   static connect = async (
     peerId: string,
@@ -97,13 +78,29 @@ class P2PSession {
     await peer.connect(peerId);
     P2PSession.peers[peerId] = peer;
     return peer;
-  };
+  }
+
+  // Session uniq identifier
+  uuid = v4();
+  // SecretKey used to encrypt data flow. Both connect session
+  // should use the same secretKey
+  secretKey: string;
+  // Id received from peer-server
+  peerId$: AsyncSubject<string> = new AsyncSubject();
+  // Data connection stream
+  connection$: ReplaySubject<Peer.DataConnection> = new ReplaySubject(1);
+  connectionClosed$: Subject<Peer.DataConnection> = new Subject();
+  // Data stream
+  data$ = new ReplaySubject(1);
+  // Error stream
+  error$ = new Subject();
+  peer: Peer;
 
   constructor(secretKey?: string) {
     // Use provided secretKey or generate a random one.
     this.secretKey = secretKey || CryptoJS.lib.WordArray.random(12).toString();
 
-    this.peer = new Peer({ config }) as any;
+    this.peer = new Peer({config}) as any;
     this.peer.on('open', id => {
       console.log('open');
       this.peerId$.next(id);
@@ -115,10 +112,11 @@ class P2PSession {
     });
     this.peer.on('close', () => {
       console.log('close');
-      return this.error$.next(new Error('Peer closed!'))});
-    this.peer.on('error', err => this.error$.next(err));
+      return this.error$.next(new Error('Peer closed!'));
+    });
     this.peer.on('error', err => {
-      console.log(err)
+      console.log('error: ', err);
+      return this.error$.next(err);
     });
   }
 
@@ -149,7 +147,7 @@ class P2PSession {
   handleConnect(peerId: string): Promise<void> {
     return new Promise(resolve => {
       this.connection$.subscribe(() => resolve());
-      const conn = this.peer.connect(peerId, { serialization: 'json' });
+      const conn = this.peer.connect(peerId, {serialization: 'json'});
       this.subscribeConnection(conn);
     });
   }
@@ -159,7 +157,7 @@ class P2PSession {
     await this.handleConnect(peerId);
   }
 
-  send(message: Object): Promise<void> {
+  send(message: object): Promise<void> {
     return new Promise((resolve, reject) => {
       const msg = CryptoJS.AES.encrypt(
         JSON.stringify(message),
