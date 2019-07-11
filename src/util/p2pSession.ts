@@ -14,10 +14,10 @@
 
 import CryptoJS from 'crypto-js';
 
-/* tslint:disable */
+// tslint:disable
 import './peerjs-polyfill';
 import Peer, {DataConnection} from 'peerjs';
-/* tslint:enable */
+// tslint:enable
 
 import {AsyncSubject, ReplaySubject, Subject} from 'rxjs';
 import {v4} from 'uuid';
@@ -68,7 +68,7 @@ class P2PSession {
     const peer = P2PSession.peers[peerId];
     if (!peer) console.error(`Cannot find peer: ${peerId}`);
     return peer;
- }
+  }
 
   static connect = async (
     peerId: string,
