@@ -90,7 +90,7 @@ export default class ReplCommand extends BaseWalletCommand {
 
     const options = {prompt: interactive ? '\u001B[34;1m(cennz-cli)> \u001B[0m' : ''};
     const context: any = {};
-    const argv = [];
+    const argv: string[] = [];
     if (scriptPath) {
       const scriptIdx = this.argv.findIndex(arg => arg === scriptPath);
       argv.push(...this.argv.slice(scriptIdx));
