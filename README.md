@@ -88,16 +88,22 @@ _See code: [src/commands/ext/connect.ts](https://github.com/cennznet/cli/blob/v0
 
 ## `cennz-cli ext:sign EXTRINSICSTRING`
 
-sign an extrinsic from single source extension
+Sign an extrinsic from single source extension.
 
 ```
 USAGE
   $ cennz-cli ext:sign EXTRINSICSTRING
 
+ARGUMENTS
+  EXTRINSICSTRING  The string that contains the encoded information of peer server and the information of the extrinsic
+
 OPTIONS
   -e, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
   -f, --path=path          [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase         if a passphrase is needed
+
+DESCRIPTION
+  Please click the QR code on single source extension for four times to get the extrinsicString
 ```
 
 _See code: [src/commands/ext/sign.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/ext/sign.ts)_

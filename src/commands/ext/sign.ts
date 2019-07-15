@@ -19,6 +19,7 @@ import {Wallet} from '@cennznet/wallet';
 import {flags} from '@oclif/command';
 import Table from 'cli-table';
 import prompts from 'prompts';
+import {first} from 'rxjs/operators';
 
 import {BaseWalletCommand} from '../../BaseCommand';
 import {SignPayload} from '../../types';
@@ -28,12 +29,15 @@ import P2PSession from '../../util/p2pSession';
 export default class ExtSignCommand extends BaseWalletCommand {
   static strict = false;
 
-  static description = `sign an extrinsic from single source extension
+  static description = `Sign an extrinsic from single source extension.
+Please click the QR code on single source extension for four times to get the extrinsicString
 `;
 
-  static args = [
-    {name: 'extrinsicString', required: true}
-  ];
+  static args = [{
+    name: 'extrinsicString',
+    description: 'The string that contains the encoded information of peer server and the information of the extrinsic',
+    required: true
+  }];
 
   static flags = {
     ...BaseWalletCommand.flags,
@@ -60,53 +64,50 @@ export default class ExtSignCommand extends BaseWalletCommand {
       if (peerId && secretKey) {
         const p2p = await P2PSession.connect(peerId, secretKey);
 
-        const signPayload: SignPayload = await new Promise(resolve => {
-          p2p.data$.subscribe(data => {
-            if (this.isSignPayload(data)) {
-              resolve(data as SignPayload);
-            } else {
-              console.error('unavailable SignPayload');
-            }
+        const data = await p2p.data$.pipe(first()).toPromise();
+
+        if (this.isSignPayload(data)) {
+          const signPayload: SignPayload = data as SignPayload;
+
+          // create extrinsic
+          const api = await Api.create({
+            provider: endpoint
           });
-        });
+          const {extrinsic} = signPayload;
+          const ext = new Extrinsic(extrinsic);
 
-        // create extrinsic
-        const api = await Api.create({
-          provider: endpoint
-        });
-        const {extrinsic} = signPayload;
-        const ext = new Extrinsic(extrinsic);
+          this.displayExtrinsic(ext);
 
-        this.displayExtrinsic(ext);
-
-        // ask to confirm
-        const response = await prompts({
-          type: 'confirm',
-          name: 'isConfirm',
-          message: 'Do you want to sign this extrinsic?'
-        });
-
-        if (response.isConfirm) {
-          const wallet = await this.loadWallet(flags);
-          api.setSigner(wallet);
-
-          const hexSignature = await this.sign(signPayload, wallet, ext);
-
-          const peer = P2PSession.getPeer(peerId);
-          await peer.send({
-            sessionId,
-            type: 'signResponse',
-            hexSignature
+          // ask to confirm
+          const response = await prompts({
+            type: 'confirm',
+            name: 'isConfirm',
+            message: 'Do you want to sign this extrinsic?'
           });
 
-          console.log('Signed successfully');
+          if (response.isConfirm) {
+            const wallet = await this.loadWallet(flags);
+            api.setSigner(wallet);
+
+            const hexSignature = await this.sign(signPayload, wallet, ext);
+
+            await p2p.send({
+              sessionId,
+              type: 'signResponse',
+              hexSignature
+            });
+
+            console.log('Signed successfully');
+          } else {
+            // TODO: send reject to extension
+            console.log('Rejected');
+          }
+
+          api.disconnect();
+          p2p.destroy();
         } else {
-          // TODO: send reject to extension
-          console.log('Rejected');
+          console.error('unavailable SignPayload');
         }
-
-        api.disconnect();
-        p2p.destroy();
       }
     }
   }
