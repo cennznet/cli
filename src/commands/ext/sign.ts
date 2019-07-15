@@ -74,10 +74,10 @@ export default class ExtSignCommand extends BaseWalletCommand {
         const api = await Api.create({
           provider: endpoint
         });
-        const { extrinsic } = signPayload;
-        const ext= new Extrinsic(extrinsic);
+        const {extrinsic} = signPayload;
+        const ext = new Extrinsic(extrinsic);
 
-        this.displayExtrinsic(signPayload, ext);
+        this.displayExtrinsic(ext);
 
         // ask to confirm
         const response = await prompts({
@@ -99,12 +99,12 @@ export default class ExtSignCommand extends BaseWalletCommand {
             hexSignature
           });
 
-          console.log('Signed successfully')
+          console.log('Signed successfully');
 
           api.disconnect();
         } else {
           // TODO: send reject to extension
-          console.log('Rejected')
+          console.log('Rejected');
         }
 
         p2p.destroy();
@@ -113,10 +113,11 @@ export default class ExtSignCommand extends BaseWalletCommand {
   }
 
   async sign(signPayload: SignPayload, wallet: Wallet, ext: Extrinsic) {
-    const { extrinsic, address, blockHash, nonce, era, version } = signPayload;
-    
+    const {extrinsic, address, blockHash, nonce, era, version} = signPayload;
+
+    // tslint:disable-next-line
     if (era === undefined || era === null) {
-      // This line should never be reached because the existence of era is checked in isSignPayload() already. 
+      // This line should never be reached because the existence of era is checked in isSignPayload() already.
       // Leave this line here incase we change logic of isSignPayload()
       throw new Error('Missing era in SignPayload');
     }
@@ -131,31 +132,31 @@ export default class ExtSignCommand extends BaseWalletCommand {
       nonce: new Index(nonce),
       version: version ? new RuntimeVersion(JSON.parse(version)) : undefined
     };
-    
+
     await wallet.sign(ext, address, options);
 
     return ext.signature.signature.toHex();
   }
 
-  displayExtrinsic(signPayload: SignPayload, ext: Extrinsic) {
+  displayExtrinsic(ext: Extrinsic) {
     // table style
-    const chars = { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
-    , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
-    , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
-    , 'right': '║' , 'right-mid': '╢' , 'middle': '│' };
+    const chars = { top: '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
+    , bottom: '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
+    , left: '║' , 'left-mid': '╟' , mid: '─' , 'mid-mid': '┼'
+    , right: '║' , 'right-mid': '╢' , middle: '│' };
 
     const infoTable = new Table({chars});
     const argTable = new Table({chars});
- 
+
     infoTable.push(
-      { 'Section Name': ext.method.sectionName},
-      { 'Method Name': ext.method.methodName },
+      {'Section Name': ext.method.sectionName},
+      {'Method Name': ext.method.methodName},
     );
     console.log('Extrinsic:');
-    console.log('Basic info')
+    console.log('Basic info');
     console.log(infoTable.toString());
-    
-    const args: {[x: string]: string;}[] = Object.keys(ext.method.argsDef).map(
+
+    const args: {[x: string]: string; }[] = Object.keys(ext.method.argsDef).map(
       (key, index) => ({[key]: ext.method.args[index].toString()})
     );
     argTable.push(
@@ -165,7 +166,7 @@ export default class ExtSignCommand extends BaseWalletCommand {
     console.log(argTable.toString());
   }
 
-  isSignPayload( input: any) {
+  isSignPayload(input: any) {
     return input.hasOwnProperty('extrinsic')
       && input.hasOwnProperty('method')
       && input.hasOwnProperty('meta')

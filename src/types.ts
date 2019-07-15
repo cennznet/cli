@@ -21,4 +21,4 @@ export interface SignPayload {
   era: string;
   nonce: string;
   version?: string;
- }
+}
