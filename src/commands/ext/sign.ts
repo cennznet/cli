@@ -62,8 +62,11 @@ export default class ExtSignCommand extends BaseWalletCommand {
 
         const signPayload: SignPayload = await new Promise(resolve => {
           p2p.data$.subscribe((data) => {
-            // TODO:refactor type SignPayload
-            resolve(data as SignPayload);
+            if (this.isSignPayload(data)) {
+              resolve(data as SignPayload);
+            } else {
+              console.error('data is not an available SignPayload')
+            }
           });
         })
 
@@ -74,7 +77,6 @@ export default class ExtSignCommand extends BaseWalletCommand {
         const { extrinsic } = signPayload;
         const ext= new Extrinsic(extrinsic);
 
-        // TODO: better ui to display information(as a table)
         this.displayExtrinsic(signPayload, ext);
 
         // ask to confirm
@@ -111,23 +113,25 @@ export default class ExtSignCommand extends BaseWalletCommand {
     }
   }
 
-  // TODO: replace to extrinsicData type
   async sign(signPayload: SignPayload, wallet: Wallet, ext: Extrinsic) {
     const { extrinsic, address, blockHash, nonce, era, version } = signPayload;
     
-    const options = {
-      blockHash: new U8a(blockHash),
-      era: era && stringToU8a(era),
-      nonce: new Index(nonce),
-      version: version ? new RuntimeVersion(JSON.parse(version)) : undefined
-    };
-    
+    if (era === undefined || era === null) {
+      throw new Error('Missing era in SignPayload');
+    }
+
     if (ext.toHex() !== extrinsic) {
       throw new Error('Sign tx failed');
     }
 
-    // TODO: avoid to use the 'any' type
-    await wallet.sign(ext, address, options as any);
+    const options = {
+      blockHash: new U8a(blockHash),
+      era: stringToU8a(era),
+      nonce: new Index(nonce),
+      version: version ? new RuntimeVersion(JSON.parse(version)) : undefined
+    };
+    
+    await wallet.sign(ext, address, options);
 
     return ext.signature.signature.toHex();
   }
@@ -158,5 +162,14 @@ export default class ExtSignCommand extends BaseWalletCommand {
     );
     console.log('Arguments');
     console.log(argTable.toString());
+  }
+
+  isSignPayload( input: any) {
+    return input.hasOwnProperty('extrinsic')
+      && input.hasOwnProperty('method')
+      && input.hasOwnProperty('meta')
+      && input.hasOwnProperty('address')
+      && input.hasOwnProperty('blockHash')
+      && input.hasOwnProperty('nonce');
   }
 }
