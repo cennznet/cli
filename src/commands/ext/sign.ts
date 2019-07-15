@@ -100,13 +100,12 @@ export default class ExtSignCommand extends BaseWalletCommand {
           });
 
           console.log('Signed successfully');
-
-          api.disconnect();
         } else {
           // TODO: send reject to extension
           console.log('Rejected');
         }
 
+        api.disconnect();
         p2p.destroy();
       }
     }
@@ -115,20 +114,13 @@ export default class ExtSignCommand extends BaseWalletCommand {
   async sign(signPayload: SignPayload, wallet: Wallet, ext: Extrinsic) {
     const {extrinsic, address, blockHash, nonce, era, version} = signPayload;
 
-    // tslint:disable-next-line
-    if (era === undefined || era === null) {
-      // This line should never be reached because the existence of era is checked in isSignPayload() already.
-      // Leave this line here incase we change logic of isSignPayload()
-      throw new Error('Missing era in SignPayload');
-    }
-
     if (ext.toHex() !== extrinsic) {
       throw new Error('Sign tx failed');
     }
 
     const options = {
       blockHash: new U8a(blockHash),
-      era: stringToU8a(era),
+      era: (era === undefined) ? era : stringToU8a(era),
       nonce: new Index(nonce),
       version: version ? new RuntimeVersion(JSON.parse(version)) : undefined
     };
@@ -172,7 +164,6 @@ export default class ExtSignCommand extends BaseWalletCommand {
       && input.hasOwnProperty('meta')
       && input.hasOwnProperty('address')
       && input.hasOwnProperty('blockHash')
-      && input.hasOwnProperty('nonce')
-      && input.hasOwnProperty('era');
+      && input.hasOwnProperty('nonce');
   }
 }

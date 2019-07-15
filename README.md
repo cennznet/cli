@@ -95,8 +95,9 @@ USAGE
   $ cennz-cli ext:sign EXTRINSICSTRING
 
 OPTIONS
-  -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
-  -p, --passphrase  if a passphrase is needed
+  -e, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
+  -f, --path=path          [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase         if a passphrase is needed
 ```
 
 _See code: [src/commands/ext/sign.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/ext/sign.ts)_
