@@ -29,6 +29,7 @@ USAGE
 <!-- commands -->
 * [`cennz-cli api`](#cennz-cli-api)
 * [`cennz-cli ext:connect CONNECTSTRING`](#cennz-cli-extconnect-connectstring)
+* [`cennz-cli ext:sign EXTRINSICSTRING`](#cennz-cli-extsign-extrinsicstring)
 * [`cennz-cli help [COMMAND]`](#cennz-cli-help-command)
 * [`cennz-cli repl [SCRIPT]`](#cennz-cli-repl-script)
 * [`cennz-cli script:list`](#cennz-cli-scriptlist)
@@ -72,7 +73,7 @@ _See code: [src/commands/api.ts](https://github.com/cennznet/cli/blob/v0.8.1/src
 
 ## `cennz-cli ext:connect CONNECTSTRING`
 
-sign an extrinsic from single source extension
+connect to single source extension
 
 ```
 USAGE
@@ -84,6 +85,21 @@ OPTIONS
 ```
 
 _See code: [src/commands/ext/connect.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/ext/connect.ts)_
+
+## `cennz-cli ext:sign EXTRINSICSTRING`
+
+sign an extrinsic from single source extension
+
+```
+USAGE
+  $ cennz-cli ext:sign EXTRINSICSTRING
+
+OPTIONS
+  -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -p, --passphrase  if a passphrase is needed
+```
+
+_See code: [src/commands/ext/sign.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/ext/sign.ts)_
 
 ## `cennz-cli help [COMMAND]`
 

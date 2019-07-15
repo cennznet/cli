@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import LZString from 'lz-string';
-
 import {BaseWalletCommand} from '../../BaseCommand';
 import {defaultAssets} from '../../util/asset';
+import decompress from '../../util/decompress';
 import P2PSession from '../../util/p2pSession';
 
 export default class ExtConnectCommand extends BaseWalletCommand {
   static strict = false;
 
-  static description = `sign an extrinsic from single source extension
+  static description = `connect to single source extension
 `;
 
   static args = [
@@ -36,8 +35,7 @@ export default class ExtConnectCommand extends BaseWalletCommand {
     if (connectString === undefined) {
       console.error('miss connectString');
     } else {
-      const decompressed = LZString.decompressFromEncodedURIComponent(connectString);
-      const connectRequest = JSON.parse(decompressed || connectString);
+      const connectRequest = decompress(connectString);
 
       const peerId = connectRequest.peerId;
       const secretKey = connectRequest.secretKey;
