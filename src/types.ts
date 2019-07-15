@@ -18,7 +18,7 @@ export interface SignPayload {
   meta: string;
   address: string;
   blockHash: string;
-  era?: string;
+  era: string;
   nonce: string;
   version?: string;
  }

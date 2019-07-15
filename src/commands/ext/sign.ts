@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {BaseWalletCommand} from '../../BaseCommand';
-import {SignPayload} from '../../types';
-import decompress from '../../util/decompress';
-import P2PSession from '../../util/p2pSession';
-
 import {Api} from '@cennznet/api';
-import { U8a, Index, RuntimeVersion, Extrinsic } from '@cennznet/types/polkadot';
+import {Extrinsic, Index, RuntimeVersion, U8a} from '@cennznet/types/polkadot';
 import {stringToU8a} from '@cennznet/util';
 import {Wallet} from '@cennznet/wallet';
 import {flags} from '@oclif/command';
 import Table from 'cli-table';
 import prompts from 'prompts';
+
+import {BaseWalletCommand} from '../../BaseCommand';
+import {SignPayload} from '../../types';
+import decompress from '../../util/decompress';
+import P2PSession from '../../util/p2pSession';
 
 export default class ExtSignCommand extends BaseWalletCommand {
   static strict = false;
@@ -61,14 +61,14 @@ export default class ExtSignCommand extends BaseWalletCommand {
         const p2p = await P2PSession.connect(peerId, secretKey);
 
         const signPayload: SignPayload = await new Promise(resolve => {
-          p2p.data$.subscribe((data) => {
+          p2p.data$.subscribe(data => {
             if (this.isSignPayload(data)) {
               resolve(data as SignPayload);
             } else {
-              console.error('data is not an available SignPayload')
+              console.error('unavailable SignPayload');
             }
           });
-        })
+        });
 
         // create extrinsic
         const api = await Api.create({
@@ -116,6 +116,8 @@ export default class ExtSignCommand extends BaseWalletCommand {
     const { extrinsic, address, blockHash, nonce, era, version } = signPayload;
     
     if (era === undefined || era === null) {
+      // This line should never be reached because the existence of era is checked in isSignPayload() already. 
+      // Leave this line here incase we change logic of isSignPayload()
       throw new Error('Missing era in SignPayload');
     }
 
@@ -169,6 +171,7 @@ export default class ExtSignCommand extends BaseWalletCommand {
       && input.hasOwnProperty('meta')
       && input.hasOwnProperty('address')
       && input.hasOwnProperty('blockHash')
-      && input.hasOwnProperty('nonce');
+      && input.hasOwnProperty('nonce')
+      && input.hasOwnProperty('era');
   }
 }
