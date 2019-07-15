@@ -103,8 +103,7 @@ export default class ExtSignCommand extends BaseWalletCommand {
 
           api.disconnect();
         } else {
-          // TODO: response reject
-          // TODO: add issue to mobile
+          // TODO: send reject to extension
           console.log('Rejected')
         }
 
