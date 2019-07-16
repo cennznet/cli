@@ -21,51 +21,49 @@ export default class ExtConnectCommand extends BaseWalletCommand {
   static strict = false;
 
   static description = `connect to single source extension
+Please click the QR code on single source extension for four times to get the connectString
 `;
 
   static args = [
-    {name: 'connectString', required: true}
+    {
+      name: 'connectString',
+      description: 'The string that contains the encoded information of peer server',
+      required: true
+    }
   ];
 
   static flags = BaseWalletCommand.flags;
 
   async run() {
     const {flags, args: {connectString}} = this.parse(ExtConnectCommand);
+    if (connectString === undefined) { this.consoleErrorAndExit('miss connectString'); }
 
-    if (connectString === undefined) {
-      console.error('miss connectString');
-    } else {
-      const connectRequest = decompress(connectString);
+    const connectRequest = decompress(connectString);
 
-      const peerId = connectRequest.peerId;
-      const secretKey = connectRequest.secretKey;
-      const sessionId = connectRequest.sessionId;
+    const peerId = connectRequest.peerId;
+    const secretKey = connectRequest.secretKey;
+    const sessionId = connectRequest.sessionId;
+    if (peerId === undefined || peerId === null) { this.consoleErrorAndExit('missing peerId'); }
+    if (secretKey === undefined || secretKey === null) { this.consoleErrorAndExit('missing connectString'); }
 
-      if (peerId && secretKey) {
-        const p2p = await P2PSession.connect(peerId, secretKey);
+    const wallet = await this.loadWallet(flags);
+    const addresses = await wallet.getAddresses();
+    if (addresses.length === 0) { this.consoleErrorAndExit('wallet is empty'); }
 
-        const wallet = await this.loadWallet(flags);
-        const addresses = await wallet.getAddresses();
+    const p2p = await P2PSession.connect(peerId, secretKey);
 
-        const accounts = addresses.map((address, index) => ({
-          address,
-          assets: defaultAssets,
-          name: `Account ${index + 1}`
-        }));
-        if (addresses.length === 0) {
-          console.error('wallet is empty');
-        }
+    const accounts = addresses.map((address, index) => ({
+      address,
+      assets: defaultAssets,
+      name: `Account ${index + 1}`
+    }));
 
-        await p2p.send({
-          sessionId,
-          type: 'connectResponse',
-          accounts
-        });
+    await p2p.send({
+      sessionId,
+      type: 'connectResponse',
+      accounts
+    });
 
-        p2p.destroy();
-      }
-
-      return connectRequest;
-    }
+    p2p.destroy();
   }
 }

@@ -51,65 +51,63 @@ Please click the QR code on single source extension for four times to get the ex
   async run() {
     const {flags, args: {extrinsicString}} = this.parse(ExtSignCommand);
     const {endpoint} = flags;
+    if (extrinsicString === undefined) { this.consoleErrorAndExit('miss extrinsicString'); }
 
-    if (extrinsicString === undefined) {
-      console.error('miss extrinsicString');
-    } else {
-      const extrinsicRequest = decompress(extrinsicString);
+    const extrinsicRequest = decompress(extrinsicString);
 
-      const peerId = extrinsicRequest.peerId;
-      const secretKey = extrinsicRequest.secretKey;
-      const sessionId = extrinsicRequest.sessionId;
+    const peerId = extrinsicRequest.peerId;
+    const secretKey = extrinsicRequest.secretKey;
+    const sessionId = extrinsicRequest.sessionId;
+    if (peerId === undefined || peerId === null) { this.consoleErrorAndExit('missing peerId'); }
+    if (secretKey === undefined || secretKey === null) { this.consoleErrorAndExit('missing connectString'); }
 
-      if (peerId && secretKey) {
-        const p2p = await P2PSession.connect(peerId, secretKey);
+    const p2p = await P2PSession.connect(peerId, secretKey);
 
-        const data = await p2p.data$.pipe(first()).toPromise();
-
-        if (this.isSignPayload(data)) {
-          const signPayload: SignPayload = data as SignPayload;
-
-          // create extrinsic
-          const api = await Api.create({
-            provider: endpoint
-          });
-          const {extrinsic} = signPayload;
-          const ext = new Extrinsic(extrinsic);
-
-          this.displayExtrinsic(ext);
-
-          // ask to confirm
-          const response = await prompts({
-            type: 'confirm',
-            name: 'isConfirm',
-            message: 'Do you want to sign this extrinsic?'
-          });
-
-          if (response.isConfirm) {
-            const wallet = await this.loadWallet(flags);
-            api.setSigner(wallet);
-
-            const hexSignature = await this.sign(signPayload, wallet, ext);
-
-            await p2p.send({
-              sessionId,
-              type: 'signResponse',
-              hexSignature
-            });
-
-            console.log('Signed successfully');
-          } else {
-            // TODO: send reject to extension
-            console.log('Rejected');
-          }
-
-          api.disconnect();
-          p2p.destroy();
-        } else {
-          console.error('unavailable SignPayload');
-        }
-      }
+    const data = await p2p.data$.pipe(first()).toPromise();
+    if (!this.isSignPayload(data)) {
+      p2p.destroy();
+      this.consoleErrorAndExit('unavailable SignPayload');
     }
+    const signPayload: SignPayload = data as SignPayload;
+
+    // create extrinsic
+    const api = await Api.create({
+      provider: endpoint
+    });
+    const {extrinsic} = signPayload;
+    const ext = new Extrinsic(extrinsic);
+
+    this.displayExtrinsic(ext);
+
+    // ask to confirm
+    const response = await prompts({
+      type: 'confirm',
+      name: 'isConfirm',
+      message: 'Do you want to sign this extrinsic?'
+    });
+
+    if (!response.isConfirm) {
+      // TODO: send reject to extension
+      console.log('Rejected');
+      p2p.destroy();
+      this.exit(1);
+    }
+
+    const wallet = await this.loadWallet(flags);
+    api.setSigner(wallet);
+
+    const hexSignature = await this.sign(signPayload, wallet, ext);
+
+    await p2p.send({
+      sessionId,
+      type: 'signResponse',
+      hexSignature
+    });
+
+    console.log('Signed successfully');
+
+    api.disconnect();
+    p2p.destroy();
   }
 
   async sign(signPayload: SignPayload, wallet: Wallet, ext: Extrinsic) {
