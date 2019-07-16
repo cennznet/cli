@@ -36,15 +36,11 @@ Please click the QR code on single source extension for four times to get the co
 
   async run() {
     const {flags, args: {connectString}} = this.parse(ExtConnectCommand);
-    if (connectString === undefined) { this.consoleErrorAndExit('miss connectString'); }
 
     const connectRequest = decompress(connectString);
 
-    const peerId = connectRequest.peerId;
-    const secretKey = connectRequest.secretKey;
-    const sessionId = connectRequest.sessionId;
-    if (peerId === undefined || peerId === null) { this.consoleErrorAndExit('missing peerId'); }
-    if (secretKey === undefined || secretKey === null) { this.consoleErrorAndExit('missing connectString'); }
+    const {peerId, secretKey, sessionId} = connectRequest;
+    if (!peerId || !secretKey) { this.consoleErrorAndExit('invalid extrinsicRequest'); }
 
     const wallet = await this.loadWallet(flags);
     const addresses = await wallet.getAddresses();

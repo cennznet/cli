@@ -51,24 +51,21 @@ Please click the QR code on single source extension for four times to get the ex
   async run() {
     const {flags, args: {extrinsicString}} = this.parse(ExtSignCommand);
     const {endpoint} = flags;
-    if (extrinsicString === undefined) { this.consoleErrorAndExit('miss extrinsicString'); }
 
     const extrinsicRequest = decompress(extrinsicString);
 
-    const peerId = extrinsicRequest.peerId;
-    const secretKey = extrinsicRequest.secretKey;
-    const sessionId = extrinsicRequest.sessionId;
-    if (peerId === undefined || peerId === null) { this.consoleErrorAndExit('missing peerId'); }
-    if (secretKey === undefined || secretKey === null) { this.consoleErrorAndExit('missing connectString'); }
+    const {peerId, secretKey, sessionId} = extrinsicRequest;
+    if (!peerId || !secretKey) { this.consoleErrorAndExit('invalid extrinsicRequest'); }
 
     const p2p = await P2PSession.connect(peerId, secretKey);
 
     const data = await p2p.data$.pipe(first()).toPromise();
     if (!this.isSignPayload(data)) {
       p2p.destroy();
-      this.consoleErrorAndExit('unavailable SignPayload');
+      this.consoleErrorAndExit('invalid SignPayload');
     }
-    const signPayload: SignPayload = data as SignPayload;
+
+    const signPayload = data as SignPayload;
 
     // create extrinsic
     const api = await Api.create({
@@ -150,7 +147,7 @@ Please click the QR code on single source extension for four times to get the ex
     console.log(argTable.toString());
   }
 
-  isSignPayload(input: any) {
+  isSignPayload(input: any): input is SignPayload {
     return input.hasOwnProperty('extrinsic')
       && input.hasOwnProperty('method')
       && input.hasOwnProperty('meta')
