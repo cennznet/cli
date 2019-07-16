@@ -1,7 +1,7 @@
 {
   "name": "@cennznet/cli",
   "description": "Official CLI tool to interact with CENNZnet nodes.",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "author": "Centrality Development Team",
   "bin": {
     "cennz-cli": "./bin/cennz-cli",
