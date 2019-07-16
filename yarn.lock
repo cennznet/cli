@@ -111,10 +111,10 @@
     "@plugnet/types" "^0.81.100"
     eventemitter3 "^3.1.0"
 
-"@cennznet/crml-cennzx-spot@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/@cennznet/crml-cennzx-spot/-/crml-cennzx-spot-0.6.0.tgz#c8edebb6abed0a5c2a7c286bb72d72b2edf2a0de"
-  integrity sha512-DrKC+AOrDuOJ800CSFhQlHjM0QyfHFWMC1sqC/1hxFYJuaTJ4YesMx5QVzfRcJKYPTqP5Zvbl6MXPe8XioXvPA==
+"@cennznet/crml-cennzx-spot@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.npmjs.org/@cennznet/crml-cennzx-spot/-/crml-cennzx-spot-0.7.1.tgz#53908c069928bade6c71cbdce754c607c88532ee"
+  integrity sha512-K1Oef33XcBCXcMFBD/URBT7kYs8HEmJW/39nic6MQ3FX1jKIMM2ZJP5mwf9wxRKh0vlxAdKw4qUXDx5HioEWTw==
 
 "@cennznet/crml-generic-asset@^0.9.1":
   version "0.9.1"
