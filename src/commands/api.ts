@@ -36,9 +36,9 @@ export default class ApiCommand extends BaseWalletCommand {
   static description = `Send transactions
 
   This command sends transactions from one user to another based on flags given to the command. eg:
-  $ bin/cennz-cli api -c tx -s balances -m transfer --seed="Andrea" --ws="wss://cennznet-node-0.centrality.me:9944" "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
+  $ bin/cennz-cli api -c tx -s genericAsset -m transfer --seed="Andrea" --ws="wss://cennznet-node-0.centrality.me:9944" 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
   or sign with account in the wallet
-  $ bin/cennz-cli api -c tx -s balances -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' --ws="ws://cennznet-node-0.centrality.me:9944" "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
+  $ bin/cennz-cli api -c tx -s genericAsset -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' --ws="ws://cennznet-node-0.centrality.me:9944" 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
 `;
 
   static flags = {

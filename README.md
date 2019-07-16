@@ -17,7 +17,7 @@ $ npm install -g @cennznet/cli
 $ cennz-cli COMMAND
 running command...
 $ cennz-cli (-v|--version|version)
-@cennznet/cli/0.8.1 darwin-x64 node-v10.15.0
+@cennznet/cli/0.8.1 darwin-x64 node-v10.16.0
 $ cennz-cli --help [COMMAND]
 USAGE
   $ cennz-cli COMMAND
@@ -28,8 +28,6 @@ USAGE
 # Commands
 <!-- commands -->
 * [`cennz-cli api`](#cennz-cli-api)
-* [`cennz-cli ext:connect CONNECTSTRING`](#cennz-cli-extconnect-connectstring)
-* [`cennz-cli ext:sign EXTRINSICSTRING`](#cennz-cli-extsign-extrinsicstring)
 * [`cennz-cli help [COMMAND]`](#cennz-cli-help-command)
 * [`cennz-cli repl [SCRIPT]`](#cennz-cli-repl-script)
 * [`cennz-cli script:list`](#cennz-cli-scriptlist)
@@ -51,7 +49,7 @@ USAGE
 
 OPTIONS
   -c, --category=category  category of api call
-  -f, --path=path          [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path          [default: /Users/moge/.cennz_cli/wallet.json] path to wallet.json
   -m, --method=method      calling method
   -p, --passphrase         if a passphrase is needed
   -s, --section=section    section of transaction
@@ -62,57 +60,14 @@ OPTIONS
 
 DESCRIPTION
   This command sends transactions from one user to another based on flags given to the command. eg:
-     $ bin/cennz-cli api -c tx -s balances -m transfer --seed="Andrea" --ws="wss://cennznet-node-0.centrality.me:9944" 
-  "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
+     $ bin/cennz-cli api -c tx -s genericAsset -m transfer --seed="Andrea" 
+  --ws="wss://cennznet-node-0.centrality.me:9944" 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
      or sign with account in the wallet
-     $ bin/cennz-cli api -c tx -s balances -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' 
-  --ws="ws://cennznet-node-0.centrality.me:9944" "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
+     $ bin/cennz-cli api -c tx -s genericAsset -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' 
+  --ws="ws://cennznet-node-0.centrality.me:9944" 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
 ```
 
 _See code: [src/commands/api.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/api.ts)_
-
-## `cennz-cli ext:connect CONNECTSTRING`
-
-connect to single source extension
-
-```
-USAGE
-  $ cennz-cli ext:connect CONNECTSTRING
-
-ARGUMENTS
-  CONNECTSTRING  The string that contains the encoded information of peer server
-
-OPTIONS
-  -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
-  -p, --passphrase  if a passphrase is needed
-
-DESCRIPTION
-  Please click the QR code on single source extension for four times to get the connectString
-```
-
-_See code: [src/commands/ext/connect.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/ext/connect.ts)_
-
-## `cennz-cli ext:sign EXTRINSICSTRING`
-
-Sign an extrinsic from single source extension.
-
-```
-USAGE
-  $ cennz-cli ext:sign EXTRINSICSTRING
-
-ARGUMENTS
-  EXTRINSICSTRING  The string that contains the encoded information of peer server and the information of the extrinsic
-
-OPTIONS
-  -e, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
-  -f, --path=path          [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
-  -p, --passphrase         if a passphrase is needed
-
-DESCRIPTION
-  Please click the QR code on single source extension for four times to get the extrinsicString
-```
-
-_See code: [src/commands/ext/sign.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/ext/sign.ts)_
 
 ## `cennz-cli help [COMMAND]`
 
@@ -145,7 +100,7 @@ ARGUMENTS
 OPTIONS
   -c, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
   -e, --evaluate=evaluate  evaluate script and print result
-  -f, --path=path          [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path          [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase         if a passphrase is needed
 
 DESCRIPTION
@@ -194,7 +149,7 @@ USAGE
 
 OPTIONS
   -c, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
-  -f, --path=path          [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path          [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase         if a passphrase is needed
   --noApi                  pass true if the script doesn't need to connect to the network
 ```
@@ -224,7 +179,7 @@ USAGE
   $ cennz-cli wallet:add
 
 OPTIONS
-  -f, --path=path      [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path      [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase     if a passphrase is needed
   --seedHex=seedHex    seed in hex form (start with 0x)
   --seedText=seedText  seed as a simple text (Alice)
@@ -241,7 +196,7 @@ USAGE
   $ cennz-cli wallet:create
 
 OPTIONS
-  -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
 ```
 
@@ -256,7 +211,7 @@ USAGE
   $ cennz-cli wallet:generate
 
 OPTIONS
-  -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
 ```
 
@@ -271,7 +226,7 @@ USAGE
   $ cennz-cli wallet:list
 
 OPTIONS
-  -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
 ```
 
@@ -286,7 +241,7 @@ USAGE
   $ cennz-cli wallet:remove [ADDRESS]
 
 OPTIONS
-  -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
 ```
 
