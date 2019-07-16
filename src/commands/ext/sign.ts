@@ -146,7 +146,7 @@ Please click the QR code on single source extension for four times to get the ex
     argTable.push(
       ...args
     );
-    
+
     console.log('Extrinsic:');
     console.log(`${ext.method.sectionName}.${ext.method.methodName}`);
     console.log(argTable.toString());
