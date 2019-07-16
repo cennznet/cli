@@ -94,7 +94,8 @@
   },
   "repository": "git@github.com:cennznet/cli.git",
   "scripts": {
-    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest",
+    "readme": "oclif-dev readme",
     "postpack": "rm -f oclif.manifest.json",
     "release": "oclif-dev pack",
     "release:deb": "oclif-dev pack:deb",
