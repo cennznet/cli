@@ -70,4 +70,9 @@ export abstract class BaseWalletCommand extends Command {
 
     return wallet;
   }
+
+  protected consoleErrorAndExit(msg: string) {
+    console.error(msg);
+    this.exit(1);
+  }
 }
