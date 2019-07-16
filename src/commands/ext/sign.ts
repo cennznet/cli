@@ -138,16 +138,7 @@ Please click the QR code on single source extension for four times to get the ex
     , left: '║' , 'left-mid': '╟' , mid: '─' , 'mid-mid': '┼'
     , right: '║' , 'right-mid': '╢' , middle: '│' };
 
-    const infoTable = new Table({chars});
     const argTable = new Table({chars});
-
-    infoTable.push(
-      {'Section Name': ext.method.sectionName},
-      {'Method Name': ext.method.methodName},
-    );
-    console.log('Extrinsic:');
-    console.log('Basic info');
-    console.log(infoTable.toString());
 
     const args: {[x: string]: string; }[] = Object.keys(ext.method.argsDef).map(
       (key, index) => ({[key]: ext.method.args[index].toString()})
@@ -155,7 +146,9 @@ Please click the QR code on single source extension for four times to get the ex
     argTable.push(
       ...args
     );
-    console.log('Arguments');
+    
+    console.log('Extrinsic:');
+    console.log(`${ext.method.sectionName}.${ext.method.methodName}`);
     console.log(argTable.toString());
   }
 

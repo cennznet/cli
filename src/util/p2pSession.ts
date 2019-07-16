@@ -102,16 +102,13 @@ class P2PSession {
 
     this.peer = new Peer({config}) as any;
     this.peer.on('open', id => {
-      console.log('open');
       this.peerId$.next(id);
       this.peerId$.complete();
     });
     this.peer.on('connection', (conn: DataConnection) => {
-      console.log('connection');
       this.subscribeConnection(conn);
     });
     this.peer.on('close', () => {
-      console.log('close');
       return this.error$.next(new Error('Peer closed!'));
     });
     this.peer.on('error', err => {
