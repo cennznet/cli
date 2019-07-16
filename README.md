@@ -79,9 +79,15 @@ connect to single source extension
 USAGE
   $ cennz-cli ext:connect CONNECTSTRING
 
+ARGUMENTS
+  CONNECTSTRING  The string that contains the encoded information of peer server
+
 OPTIONS
   -f, --path=path   [default: /Users/zhenwang/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
+
+DESCRIPTION
+  Please click the QR code on single source extension for four times to get the connectString
 ```
 
 _See code: [src/commands/ext/connect.ts](https://github.com/cennznet/cli/blob/v0.8.1/src/commands/ext/connect.ts)_
