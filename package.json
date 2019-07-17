@@ -15,9 +15,9 @@
     "@cennznet/types": "^0.14.1",
     "@cennznet/util": "^0.14.1",
     "@cennznet/wallet": "^0.14.1",
-    "@oclif/command": "^1",
-    "@oclif/config": "^1",
-    "@oclif/plugin-help": "^2",
+    "@oclif/command": "^1.5.17",
+    "@oclif/config": "^1.13.2",
+    "@oclif/plugin-help": "^2.2.0",
     "chalk": "^2.4.2",
     "cli-table": "^0.3.1",
     "core-js": "^2.6.0",
@@ -63,6 +63,10 @@
     "ts-node": "^7",
     "tslint": "^5",
     "typescript": "^3.5.2"
+  },
+  "resolutions": {
+    "lodash": "^4.17.14",
+    "lodash.template": "^4.5.0"
   },
   "engines": {
     "node": ">=10.13.0"
