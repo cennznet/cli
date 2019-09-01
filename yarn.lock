@@ -397,7 +397,7 @@
     "@plugnet/util" "^0.93.100"
     "@plugnet/util-crypto" "^0.93.100"
 
-"@plugnet/types@^0.81.100":
+"@plugnet/types@0.81.100", "@plugnet/types@^0.81.100":
   version "0.81.100"
   resolved "https://registry.npmjs.org/@plugnet/types/-/types-0.81.100.tgz#f73e6dac4db80477836c44f9d70cdb52c5b86cd6"
   integrity sha512-W6IBdxw+SIWogFWVyP4kaASD3hI63zaDWgNvQFaovHQR/othoLHU1kxra6mf2GaZvOjU/K7X+eonRFKWL195Vg==
@@ -1030,7 +1030,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-base-x@3.0.5, base-x@^3.0.2:
+base-x@^3.0.2:
   version "3.0.5"
   resolved "https://registry.npmjs.org/base-x/-/base-x-3.0.5.tgz#d3ada59afed05b921ab581ec3112e6444ba0795a"
   integrity sha512-C3picSgzPSLE+jW3tcBzJoGwitOtazb5B+5YmAxZm2ybmTi9LNgAtDO/jjVEBZwHoXmDBZ9m/IELj3elJVRBcA==

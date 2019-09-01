@@ -13,10 +13,12 @@
 // limitations under the License.
 
 import {Api} from '@cennznet/api';
-import {Extrinsic, Index, RuntimeVersion, U8a} from '@cennznet/types/polkadot';
+// tslint:disable-next-line
+import {Index, RuntimeVersion, U8a, createType} from '@cennznet/types/polkadot';
 import {stringToU8a} from '@cennznet/util';
 import {Wallet} from '@cennznet/wallet';
 import {flags} from '@oclif/command';
+import {IExtrinsic} from '@plugnet/types/types';
 import Table from 'cli-table';
 import prompts from 'prompts';
 import {first} from 'rxjs/operators';
@@ -71,8 +73,8 @@ Please click the QR code on single source extension for four times to get the ex
     const api = await Api.create({
       provider: endpoint
     });
-    const {extrinsic} = signPayload;
-    const ext = new Extrinsic(extrinsic);
+
+    const ext = createType('Extrinsic', signPayload.extrinsic) as IExtrinsic;
 
     this.displayExtrinsic(ext);
 
@@ -107,7 +109,7 @@ Please click the QR code on single source extension for four times to get the ex
     p2p.destroy();
   }
 
-  async sign(signPayload: SignPayload, wallet: Wallet, ext: Extrinsic) {
+  async sign(signPayload: SignPayload, wallet: Wallet, ext: IExtrinsic) {
     const {extrinsic, address, blockHash, nonce, era, version} = signPayload;
 
     if (ext.toHex() !== extrinsic) {
@@ -123,10 +125,10 @@ Please click the QR code on single source extension for four times to get the ex
 
     await wallet.sign(ext, address, options);
 
-    return ext.signature.signature.toHex();
+    return (ext.signature as any).signature.toHex();
   }
 
-  displayExtrinsic(ext: Extrinsic) {
+  displayExtrinsic(ext: IExtrinsic) {
     // table style
     const chars = { top: '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
     , bottom: '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
