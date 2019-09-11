@@ -10,6 +10,7 @@ before_install:
   - export PATH=$HOME/.yarn/bin::$(yarn global bin):$(yarn global dir):$PATH
 script:
   - yarn run lint
+  - bin/cennz-cli help # first run is slower. to avoid test timeout
   - yarn run test
   - yarn pack
 branches:
