@@ -2,6 +2,7 @@
   "extends": "@oclif/tslint",
   "rules": {
     "no-console": false,
+    "no-implicit-dependencies": false,
     "semicolon": true,
     "file-name-casing": false
   }

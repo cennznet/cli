@@ -51,7 +51,7 @@ class ReplManager extends EventEmitter {
       util: {...util, ...moreUtil},
       console,
       Keyring,
-      ...require('@cennznet/types'), ...require('@cennznet/types/polkadot'), ...require('@cennznet/wallet')
+      ...require('@cennznet/types'), ...require('@cennznet/wallet')
     };
     if (wallet) {
       this.print(`${chalk.yellowBright('wallet')} is available in repl's context`);

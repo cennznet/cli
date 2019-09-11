@@ -13,13 +13,12 @@
 // limitations under the License.
 
 import {Api} from '@cennznet/api';
-import {stringToU8a} from '@cennznet/util';
+import {cryptoWaitReady} from '@cennznet/util';
 import {SimpleKeyring, Wallet} from '@cennznet/wallet';
 import {flags} from '@oclif/command';
-import _get = require('lodash.get');
+import _get from 'lodash.get';
 
 import {BaseWalletCommand} from '../BaseCommand';
-import {seedToAccount} from '../util/toyKeyring';
 
 function checkJson(input: string) {
   let args = input;
@@ -36,57 +35,60 @@ export default class ApiCommand extends BaseWalletCommand {
   static description = `Send transactions
 
   This command sends transactions from one user to another based on flags given to the command. eg:
-  $ bin/cennz-cli api -c tx -s genericAsset -m transfer --seed="Andrea" --ws="wss://cennznet-node-0.centrality.me:9944" 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
+  $ bin/cennz-cli api -t tx -s genericAsset -m transfer --seed="//Andrea" 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
   or sign with account in the wallet
-  $ bin/cennz-cli api -c tx -s genericAsset -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' --ws="ws://cennznet-node-0.centrality.me:9944" 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
+  $ bin/cennz-cli api -t tx -s genericAsset -m transfer --sender='5G8fco8mAT3hkprXGRGDYxACZrDsy63y96PATPo4dKcvGmFF' 16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
 `;
 
   static flags = {
     ...BaseWalletCommand.flags,
+    endpoint: flags.string({
+      char: 'c',
+      description: 'cennznet node endpoint',
+      default: 'wss://rimu.unfrastructure.io/public/ws'
+    }),
     help: flags.help(),
     seed: flags.string({description: 'seed of sender key'}),
     sender: flags.string({description: 'address of sender'}),
-    ws: flags.string({description: 'websocket end point url'}),
-    category: flags.string({char: 'c', description: 'category of api call'}),
+    category: flags.string({char: 't', description: 'category of api call'}),
     section: flags.string({char: 's', description: 'section of transaction'}),
     method: flags.string({char: 'm', description: 'calling method'})
   };
 
   async run() {
     let {flags, argv} = this.parse(ApiCommand);
-    let {seed, sender, ws, category, section, method} = flags;
+    let {seed, sender, endpoint, category, section, method} = flags;
     // Use wallet over Keyring
-    let wallet;
-    let _sender;
+    let wallet: Wallet;
+    let _sender: string;
     if (seed) {
-      wallet = await this.createWallet(seed);
-      _sender = seedToAccount(seed).address;
+      [wallet, _sender] = await this.createWallet(seed);
     } else {
       if (!sender) {
         console.error('either sender or seed is required');
         this.exit(1);
       }
-      _sender = sender;
+      _sender = sender as string;
       try {
         wallet = await this.loadWallet(flags);
-      // tslint:disable-next-line: no-unused
+        // tslint:disable-next-line: no-unused
       } catch (e) {
         console.warn('failed to load wallet');
+        this.exit(1);
       }
     }
-    const api = await Api.create({
-      provider: ws
-    });
+    const api = await Api.create({provider: endpoint});
     const apiCall = _get(api, [
       category as string,
       section as string,
       method as string
     ]);
     if (category === 'tx') {
-      api.setSigner(wallet as Wallet);
+      // @ts-ignore
+      api.setSigner(wallet);
       const args = argv.map(checkJson);
       const tx = apiCall.apply(this, args);
-      const hash = await tx.signAndsend(_sender);
+      const hash = await tx.signAndSend(_sender);
 
       this.log(`submitted with hash ${hash}`);
     } else {
@@ -96,13 +98,14 @@ export default class ApiCommand extends BaseWalletCommand {
     this.exit(1);
   }
 
-  private async createWallet(seed: string): Promise<Wallet> {
+  private async createWallet(seed: string): Promise<[Wallet, string]> {
+    await cryptoWaitReady();
     const wallet = new Wallet();
     const kr = new SimpleKeyring();
-    kr.addFromSeed(stringToU8a(seed.padEnd(32, ' ')));
+    const {address} = kr.addFromUri(seed);
     await wallet.createNewVault('');
     await wallet.addKeyring(kr);
-    return wallet;
+    return [wallet, address];
   }
 
 }

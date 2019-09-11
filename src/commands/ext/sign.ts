@@ -13,18 +13,16 @@
 // limitations under the License.
 
 import {Api} from '@cennznet/api';
+import {IExtrinsic} from '@cennznet/api/types';
+import {SignerPayloadJSON} from '@cennznet/types/extrinsic/SignerPayload';
 // tslint:disable-next-line
-import {Index, RuntimeVersion, U8a, createType} from '@cennznet/types/polkadot';
-import {stringToU8a} from '@cennznet/util';
-import {Wallet} from '@cennznet/wallet';
+import {createTypeUnsafe} from '@cennznet/types';
 import {flags} from '@oclif/command';
-import {IExtrinsic} from '@plugnet/types/types';
 import Table from 'cli-table';
 import prompts from 'prompts';
 import {first} from 'rxjs/operators';
 
 import {BaseWalletCommand} from '../../BaseCommand';
-import {SignPayload} from '../../types';
 import decompress from '../../util/decompress';
 import P2PSession from '../../util/p2pSession';
 
@@ -67,14 +65,21 @@ Please click the QR code on single source extension for four times to get the ex
       this.consoleErrorAndExit('invalid SignPayload');
     }
 
-    const signPayload = data as SignPayload;
+    const signPayload = data as SignerPayloadJSON;
 
     // create extrinsic
     const api = await Api.create({
       provider: endpoint
     });
 
-    const ext = createType('Extrinsic', signPayload.extrinsic) as IExtrinsic;
+    const {doughnut, feeExchange, method} = signPayload;
+    const ext = createTypeUnsafe<IExtrinsic>('Extrinsic', [{method}]);
+    if (doughnut) {
+      ext.addDoughnut(doughnut);
+    }
+    if (feeExchange) {
+      ext.addFeeExchangeOpt(feeExchange);
+    }
 
     this.displayExtrinsic(ext);
 
@@ -95,12 +100,12 @@ Please click the QR code on single source extension for four times to get the ex
     const wallet = await this.loadWallet(flags);
     api.setSigner(wallet);
 
-    const hexSignature = await this.sign(signPayload, wallet, ext);
+    const {signature} = await wallet.signPayload(signPayload);
 
     await p2p.send({
       sessionId,
       type: 'signResponse',
-      hexSignature
+      hexSignature: signature
     });
 
     console.log('Signed successfully');
@@ -109,26 +114,8 @@ Please click the QR code on single source extension for four times to get the ex
     p2p.destroy();
   }
 
-  async sign(signPayload: SignPayload, wallet: Wallet, ext: IExtrinsic) {
-    const {extrinsic, address, blockHash, nonce, era, version} = signPayload;
-
-    if (ext.toHex() !== extrinsic) {
-      throw new Error('Sign tx failed');
-    }
-
-    const options = {
-      blockHash: new U8a(blockHash),
-      era: (era === undefined) ? era : stringToU8a(era),
-      nonce: new Index(nonce),
-      version: version ? new RuntimeVersion(JSON.parse(version)) : undefined
-    };
-
-    await wallet.sign(ext, address, options);
-
-    return (ext.signature as any).signature.toHex();
-  }
-
   displayExtrinsic(ext: IExtrinsic) {
+    // TODO: Support display of doughnut and feeExchangeOpt
     // table style
     const chars = { top: '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
     , bottom: '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
@@ -149,12 +136,16 @@ Please click the QR code on single source extension for four times to get the ex
     console.log(argTable.toString());
   }
 
-  isSignPayload(input: any): input is SignPayload {
-    return input.hasOwnProperty('extrinsic')
-      && input.hasOwnProperty('method')
-      && input.hasOwnProperty('meta')
-      && input.hasOwnProperty('address')
+  isSignPayload(input: any): input is SignerPayloadJSON {
+    return input.hasOwnProperty('address')
       && input.hasOwnProperty('blockHash')
-      && input.hasOwnProperty('nonce');
+      && input.hasOwnProperty('blockNumber')
+      && input.hasOwnProperty('era')
+      && input.hasOwnProperty('genesisHash')
+      && input.hasOwnProperty('method')
+      && input.hasOwnProperty('nonce')
+      && input.hasOwnProperty('specVersion')
+      && input.hasOwnProperty('tip')
+      && input.hasOwnProperty('version');
   }
 }

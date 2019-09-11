@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific la
 
-import {expect, test} from '@oclif/test';
+import {expect} from '@oclif/test';
 
 const {spawn} = require('child_process');
 
