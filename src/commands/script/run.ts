@@ -36,7 +36,7 @@ export default class ScriptRunCommand extends BaseWalletCommand {
     endpoint: flags.string({
       char: 'c',
       description: 'cennznet node endpoint',
-      default: 'ws://localhost:9944'
+      default: 'wss://rimu.unfrastructure.io/public/ws'
     }),
     noApi: flags.boolean({default: false,
       description: 'pass true if the script doesn\'t need to connect to the network'})

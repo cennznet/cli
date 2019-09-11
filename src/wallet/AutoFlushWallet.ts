@@ -14,7 +14,7 @@
 
 import {stringToU8a} from '@cennznet/util';
 import {SimpleKeyring, Wallet} from '@cennznet/wallet';
-import {IKeyring, WalletOption} from '@cennznet/wallet/types';
+import {IKeyring, WalletOption} from '@plugnet/wallet/types';
 import chalk from 'chalk';
 import fs from 'fs';
 

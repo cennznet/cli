@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export interface SignPayload {
-  extrinsic: string;
-  method: string;
-  meta: string;
-  address: string;
-  blockHash: string;
-  era?: string;
-  nonce: string;
-  version?: string;
-}
+// export interface SignPayload {
+//   extrinsic: string;
+//   method: string;
+//   meta: string;
+//   address: string;
+//   blockHash: string;
+//   era?: string;
+//   nonce: string;
+//   version?: string;
+// }
