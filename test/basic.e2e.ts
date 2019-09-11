@@ -19,6 +19,7 @@ describe('cennz-cli help', () => {
     .command(['help'])
     .it('should display correct information', ctx => {
       expect(ctx.stdout).contains('api');
+      expect(ctx.stdout).contains('ext');
       expect(ctx.stdout).contains('help');
       expect(ctx.stdout).contains('repl');
       expect(ctx.stdout).contains('script');
