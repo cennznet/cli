@@ -18,6 +18,7 @@ describe('cennz-cli help', () => {
     .stdout()
     .command(['help'])
     .it('should display correct information', ctx => {
+      ctx.timeout = 30000;
       expect(ctx.stdout).contains('api');
       expect(ctx.stdout).contains('ext');
       expect(ctx.stdout).contains('help');
