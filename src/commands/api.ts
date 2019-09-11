@@ -13,11 +13,11 @@
 // limitations under the License.
 
 import {Api} from '@cennznet/api';
-
 import {cryptoWaitReady} from '@cennznet/util';
 import {SimpleKeyring, Wallet} from '@cennznet/wallet';
 import {flags} from '@oclif/command';
 import _get from 'lodash.get';
+
 import {BaseWalletCommand} from '../BaseCommand';
 
 function checkJson(input: string) {
