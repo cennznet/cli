@@ -19,12 +19,13 @@ describe('cennz-cli help', () => {
     .command(['help'])
     .timeout(30000)
     .it('should display correct information', ctx => {
-      expect(ctx.stdout).contains('api');
-      expect(ctx.stdout).contains('ext');
-      expect(ctx.stdout).contains('help');
-      expect(ctx.stdout).contains('repl');
-      expect(ctx.stdout).contains('script');
-      expect(ctx.stdout).contains('wallet');
+      const stdout = ctx.stdout;
+      expect(stdout).contains('api');
+      expect(stdout).contains('ext');
+      expect(stdout).contains('help');
+      expect(stdout).contains('repl');
+      expect(stdout).contains('script');
+      expect(stdout).contains('wallet');
     });
 });
 
