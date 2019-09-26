@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Api} from '@cennznet/api';
 import {flags} from '@oclif/command';
 import * as fs from 'fs';
 
-import {BaseWalletCommand, DEFAULT_HOME} from '../../BaseCommand';
+import {BaseApiCommand} from '../../ApiCommand';
+import {DEFAULT_HOME} from '../../BaseCommand';
 import {ReplManager} from '../../repl';
 
 const DEFAULT_REPO_DIR = `${DEFAULT_HOME}/scripts/default`;
 
-export default class ScriptRunCommand extends BaseWalletCommand {
+export default class ScriptRunCommand extends BaseApiCommand {
   static strict = false;
 
   static description = `Run a script
@@ -32,12 +32,7 @@ export default class ScriptRunCommand extends BaseWalletCommand {
   ];
 
   static flags = {
-    ...BaseWalletCommand.flags,
-    endpoint: flags.string({
-      char: 'c',
-      description: 'cennznet node endpoint',
-      default: 'wss://rimu.unfrastructure.io/public/ws'
-    }),
+    ...BaseApiCommand.flags,
     noApi: flags.boolean({default: false,
       description: 'pass true if the script doesn\'t need to connect to the network'})
   };
@@ -45,15 +40,13 @@ export default class ScriptRunCommand extends BaseWalletCommand {
   async run() {
     this.checkExistence();
     const {flags, args: {script}, argv} = this.parse(ScriptRunCommand);
-    const {endpoint, noApi} = flags;
+    const {noApi} = flags;
     const context: any = {};
 
     const replManager = new ReplManager();
     replManager.silent = true;
     const scriptPath = `${DEFAULT_REPO_DIR}/${script}.js`;
-    const apiP = noApi ? null : Api.create({
-      provider: endpoint
-    });
+    const apiP = noApi ? null : this.instantiateApi(flags);
     context.argv = argv;
     context.loadWallet = () => this.loadWallet(flags);
     await replManager.start(apiP, undefined, context, {prompt: ''});

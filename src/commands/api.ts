@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Api} from '@cennznet/api';
 import {cryptoWaitReady} from '@cennznet/util';
 import {SimpleKeyring, Wallet} from '@cennznet/wallet';
 import {flags} from '@oclif/command';
 import _get from 'lodash.get';
 
-import {BaseWalletCommand} from '../BaseCommand';
+import {BaseApiCommand} from '../ApiCommand';
 
 function checkJson(input: string) {
   let args = input;
@@ -29,7 +28,7 @@ function checkJson(input: string) {
   return args;
 }
 
-export default class ApiCommand extends BaseWalletCommand {
+export default class ApiCommand extends BaseApiCommand {
   static strict = false;
 
   static description = `Send transactions
@@ -41,13 +40,7 @@ export default class ApiCommand extends BaseWalletCommand {
 `;
 
   static flags = {
-    ...BaseWalletCommand.flags,
-    endpoint: flags.string({
-      char: 'c',
-      description: 'cennznet node endpoint',
-      default: 'wss://rimu.unfrastructure.io/public/ws'
-    }),
-    help: flags.help(),
+    ...BaseApiCommand.flags,
     seed: flags.string({description: 'seed of sender key'}),
     sender: flags.string({description: 'address of sender'}),
     category: flags.string({char: 't', description: 'category of api call'}),
@@ -57,7 +50,7 @@ export default class ApiCommand extends BaseWalletCommand {
 
   async run() {
     let {flags, argv} = this.parse(ApiCommand);
-    let {seed, sender, endpoint, category, section, method} = flags;
+    let {seed, sender, category, section, method} = flags;
     // Use wallet over Keyring
     let wallet: Wallet;
     let _sender: string;
@@ -77,7 +70,7 @@ export default class ApiCommand extends BaseWalletCommand {
         this.exit(1);
       }
     }
-    const api = await Api.create({provider: endpoint});
+    const api = await this.instantiateApi(flags);
     const apiCall = _get(api, [
       category as string,
       section as string,

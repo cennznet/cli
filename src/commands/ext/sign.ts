@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Api} from '@cennznet/api';
 import {IExtrinsic} from '@cennznet/api/types';
 import {SignerPayloadJSON} from '@cennznet/types/extrinsic/SignerPayload';
 // tslint:disable-next-line
 import {createTypeUnsafe} from '@cennznet/types';
-import {flags} from '@oclif/command';
 import Table from 'cli-table';
 import prompts from 'prompts';
 import {first} from 'rxjs/operators';
+import {BaseApiCommand} from '../../ApiCommand';
 
-import {BaseWalletCommand} from '../../BaseCommand';
 import decompress from '../../util/decompress';
 import P2PSession from '../../util/p2pSession';
 
-export default class ExtSignCommand extends BaseWalletCommand {
+export default class ExtSignCommand extends BaseApiCommand {
   static strict = false;
 
   static description = `Sign an extrinsic from single source extension.
@@ -40,17 +38,11 @@ Please click the QR code on single source extension for four times to get the ex
   }];
 
   static flags = {
-    ...BaseWalletCommand.flags,
-    endpoint: flags.string({
-      char: 'e',
-      description: 'cennznet node endpoint',
-      default: 'wss://rimu.unfrastructure.io/public/ws'
-    })
+    ...BaseApiCommand.flags
   };
 
   async run() {
     const {flags, args: {extrinsicString}} = this.parse(ExtSignCommand);
-    const {endpoint} = flags;
 
     const extrinsicRequest = decompress(extrinsicString);
 
@@ -68,9 +60,7 @@ Please click the QR code on single source extension for four times to get the ex
     const signPayload = data as SignerPayloadJSON;
 
     // create extrinsic
-    const api = await Api.create({
-      provider: endpoint
-    });
+    const api = await this.instantiateApi(flags);
 
     const {doughnut, feeExchange, method} = signPayload;
     const ext = createTypeUnsafe<IExtrinsic>('Extrinsic', [{method}]);

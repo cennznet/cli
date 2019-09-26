@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Api} from '@cennznet/api';
 import * as util from '@cennznet/util';
 import {Keyring} from '@cennznet/wallet';
 import chalk from 'chalk';
-import EventEmitter = require('events');
-import fs = require('fs');
-import Repl = require('repl');
+import EventEmitter from 'events';
+import fs from 'fs';
+import Repl from 'repl';
 
+import {SupportedApi} from '../types';
 import * as moreUtil from '../util';
-import {createUtilApi} from '../util-api';
 import {toyKeyringFromNames} from '../util/toyKeyring';
 import {AutoFlushWallet} from '../wallet/AutoFlushWallet';
 
@@ -32,7 +31,7 @@ class ReplManager extends EventEmitter {
   _repl: Repl.REPLServer;
   silent = false;
 
-  async start(apiP: Promise<Api> | null, wallet: AutoFlushWallet | undefined, context: any, options: object) {
+  async start(apiP: Promise<SupportedApi> | null, wallet: AutoFlushWallet | undefined, context: any, options: object) {
     const repl = Repl.start({
       breakEvalOnSigint: true,
       ...options
@@ -60,15 +59,9 @@ class ReplManager extends EventEmitter {
       if (apiP) {
         const api = await apiP;
         this.print('api is loaded now');
-        this.print(`${chalk.yellowBright('api utilApi genericAsset spotX')} is available in repl's context`);
+        this.print(`${chalk.yellowBright('api')} is available in repl's context`);
         api.setSigner(wallet as AutoFlushWallet);
         moreContext.api = api;
-        moreContext.utilApi = createUtilApi(api);
-        // runtime commands
-        // const spotX = await SpotX.create(api);
-        // const genericAsset = spotX.ga;
-        moreContext.genericAsset = api.genericAsset;
-        moreContext.spotX = api.cennzxSpot;
       }
       moreContext.toyKeyring = toyKeyringFromNames();
     // tslint:disable-next-line: no-unused
