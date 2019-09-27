@@ -26,7 +26,7 @@ export abstract class BaseApiCommand extends BaseWalletCommand {
   protected async instantiateApi(flags: any): Promise<SupportedApi> {
     const {endpoint, typeDef, network} = flags;
     const types = this.readTypeDef(typeDef);
-    return createApi(endpoint, network.toUpperCase(), types);
+    return createApi(endpoint, network, types);
   }
 
   protected readTypeDef(typeDef: string) {

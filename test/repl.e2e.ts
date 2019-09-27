@@ -20,6 +20,7 @@ describe('cennz-cli repl', () => {
     const bat = spawn('./bin/cennz-cli', ['repl', '--endpoint', 'wss://rimu.unfrastructure.io/public/ws', './test/scripts/query.js']);
 
     bat.stdout.on('data', (data: any) => {
+      console.log(data);
       expect(data).match(/nextAssetId:\s+\d+/);
       done();
     });
