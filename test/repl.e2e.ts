@@ -13,10 +13,12 @@
 
 import {expect} from '@oclif/test';
 
+import {Networks} from '../src/constants';
+
 const {spawn} = require('child_process');
 
 describe('cennz-cli repl', () => {
-  it('should run script successfully', (done) => {
+  it('should run script successfully', done => {
     const bat = spawn('./bin/cennz-cli', ['repl', '--endpoint', 'wss://rimu.unfrastructure.io/public/ws', './test/scripts/query.js']);
 
     bat.stdout.on('data', (data: any) => {
@@ -25,4 +27,19 @@ describe('cennz-cli repl', () => {
       done();
     });
   });
+});
+
+describe('cennz-cli repl (by network)', () => {
+  for (const network of Object.keys(Networks)) {
+    if (network !== 'CUSTOM' && network !== 'EDGEWARE') {
+      it(`should run script in specified network ${network}`, done => {
+        const bat = spawn('./bin/cennz-cli', ['repl', '--network', network, './test/scripts/chain.js']);
+
+        bat.stdout.on('data', (data: any) => {
+          expect(data).match(/chain info:\s+\w+/);
+          done();
+        });
+      });
+    }
+  }
 });
