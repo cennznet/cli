@@ -25,6 +25,7 @@ export const DEFAULT_WALLET_POSITION = `${DEFAULT_HOME}/wallet.json`;
 
 export abstract class BaseWalletCommand extends Command {
   static flags = {
+    help: flags.help(),
     path: flags.string({char: 'f', description: 'path to wallet.json', default: DEFAULT_WALLET_POSITION}),
     passphrase: flags.boolean({char: 'p', description: 'if a passphrase is needed', default: false})
   };

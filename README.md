@@ -17,7 +17,7 @@ $ npm install -g @cennznet/cli
 $ cennz-cli COMMAND
 running command...
 $ cennz-cli (-v|--version|version)
-@cennznet/cli/0.9.2 darwin-x64 node-v10.16.0
+@cennznet/cli/0.10.0 darwin-x64 node-v10.16.0
 $ cennz-cli --help [COMMAND]
 USAGE
   $ cennz-cli COMMAND
@@ -51,11 +51,13 @@ USAGE
 
 OPTIONS
   -c, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
-  -f, --path=path          [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path          [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -m, --method=method      calling method
+  -n, --network=network    network to connect to
   -p, --passphrase         if a passphrase is needed
   -s, --section=section    section of transaction
   -t, --category=category  category of api call
+  -t, --typeDef=typeDef    path to json which contains additional type definitions
   --help                   show CLI help
   --seed=seed              seed of sender key
   --sender=sender          address of sender
@@ -69,7 +71,7 @@ DESCRIPTION
   16000 "5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE" 1234
 ```
 
-_See code: [src/commands/api.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/api.ts)_
+_See code: [src/commands/api.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/api.ts)_
 
 ## `cennz-cli ext:connect CONNECTSTRING`
 
@@ -83,14 +85,15 @@ ARGUMENTS
   CONNECTSTRING  The string that contains the encoded information of peer server
 
 OPTIONS
-  -f, --path=path   [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
+  --help            show CLI help
 
 DESCRIPTION
   Please click the QR code on single source extension for four times to get the connectString
 ```
 
-_See code: [src/commands/ext/connect.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/ext/connect.ts)_
+_See code: [src/commands/ext/connect.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/ext/connect.ts)_
 
 ## `cennz-cli ext:sign EXTRINSICSTRING`
 
@@ -104,15 +107,18 @@ ARGUMENTS
   EXTRINSICSTRING  The string that contains the encoded information of peer server and the information of the extrinsic
 
 OPTIONS
-  -e, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
-  -f, --path=path          [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -c, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
+  -f, --path=path          [default: ~/.cennz_cli/wallet.json] path to wallet.json
+  -n, --network=network    network to connect to
   -p, --passphrase         if a passphrase is needed
+  -t, --typeDef=typeDef    path to json which contains additional type definitions
+  --help                   show CLI help
 
 DESCRIPTION
   Please click the QR code on single source extension for four times to get the extrinsicString
 ```
 
-_See code: [src/commands/ext/sign.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/ext/sign.ts)_
+_See code: [src/commands/ext/sign.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/ext/sign.ts)_
 
 ## `cennz-cli help [COMMAND]`
 
@@ -143,10 +149,13 @@ ARGUMENTS
   SCRIPT  the path of JS file which will be evaluated into context
 
 OPTIONS
-  -c, --endpoint=endpoint  [default: ws://localhost:9944] cennznet node endpoint
+  -c, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
   -e, --evaluate=evaluate  evaluate script and print result
-  -f, --path=path          [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path          [default: ~/.cennz_cli/wallet.json] path to wallet.json
+  -n, --network=network    network to connect to
   -p, --passphrase         if a passphrase is needed
+  -t, --typeDef=typeDef    path to json which contains additional type definitions
+  --help                   show CLI help
 
 DESCRIPTION
   -------------
@@ -171,7 +180,7 @@ DESCRIPTION
      4. To load a file while in the repl enviroment, use `.load` command:
 ```
 
-_See code: [src/commands/repl.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/repl.ts)_
+_See code: [src/commands/repl.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/repl.ts)_
 
 ## `cennz-cli script:list`
 
@@ -182,7 +191,7 @@ USAGE
   $ cennz-cli script:list
 ```
 
-_See code: [src/commands/script/list.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/script/list.ts)_
+_See code: [src/commands/script/list.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/script/list.ts)_
 
 ## `cennz-cli script:run SCRIPT`
 
@@ -194,12 +203,15 @@ USAGE
 
 OPTIONS
   -c, --endpoint=endpoint  [default: wss://rimu.unfrastructure.io/public/ws] cennznet node endpoint
-  -f, --path=path          [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path          [default: ~/.cennz_cli/wallet.json] path to wallet.json
+  -n, --network=network    network to connect to
   -p, --passphrase         if a passphrase is needed
+  -t, --typeDef=typeDef    path to json which contains additional type definitions
+  --help                   show CLI help
   --noApi                  pass true if the script doesn't need to connect to the network
 ```
 
-_See code: [src/commands/script/run.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/script/run.ts)_
+_See code: [src/commands/script/run.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/script/run.ts)_
 
 ## `cennz-cli script:update`
 
@@ -213,7 +225,7 @@ OPTIONS
   --force  force checkout script repo
 ```
 
-_See code: [src/commands/script/update.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/script/update.ts)_
+_See code: [src/commands/script/update.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/script/update.ts)_
 
 ## `cennz-cli wallet:add`
 
@@ -224,13 +236,14 @@ USAGE
   $ cennz-cli wallet:add
 
 OPTIONS
-  -f, --path=path      [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path      [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase     if a passphrase is needed
+  --help               show CLI help
   --seedHex=seedHex    seed in hex form (start with 0x)
   --seedText=seedText  seed as a simple text (Alice)
 ```
 
-_See code: [src/commands/wallet/add.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/wallet/add.ts)_
+_See code: [src/commands/wallet/add.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/wallet/add.ts)_
 
 ## `cennz-cli wallet:create`
 
@@ -241,11 +254,12 @@ USAGE
   $ cennz-cli wallet:create
 
 OPTIONS
-  -f, --path=path   [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
+  --help            show CLI help
 ```
 
-_See code: [src/commands/wallet/create.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/wallet/create.ts)_
+_See code: [src/commands/wallet/create.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/wallet/create.ts)_
 
 ## `cennz-cli wallet:generate`
 
@@ -256,11 +270,12 @@ USAGE
   $ cennz-cli wallet:generate
 
 OPTIONS
-  -f, --path=path   [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
+  --help            show CLI help
 ```
 
-_See code: [src/commands/wallet/generate.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/wallet/generate.ts)_
+_See code: [src/commands/wallet/generate.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/wallet/generate.ts)_
 
 ## `cennz-cli wallet:list`
 
@@ -271,11 +286,12 @@ USAGE
   $ cennz-cli wallet:list
 
 OPTIONS
-  -f, --path=path   [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
+  --help            show CLI help
 ```
 
-_See code: [src/commands/wallet/list.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/wallet/list.ts)_
+_See code: [src/commands/wallet/list.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/wallet/list.ts)_
 
 ## `cennz-cli wallet:remove [ADDRESS]`
 
@@ -286,11 +302,12 @@ USAGE
   $ cennz-cli wallet:remove [ADDRESS]
 
 OPTIONS
-  -f, --path=path   [default: /Users/ian/.cennz_cli/wallet.json] path to wallet.json
+  -f, --path=path   [default: ~/.cennz_cli/wallet.json] path to wallet.json
   -p, --passphrase  if a passphrase is needed
+  --help            show CLI help
 ```
 
-_See code: [src/commands/wallet/remove.ts](https://github.com/cennznet/cli/blob/v0.9.2/src/commands/wallet/remove.ts)_
+_See code: [src/commands/wallet/remove.ts](https://github.com/cennznet/cli/blob/v0.10.0/src/commands/wallet/remove.ts)_
 <!-- commandsstop -->
 
 

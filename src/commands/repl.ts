@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {Api} from '@cennznet/api';
 import {flags} from '@oclif/command';
 import semver from 'semver';
 
-import {BaseWalletCommand} from '../BaseCommand';
+import {BaseApiCommand} from '../ApiCommand';
 import {ReplManager} from '../repl';
 
 const ARGS_NAMES = {
   script: 'script'
 };
 
-export default class ReplCommand extends BaseWalletCommand {
+export default class ReplCommand extends BaseApiCommand {
   static description = `Start a repl to interact with a node
   -------------
   1. Connect to a node by websocket:
@@ -48,12 +47,7 @@ export default class ReplCommand extends BaseWalletCommand {
   `;
 
   static flags = {
-    ...BaseWalletCommand.flags,
-    endpoint: flags.string({
-      char: 'c',
-      description: 'cennznet node endpoint',
-      default: 'ws://localhost:9944'
-    }),
+    ...BaseApiCommand.flags,
     evaluate: flags.string({
       char: 'e',
       description: 'evaluate script and print result'
@@ -83,7 +77,7 @@ export default class ReplCommand extends BaseWalletCommand {
       process.exit();
     });
 
-    const {evaluate, endpoint} = flags;
+    const {evaluate} = flags;
     const scriptPath = args[ARGS_NAMES.script];
 
     const interactive = !evaluate && !scriptPath;
@@ -108,9 +102,8 @@ export default class ReplCommand extends BaseWalletCommand {
     } else {
       context.loadWallet = () => this.loadWallet({...flags, passphrase: true});
     }
-    const apiP = Api.create({
-      provider: endpoint
-    });
+    const apiP = this.instantiateApi(flags);
+    apiP.catch(console.log);
     if (evaluate || scriptPath) {
       replManager.silent = true;
     }
