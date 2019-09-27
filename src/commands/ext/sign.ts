@@ -13,14 +13,13 @@
 // limitations under the License.
 
 import {IExtrinsic} from '@cennznet/api/types';
-import {SignerPayloadJSON} from '@cennznet/types/extrinsic/SignerPayload';
-// tslint:disable-next-line
 import {createTypeUnsafe} from '@cennznet/types';
+import {SignerPayloadJSON} from '@cennznet/types/extrinsic/SignerPayload';
 import Table from 'cli-table';
 import prompts from 'prompts';
 import {first} from 'rxjs/operators';
-import {BaseApiCommand} from '../../ApiCommand';
 
+import {BaseApiCommand} from '../../ApiCommand';
 import decompress from '../../util/decompress';
 import P2PSession from '../../util/p2pSession';
 
