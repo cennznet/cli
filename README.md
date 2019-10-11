@@ -311,23 +311,10 @@ _See code: [src/commands/wallet/remove.ts](https://github.com/cennznet/cli/blob/
 <!-- commandsstop -->
 
 
-
-## `cennz-cli wallet`
-```
-USAGE
-  $ cennz-cli wallet:COMMAND
-
-COMMANDS
-  wallet:add       add new account by either seedHex or seedText
-  wallet:create    Create a new wallet
-  wallet:generate  generate a new account and store it in wallet
-  wallet:list      list all accounts' address
-  wallet:remove    remove the specified address from wallet
-```
-
 ## Beyond NodeJS REPL
 
-`async/await` is supported in repl environment by default:
+`async/await` is supported in repl environment by default,
+after cli connect to the node, it will print `api is loaded now` in the console, then
 
 ```
 $ (cennz-cli)> const name = await api.rpc.system.chain()
@@ -337,50 +324,49 @@ $ (cennz-cli)> name
 
 The REPL context provided some global variables ready for use.
 
-## Keyrings
+## Wallet
 
-`keyring` is a `Keyring` instance for key pairs management. For instance, add a
-key from seed:
+`wallet` is a `Wallet` instance for key pairs management. Accounts imported via wallet sub-command can be visited in repl.
 
 ```
-(cennz-cli)> const aliceSeed = util.stringToU8a('Alice'.padEnd(32, ' '))
-(cennz-cli)> const aliceKey = keyring.addFromSeed(aliceSeed)
+(cennz-cli)> const accounts = await wallet.getAddresses();
+```
+or add new accounts
+```
+(cennz-cli)> const keyring = new Keyring();
+(cennz-cli)> const aliceKey = keyring.addFromUri('//Alice');
+(cennz-cli)> wallet.addKeyring(keyring);
 (cennz-cli)> aliceKey.toJson()
-{ address: '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ',
+{ address: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY',
   encoded:
-   '0x3053020101300506032b657004220420416c696365202020202020202020202020202020202020202020202020202020a123032100d172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f',
-  encoding: { content: 'pkcs8', type: 'none', version: '0' },
+   '0x3053020101300506032b65700422042098319d4ff8a9508c4bb0cf0b5a78d760a0b2082c02775e6e82370816fedfff48925a225d97aa00682d6a59b95b18780c10d7032336e88f3442b42361f4a66011a123032100d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d',
+   { content: [ 'pkcs8', 'sr25519' ], type: 'none', version: '2' },
   meta: {} }
 ```
 
-For most of the cases, use `keyring` to store your keys. If you want another
-`keyring` to manage a different group of keys, use `Keyring` to create one.
-
-```
-(cennz-cli)> const myKeyring = new Keyring()
-```
+Note: All changes to wallet will persist on local disk.
 
 Use `toyKeyring` to access common testing key pairs, incuding our "cryptography
 friends" Alice, Bob, Charlie, Dave, Eve, Ferdie, and also Andrea, Brooke,
 Courtney, Drew, Emily, Frank.
 
 ```
-(cennz-cli)> toyKeyring.alice.address()
-'5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ'
-(cennz-cli)> toyKeyring.andrea.toJson()
-{ address: '5EKGZwAuwvVpVaGWZJ3hYDqTSxQCDDUgeMv36M4qLq7wtWLH',
+(cennz-cli)> toyKeyring.Alice.address
+'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
+(cennz-cli)> toyKeyring.Andrea.toJson()
+{ address: '5DqMKyro24J7AWzZRjcb1ovKWynwFDKQAFAorTMY82epJyDT',
   encoded:
-   '0x3053020101300506032b657004220420416e647265612020202020202020202020202020202020202020202020202020a123032100639404ecb02a5069c62c17f755ae0473388ea9698c7475db58e77e5eed980a63',
-  encoding: { content: 'pkcs8', type: 'none', version: '0' },
+   '0x3053020101300506032b65700422042040ff49c8a064ab0fe6654688221ebf282f4dabb6cefed5e8d83eed13e0e9c07d2957ccc8b465cbdf79f8298c13ca921867a8dcf1e3e6ba1e37116f29087fe895a1230321004e492b6791493bb9390d21a0d580f24bf04d1eb9fb30c032613dfe554344785b',
+  { content: [ 'pkcs8', 'sr25519' ], type: 'none', version: '2' },
   meta: {} }
 ```
 
-For more usage of `Keyring`, check `@polkadot/keyring`.
+For more usage of `Wallet`, check `@cennznet/wallet`.
 
 # API Cookbook
 
 On the REPL start, an websocket connection would be established to the endpoint
-provided by `-e, --endpoint` flag.
+provided by `-c, --endpoint` flag.
 
 Use `api` in the REPL to interact with the node:
 
@@ -389,7 +375,7 @@ Use `api` in the REPL to interact with the node:
 (cennz-cli)> api.rpc.system.chain().then(console.log)
 (cennz-cli)> [String: 'CENNZnet DEV']
 // get Alice's nonce
-(cennz-cli)> api.query.system.accountNonce(toyKeyring.alice.address()).then(nonce => console.log(nonce.toJSON()))
+(cennz-cli)> api.query.system.accountNonce(toyKeyring.Alice.address).then(nonce => console.log(nonce.toJSON()))
 Nonce {
   negative: 0,
   words: [ 0 ],

@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import * as util from '@cennznet/util';
-import {Keyring} from '@cennznet/wallet';
+import {SimpleKeyring} from '@cennznet/wallet';
+import {cryptoWaitReady} from '@plugnet/util-crypto';
 import chalk from 'chalk';
 import EventEmitter from 'events';
 import fs from 'fs';
@@ -23,8 +24,6 @@ import {SupportedApi} from '../types';
 import * as moreUtil from '../util';
 import {toyKeyringFromNames} from '../util/toyKeyring';
 import {AutoFlushWallet} from '../wallet/AutoFlushWallet';
-
-// import {evalFrom} from './eval';
 
 class ReplManager extends EventEmitter {
   // @ts-ignore
@@ -38,20 +37,19 @@ class ReplManager extends EventEmitter {
     });
 
     this._repl = repl;
-    // custom eval
-    // (repl as any).eval = evalFrom(repl.eval);
 
     // bubble 'exit' event
     repl.on('exit', () => this.emit('exit'));
-
+    await cryptoWaitReady();
     // setup repl server context
-    const moreContext: any = {
+    Object.assign(repl.context, {
       wallet,
       util: {...util, ...moreUtil},
       console,
-      Keyring,
+      Keyring: SimpleKeyring,
+      toyKeyring: toyKeyringFromNames(),
       ...require('@cennznet/types'), ...require('@cennznet/wallet')
-    };
+    }, context);
     if (wallet) {
       this.print(`${chalk.yellowBright('wallet')} is available in repl's context`);
     }
@@ -61,14 +59,11 @@ class ReplManager extends EventEmitter {
         this.print('api is loaded now');
         this.print(`${chalk.yellowBright('api')} is available in repl's context`);
         api.setSigner(wallet as AutoFlushWallet);
-        moreContext.api = api;
+        repl.context.api = api;
       }
-      moreContext.toyKeyring = toyKeyringFromNames();
     // tslint:disable-next-line: no-unused
     } catch (e) {
     }
-
-    Object.assign(repl.context, moreContext, context);
   }
 
   evalCmd(cmd: string) {
