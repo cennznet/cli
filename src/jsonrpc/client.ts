@@ -11,10 +11,13 @@ export default class JsonRpcClient {
 
   static async with<T>(url: string, options: WebSocket.ClientOptions | undefined, callback: (client: JsonRpcClient) => Promise<T>): Promise<T> {
     const client = new JsonRpcClient(url, options);
-    await client.isReady;
-    const ret = await callback(client);
-    client.destroy();
-    return ret;
+    try {
+      await client.isReady;
+      const ret = await callback(client);
+      return ret;
+    } finally {
+      client.destroy();
+    }
   }
 
   isReady: Promise<JsonRpcClient>;
@@ -25,8 +28,9 @@ export default class JsonRpcClient {
   constructor(address: string, options?: WebSocket.ClientOptions) {
     this._ws = new WebSocket(address, options);
     this.handlers = {};
-    this.isReady = new Promise(resolve => {
+    this.isReady = new Promise((resolve, reject) => {
       this._ws.on('open', () => resolve(this));
+      this._ws.on('error', reject);
     });
     this._ws.on('message', dataStr => {
       try {

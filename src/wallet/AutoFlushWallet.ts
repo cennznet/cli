@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {stringToU8a} from '@cennznet/util';
 import {SimpleKeyring, Wallet} from '@cennznet/wallet';
 import {IKeyring, WalletOption} from '@plugnet/wallet/types';
-import chalk from 'chalk';
 import fs from 'fs';
 
 export class AutoFlushWallet extends Wallet {
@@ -59,13 +57,5 @@ export class AutoFlushWallet extends Wallet {
   async addKeyring(keyring: IKeyring<any>): Promise<void> {
     await super.addKeyring(keyring);
     await this.flushToDisk();
-  }
-
-  async importByName(seedName: string): Promise<void> {
-    const keyring = new SimpleKeyring();
-    const seed = stringToU8a(seedName.padEnd(32, ' '));
-    const kp = keyring.addFromSeed(seed);
-    await this.addKeyring(keyring);
-    console.log(`account ${chalk.yellowBright(kp.address)} is added`);
   }
 }
