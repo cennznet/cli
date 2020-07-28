@@ -1,13 +1,20 @@
+const minimist = require('minimist');
 const { Api } = require('@cennznet/api');
-// vendor the @cennznet/api.js compatible versions
-global.hashing = require('../node_modules/@polkadot/util-crypto');
-global.keyring = require('../node_modules/@polkadot/keyring');
-global.util = require('../node_modules/@polkadot/util');
 const repl = require('repl');
 
 async function setup() {
-  var args = process.argv.slice(2);
-  let endpoint = args.length > 0 ? args[0] : 'wss://nikau.centrality.me/public/ws';
+  var args = require('minimist')(process.argv.slice(2));
+  let endpoint = 'wss://nikau.centrality.me/public/ws';
+  if(args.endpoint) {
+    endpoint = args.endpoint;
+  }
+
+  // Setup libs+api for the REPL session
+  // vendor the @cennznet/api.js compatible versions
+  global.hashing = require('../node_modules/@polkadot/util-crypto');
+  global.keyring = require('../node_modules/@polkadot/keyring');
+  global.util = require('../node_modules/@polkadot/util');
+
   console.log(`connecting to: ${endpoint}...`);
   global.api = await Api.create({provider: endpoint});
   console.log(`connected ✅`);

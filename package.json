@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@cennznet/api": "^1.0.3"
+    "@cennznet/api": "^1.0.3",
+    "minimist": "^1.2.5"
   },
   "resolutions": {
     "@polkadot/types": "1.2.1",
