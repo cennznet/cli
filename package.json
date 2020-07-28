@@ -1,0 +1,24 @@
+{
+  "name": "cennz-cli",
+  "version": "0.0.1",
+  "description": "CENNZnet API interactive REPL",
+  "main": "src/index.js",
+  "bin": {
+    "cennz-cli": "./bin/cennz-cli"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cennznet/api": "^1.0.3"
+  },
+  "resolutions": {
+    "@polkadot/types": "1.2.1",
+    "@polkadot/metadata": "1.2.1",
+    "@polkadot/api": "1.2.1",
+    "@polkadot/api-derive": "1.2.1",
+    "@polkadot/rpc-core": "1.2.1"
+  }
+}
