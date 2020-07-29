@@ -4,5 +4,5 @@ Minimal REPL env for the CENNZnet API
 
 ```bash
 # Usage:
-./bin/cennz-cli --endpoint=<ws://<host>:<port>>
+./bin/cennz-cli --endpoint=<ws://<host>:<port>> --types=</path/to/types.json>
 ```
