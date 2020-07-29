@@ -27,7 +27,7 @@ async function setup() {
   // vendor the @cennznet/api.js compatible versions
   global.hashing = require('../node_modules/@polkadot/util-crypto');
   global.keyring = require('../node_modules/@polkadot/keyring');
-  global.util = require('../node_modules/@polkadot/util');
+  global.utils = require('../node_modules/@polkadot/util');
 
   console.log(`connecting to: ${endpoint}...`);
   console.log(`connected ✅`);
@@ -36,11 +36,11 @@ async function setup() {
 
 async function main() {
   if (args.run) {
-    console.log(`Running user script: '${args.run}' with: api, hashing, keyring, util`);
+    console.log(`Running user script: '${args.run}' with: api, hashing, keyring, utils`);
     let script = fs.readFileSync(args.run).toString();
     eval(script);
   } else {
-    console.log("Launching session with: api, hashing, keyring, util");
+    console.log("Launching session with: api, hashing, keyring, utils");
     repl.start('> ');
   }
 }
