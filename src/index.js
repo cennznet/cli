@@ -3,9 +3,9 @@ const { Api } = require('@cennznet/api');
 const repl = require('repl');
 const fs = require('fs');
 
-async function setup() {
-  var args = require('minimist')(process.argv.slice(2));
+const args = require('minimist')(process.argv.slice(2));
 
+async function setup() {
   let endpoint = 'wss://nikau.centrality.me/public/ws';
   if(args.endpoint) {
     endpoint = args.endpoint;
@@ -35,8 +35,14 @@ async function setup() {
 
 
 async function main() {
-    console.log("launching session with: api, hashing, keyring, util");
-    repl.start('> '); 
+    if(args.run) {
+      console.log(`Running user script: '${args.run}' with: api, hashing, keyring, util`);
+      let script = fs.readFileSync(args.run).toString();
+      eval(script);
+    } else {
+      console.log("Launching session with: api, hashing, keyring, util");
+      repl.start('> '); 
+    }
 }
 
 setup()
