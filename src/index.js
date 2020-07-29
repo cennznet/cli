@@ -30,6 +30,7 @@ async function setup() {
   global.utils = require('../node_modules/@polkadot/util');
 
   console.log(`connecting to: ${endpoint}...`);
+  global.api = await Api.create({ provider: endpoint, types })
   console.log(`connected ✅`);
 }
 
