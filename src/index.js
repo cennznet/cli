@@ -7,16 +7,16 @@ const args = require('minimist')(process.argv.slice(2));
 
 async function setup() {
   let endpoint = 'wss://nikau.centrality.me/public/ws';
-  if(args.endpoint) {
+  if (args.endpoint) {
     endpoint = args.endpoint;
     console.log(`using custom endpoint: ${endpoint}`);
   }
- 
+
   let types = {};
-  if(args.types) {
+  if (args.types) {
     console.log(`loading custom types from: '${args.types}'...`);
     try {
-       types = JSON.parse(fs.readFileSync(args.types));
+      types = JSON.parse(fs.readFileSync(args.types));
     } catch (err) {
       throw `Failed loading custom types from: '${args.types}' with: ${err}`;
     }
@@ -35,23 +35,23 @@ async function setup() {
 
 
 async function main() {
-    if(args.run) {
-      console.log(`Running user script: '${args.run}' with: api, hashing, keyring, util`);
-      let script = fs.readFileSync(args.run).toString();
-      eval(script);
-    } else {
-      console.log("Launching session with: api, hashing, keyring, util");
-      repl.start('> '); 
-    }
+  if (args.run) {
+    console.log(`Running user script: '${args.run}' with: api, hashing, keyring, util`);
+    let script = fs.readFileSync(args.run).toString();
+    eval(script);
+  } else {
+    console.log("Launching session with: api, hashing, keyring, util");
+    repl.start('> ');
+  }
 }
 
 setup()
   .then(() => {
     main()
-     .catch(err => {
-      console.log(`error during execution: ${err}`)
-      process.exit(1);
-    });
+      .catch(err => {
+        console.log(`error during execution: ${err}`)
+        process.exit(1);
+      });
   })
   .catch(err => {
     console.log(`error during setup: ${err}`)
