@@ -194,15 +194,15 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@cennznet/api@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/api/-/api-1.0.3.tgz#a9ff3b608729ebc79a30140af739ed22fdf70042"
-  integrity sha512-Lwp4MBpxzDMvs8h06em3sJoSQ7pmxpDb0Z1psfXJB4rIUmrnm3yR4psVp7pkvpPpS6VWwVx5TQNaUZk23nK/uQ==
+"@cennznet/api@1.1.2", "@cennznet/api@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cennznet/api/-/api-1.1.2.tgz#1c2586961d6f712273cbaf618293f865518dd475"
+  integrity sha512-z8QbZPK4AM/kIqdyYPyeAmGU9hpF2ArAod7fOz/H4AmW4A3M3w/lf6qG2TyU4TYbRvPbET2E+h3J4nAvUEiprA==
   dependencies:
-    "@cennznet/crml-attestation" "^1.0.3"
-    "@cennznet/crml-cennzx-spot" "^1.0.3"
-    "@cennznet/crml-generic-asset" "^1.0.3"
-    "@cennznet/types" "^1.0.3"
+    "@cennznet/crml-attestation" "^1.1.2"
+    "@cennznet/crml-cennzx-spot" "^1.1.2"
+    "@cennznet/crml-generic-asset" "^1.1.2"
+    "@cennznet/types" "^1.1.2"
     "@polkadot/api" "^1.1.1"
     "@polkadot/metadata" "1.1.1"
     "@polkadot/rpc-core" "^1.1.1"
@@ -210,53 +210,63 @@
     "@polkadot/types" "^1.1.1"
     eventemitter3 "^4.0.0"
 
-"@cennznet/crml-attestation@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/crml-attestation/-/crml-attestation-1.0.3.tgz#ce95a84042b16134ffac6d3061a6161dc78b89a3"
-  integrity sha512-xP6o87hWL1jvg1nf3MirefEndLpfhn5VlupFSVu2JQWL4Vb3qMdNueDJnCaCjOcPuX+yi+H57FdEDGfwEJmt8g==
+"@cennznet/crml-attestation@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cennznet/crml-attestation/-/crml-attestation-1.1.2.tgz#1d9f46a273cf0333829fbee549fda52e00eda304"
+  integrity sha512-CyKmGSL+36NJz4aKsFSfmSWKDVA1GcmN0kJ5lhOitWubd0/aDmBwr6WgUq2hF/IO5W8UJkwDEklp8ZdjRZ1eNQ==
   dependencies:
-    "@cennznet/api" "^1.0.3"
-    "@cennznet/types" "^1.0.3"
-    "@cennznet/util" "^1.0.3"
+    "@cennznet/api" "^1.1.2"
+    "@cennznet/types" "^1.1.2"
+    "@cennznet/util" "^1.1.2"
 
-"@cennznet/crml-cennzx-spot@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/crml-cennzx-spot/-/crml-cennzx-spot-1.0.3.tgz#91066515a4f0238a81dd21748028cdb1bad02603"
-  integrity sha512-qUQhBVQ7H5gm6yfNDjJl5bDREED+NsQBaNOqi/lPoX/aF6pBw4pc4xVPSyh7RgX8C0OXUWpo2uVggUUVuMRBLg==
+"@cennznet/crml-cennzx-spot@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cennznet/crml-cennzx-spot/-/crml-cennzx-spot-1.1.2.tgz#ba56acf85f38ab2c90d40847c8d473d750aba8eb"
+  integrity sha512-CeJG+3if/PM2+6Vmx7hT3evXw327SwnUa2dL8PptxQYgZ7LIGFhBwNryw7Ud6fuqi6z89+pGcT1KtiGEilc/2w==
   dependencies:
-    "@cennznet/api" "^1.0.3"
-    "@cennznet/crml-generic-asset" "^1.0.3"
-    "@cennznet/types" "^1.0.3"
-    "@cennznet/util" "^1.0.3"
+    "@cennznet/api" "^1.1.2"
+    "@cennznet/crml-generic-asset" "^1.1.2"
+    "@cennznet/types" "^1.1.2"
+    "@cennznet/util" "^1.1.2"
 
-"@cennznet/crml-generic-asset@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/crml-generic-asset/-/crml-generic-asset-1.0.3.tgz#fe6821ddbce740b51e61c953718955da524e2c5c"
-  integrity sha512-a+faCHThPJE6vCWzUWl/bKHj4GJJJYcBxrAnsHmERulJ4mirmr8By8HbtUxF3xlI3kIxKMMdFobK5LAjd90Rgg==
+"@cennznet/crml-generic-asset@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cennznet/crml-generic-asset/-/crml-generic-asset-1.1.2.tgz#0e84033de54e3a8d52541f83c93885bae45dcc41"
+  integrity sha512-gd8+QHGd5gJjy7msamhABMeAeyKg2HV70F2rc/kBoZZeKIBoH740t3sgAvtvQOifqyTAeAoFLW11yPI8WoSpFA==
   dependencies:
-    "@cennznet/api" "^1.0.3"
-    "@cennznet/types" "^1.0.3"
-    "@cennznet/util" "^1.0.3"
+    "@cennznet/api" "^1.1.2"
+    "@cennznet/types" "^1.1.2"
+    "@cennznet/util" "^1.1.2"
 
-"@cennznet/types@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/types/-/types-1.0.3.tgz#22cb95a2cf784b8780cb9de1cbca1ec2c23a5fb9"
-  integrity sha512-kYHRHj6FmscTfEveCtSOsx8SwioOgA/GydVefxFT1mg/TvfyagJURlbbemCK+O9VIIIpGR7O8YD5OZjMBV5iLg==
+"@cennznet/types@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cennznet/types/-/types-1.1.2.tgz#54371f13b677b059bef5c20537838c791b28367b"
+  integrity sha512-xZZ+u2YkXKb0ThX/RyGMUNrVhJ5d5EK8OUGwXR4zvlQGDM6ZLLXfm/esg0VKlU9L2Dn4EgR7NpkYyVCjdq2kuQ==
   dependencies:
-    "@cennznet/util" "^1.0.3"
+    "@cennznet/util" "^1.1.2"
     "@polkadot/keyring" "^2.3.1"
     "@polkadot/types" "^1.1.1"
     "@polkadot/util" "^2.3.1"
     memoizee "^0.4.14"
     typescript "^2.9.2"
+  optionalDependencies:
+    "@plugnet/doughnut-wasm" "^0.2.0"
 
-"@cennznet/util@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/util/-/util-1.0.3.tgz#8a56525649dbdd2f0a996f884d7e182073588975"
-  integrity sha512-Oa/vvfUcBJzVC1qUu6dJ6AnRX3arJaYI05QjWRdrUgmyCO8BhMdGgMvxjvRzojkBqYqObw+7LPdcXWOnHtzBdg==
+"@cennznet/util@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cennznet/util/-/util-1.1.2.tgz#8d255d288cfb04e3fffd18ef12138e95b92676c1"
+  integrity sha512-sfcOvRfJ9JAB50UiDCAK9SgA5UZoLi5mpoetoK4SyePGlqipjLuN4yXvGtGaViA+Jmw0nVMGbs8v+E0okJ7pfw==
   dependencies:
     "@polkadot/util" "^2.3.1"
     "@polkadot/util-crypto" "^2.3.1"
+
+"@plugnet/doughnut-wasm@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@plugnet/doughnut-wasm/-/doughnut-wasm-0.2.0.tgz#bc0bbf3650f8389db08d2f44059ba93ffd3bd2a2"
+  integrity sha512-w4VjI5UghgKXEp2+BrEIzQ7ff9NZcL0w6pyQy7K5Gv6KMD/0keb9S/N4H1mpFXE2g9fU97RJ71w1+h9T7kOGcA==
+  dependencies:
+    "@polkadot/util-crypto" "^2.18.1"
+    tweetnacl "^1.0.3"
 
 "@polkadot/api-derive@1.2.1", "@polkadot/api-derive@^1.2.1":
   version "1.2.1"
@@ -368,7 +378,7 @@
     websocket "^1.0.31"
     yargs "^15.1.0"
 
-"@polkadot/util-crypto@2.18.1", "@polkadot/util-crypto@^2.3.1":
+"@polkadot/util-crypto@2.18.1", "@polkadot/util-crypto@^2.18.1", "@polkadot/util-crypto@^2.3.1":
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.18.1.tgz#c4c36cd49c303f551f878a573f516479c94aeafe"
   integrity sha512-RqCIv+WKLStJXhZcE+pT3V/xQvt7V74laqhLyLKIsVXPpeuKDiTxt0E5EB+gkuW1eTC4A03kitULcNA5w4JtFw==
