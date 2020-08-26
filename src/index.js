@@ -23,15 +23,32 @@ async function setup() {
     console.log(`using custom types: ${JSON.stringify(types)} ✅`);
   }
 
-  // Setup libs + api for the REPL session
-  // vendor the @cennznet/api.js compatible versions
+  // Setup API session
+  global.hashing = require('../node_modules/@polkadot/util-crypto');
+  console.log(`connecting to: ${endpoint}...`);
+  global.api = await Api.create({ provider: endpoint, types })
+  console.log(`connected ✅`);
+
+  // Setup injected helper libs / functions
+  // Note: we vendor the @cennznet/api.js compatible versions
   global.hashing = require('../node_modules/@polkadot/util-crypto');
   global.keyring = require('../node_modules/@polkadot/keyring');
   global.utils = require('../node_modules/@polkadot/util');
 
-  console.log(`connecting to: ${endpoint}...`);
-  global.api = await Api.create({ provider: endpoint, types })
-  console.log(`connected ✅`);
+  // Add type decoding/construction utility
+  const { createType } = require('../node_modules/@polkadot/types');
+  global.utils.createType = (type, value) => {
+    return createType(api.registry, type, value);
+  }
+
+  // A simple keyring with prepopulated test accounts
+  const { cryptoWaitReady } = require('../node_modules/@polkadot/util-crypto');
+  await cryptoWaitReady();
+  const toyKeyring = new keyring.Keyring({ type: 'sr25519' });
+  toyKeyring.alice = toyKeyring.addFromUri('//Alice');
+  toyKeyring.bob = toyKeyring.addFromUri('//Bob');
+  toyKeyring.charlie = toyKeyring.addFromUri('//Charlie');
+  global.toyKeyring = toyKeyring;
 }
 
 
@@ -42,6 +59,7 @@ async function main() {
     eval(script);
   } else {
     console.log("Launching session with: api, hashing, keyring, utils");
+    console.log("test accounts are available via: toyKeyring");
     repl.start('> ');
   }
 }

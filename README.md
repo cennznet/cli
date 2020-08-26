@@ -9,3 +9,9 @@ Minimal REPL env for the CENNZnet API
   --types=</path/to/types.json> \
   --run=</path/to/customScript.js>
 ```
+
+## Type creation / decoding
+The REPL provides type decoding utilites
+```js
+const decodedBalance = utils.createType('Balance', 0x12);
+```
