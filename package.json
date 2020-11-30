@@ -13,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "@cennznet/api": "1.1.2",
-    "@polkadot/api": "1.2.1",
     "minimist": "^1.2.5"
   },
   "resolutions": {
