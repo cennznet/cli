@@ -13,13 +13,23 @@
   "license": "ISC",
   "dependencies": {
     "@cennznet/api": "1.1.2",
+    "@polkadot/api": "1.2.1",
     "minimist": "^1.2.5"
   },
   "resolutions": {
+    "@cennznet/api": "1.1.2",
+    "@cennznet/types": "1.1.2",
+    "@cennznet/crml-attestation": "1.1.2",
+    "@cennznet/crml-generic-asset": "1.1.2",
+    "@cennznet/crml-cennzx-spot": "1.1.2",
+    "@cennznet/util": "1.1.2",
     "@polkadot/types": "1.2.1",
     "@polkadot/metadata": "1.2.1",
     "@polkadot/api": "1.2.1",
     "@polkadot/api-derive": "1.2.1",
-    "@polkadot/rpc-core": "1.2.1"
+    "@polkadot/rpc-core": "1.2.1",
+    "@polkadot/rpc-provider": "1.2.1",
+    "@polkadot/util-crypto": "2.4.1",
+    "@polkadot/wasm-crypto": "1.2.1"
   }
 }
