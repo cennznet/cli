@@ -56,7 +56,7 @@ async function main() {
   if (args.run) {
     console.log(`Running user script: '${args.run}' with: api, hashing, keyring, utils`);
     let script = fs.readFileSync(args.run).toString();
-    eval(script);
+    eval("(async () => {" + script + "})()");
   } else {
     console.log("Launching session with: api, hashing, keyring, utils");
     console.log("test accounts are available via: toyKeyring");
