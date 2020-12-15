@@ -15,7 +15,7 @@ activeSessionKeys.map(async ([stash, [gran, audi, imon, babe]]) => {
         (await api.rpc.author.hasKey(audi, 'audi')).toHuman(),
         (await api.rpc.author.hasKey(gran, 'gran')).toHuman(),
     ];
-    if (match) {
+    if (match.every(v => v == true)) {
         console.log(">>> \u001b[32mACTIVE\u001b[37m validator <<<");
         console.log(`connected to stash 💰: ${stash}\nwith session keys: \n babe 👶: ${babe}\n imon 💓: ${imon}\n audi 🚘: ${audi}\n gran 👴: ${gran}\n`);
         return
