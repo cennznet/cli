@@ -23,10 +23,28 @@ async function setup() {
     console.log(`using custom types: ${JSON.stringify(types)} ✅`);
   }
 
+  let syloDirectoryRpc = {
+        scan: {
+          description: 'Sylo directory scan',
+          params: [
+            {
+              name: 'Point',
+              type: 'Balance',
+            },
+          ],
+          type: 'AccountId',
+        }
+  };
+
   // Setup API session
   global.hashing = require('../node_modules/@polkadot/util-crypto');
   console.log(`connecting to: ${endpoint}...`);
-  global.api = await Api.create({ provider: endpoint, types })
+  global.api = await Api.create({ 
+    provider: endpoint,
+    types,
+    rpc: { "syloDirectory": syloDirectoryRpc },
+  });
+
   console.log(`connected ✅`);
 
   // Setup injected helper libs / functions
@@ -34,12 +52,6 @@ async function setup() {
   global.hashing = require('../node_modules/@polkadot/util-crypto');
   global.keyring = require('../node_modules/@polkadot/keyring');
   global.utils = require('../node_modules/@polkadot/util');
-
-  // Add type decoding/construction utility
-  const { createType } = require('../node_modules/@polkadot/types');
-  global.utils.createType = (type, value) => {
-    return createType(api.registry, type, value);
-  }
 
   // A simple keyring with prepopulated test accounts
   const { cryptoWaitReady } = require('../node_modules/@polkadot/util-crypto');
