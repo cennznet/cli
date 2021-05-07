@@ -1,30 +1,18 @@
 let keyring_ = new keyring.Keyring({ 'type': 'sr25519' });
 
+let rata = keyring_.addFromUri('//Rata');
+
 // Make a few validator accounts
 let validators = [
     keyring_.addFromUri('//Alice//stash'),
-//     keyring_.addFromUri('//Bob//stash'),
-//     keyring_.addFromUri('//Charlie//stash'),
-//     keyring_.addFromUri('//Dave//stash'),
-//     keyring_.addFromUri('//Eve//stash'),
-//     keyring_.addFromUri('//Ferdie//stash'),
+//    keyring_.addFromUri('//Bob//stash'),
+//  keyring_.addFromUri('//Charlie//stash'),
+//  keyring_.addFromUri('//Dave//stash'),
+//  keyring_.addFromUri('//Eve//stash'),
+//  keyring_.addFromUri('//Ferdie//stash'),
 ];
 
 let validatorAddresses = validators.map(v => v.address.toString());
-
-validators.map(async(v, i) => {
-    if (i == 0) {
-        (await api.tx.genericAsset.mint(16000, v.address, 10000000 * 10000).signAndSend(v));
-        (await api.tx.genericAsset.mint(16001, v.address, 10000000 * 10000).signAndSend(v));
-    }
-});
-
-//     // await api.tx.utility.batch([
-//     //     api.tx.staking.bond(v.address, 100000, 'stash'),
-//     //     api.tx.staking.validate({'commission': '0x'})
-//     // ]).signAndSend(v);
-//     console.log(`staked validator: ${v.address}`);
-// });
 
 let nominators = []
 for (var i = 1; i <= 1000; i++) {
@@ -48,7 +36,7 @@ for (var i = 1; i <= 1000; i++) {
     });
 
     // A terrible sleep
-    for (var j = 1; j <= 1000; j++) {}
+    for (var j = 1; j <= 3000; j++) {}
 
     nominators.push(nominator);
 }

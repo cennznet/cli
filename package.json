@@ -6,17 +6,15 @@
   "bin": {
     "cennz-cli": "./bin/cennz-cli"
   },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Centrality Developers <support@centrality.ai>",
   "license": "ISC",
   "dependencies": {
-    "@cennznet/api": "1.3.2",
-    "minimist": "^1.2.5"
-  },
-  "resolutions": {
-    "@polkadot/keyring": "4.0.1"
+    "@cennznet/api": "2.0.0-alpha.0",
+    "minimist": "latest"
   }
 
 }

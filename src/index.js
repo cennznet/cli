@@ -1,9 +1,12 @@
-const minimist = require('minimist');
-const { Api } = require('@cennznet/api');
-const repl = require('repl');
-const fs = require('fs');
-
-const args = require('minimist')(process.argv.slice(2));
+import minimist from 'minimist';
+import { Api, WsProvider } from '@cennznet/api';
+import repl from 'repl';
+import fs from 'fs';
+import * as keyring from '@polkadot/keyring';
+import * as utilCrypto from '@polkadot/util-crypto';
+import * as utils from '@polkadot/util';
+import { createType } from '@polkadot/types';
+const args = minimist(process.argv.slice(2));
 
 async function setup() {
   let endpoint = 'wss://nikau.centrality.me/public/ws';
@@ -24,25 +27,24 @@ async function setup() {
   }
 
   // Setup API session
-  global.hashing = require('../node_modules/@polkadot/util-crypto');
   console.log(`connecting to: ${endpoint}...`);
-  global.api = await Api.create({ provider: endpoint, types })
+  const provider = new WsProvider(endpoint);
+  global.api = await Api.create({ provider, types })
   console.log(`connected ✅`);
 
   // Setup injected helper libs / functions
   // Note: we vendor the @cennznet/api.js compatible versions
-  global.hashing = require('../node_modules/@polkadot/util-crypto');
-  global.keyring = require('../node_modules/@polkadot/keyring');
-  global.utils = require('../node_modules/@polkadot/util');
+  // global.hasing = utilCrypto;
+  // global.keyring = keyring;
+  //  global.utils = utils;
 
   // Add type decoding/construction utility
-  const { createType } = require('../node_modules/@polkadot/types');
-  global.utils.createType = (type, value) => {
+  global.createType = (type, value) => {
     return createType(api.registry, type, value);
   }
 
   // A simple keyring with prepopulated test accounts
-  const { cryptoWaitReady } = require('../node_modules/@polkadot/util-crypto');
+  const { cryptoWaitReady } = utilCrypto;
   await cryptoWaitReady();
   const toyKeyring = new keyring.Keyring({ type: 'sr25519' });
   toyKeyring.alice = toyKeyring.addFromUri('//Alice');
@@ -54,7 +56,7 @@ async function setup() {
 
 async function main() {
   if (args.run) {
-    console.log(`Running user script: '${args.run}' with: api, hashing, keyring, utils`);
+    console.log(`Running user script: '${args.run}' with: api, hashing, createType, keyring, utils`);
     let script = fs.readFileSync(args.run).toString();
     eval(`(async () => {${script}})()`);
   } else {
