@@ -4,7 +4,7 @@ let genesisSlot = (await api.query.babe.genesisSlot());
 
 while(true) {
     let finalizedBlock = (await api.rpc.chain.getFinalizedHead());
-    let electedStashes = (await api.query.staking.currentElected()).toJSON();
+    let electedStashes = (await api.query.session.validators()).toJSON();
 
     // find controllers
     let stashInfo = (await api.query.staking.bonded.entries()).reduce((map, [stash, controller]) => {
@@ -41,7 +41,7 @@ while(true) {
 
     // get blocks/online info
     let sessionIndex = await api.query.session.currentIndex();
-    for (i = 0; i < electedStashes.length; i++) {
+    for (let i = 0; i < electedStashes.length; i++) {
         let stash = electedStashes[i];
         let nBlocks = (await api.query.imOnline.authoredBlocks(sessionIndex, stash));
         stashInfo[stash].blocks = nBlocks > 0 ? nBlocks.toNumber() : "❌";
