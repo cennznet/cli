@@ -1,0 +1,5 @@
+{
+  "ListingId": "u128",
+  "TokenCount": "u32",
+  "TokenId": "H256"
+}

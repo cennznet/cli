@@ -26,7 +26,7 @@ async function setup() {
   // Setup API session
   global.hashing = require('../node_modules/@polkadot/util-crypto');
   console.log(`connecting to: ${endpoint}...`);
-  global.api = await Api.create({ provider: endpoint, types })
+  global.api = (await Api.create({ provider: endpoint, types }));
   console.log(`connected ✅`);
 
   // Setup injected helper libs / functions
@@ -50,7 +50,6 @@ async function setup() {
   toyKeyring.charlie = toyKeyring.addFromUri('//Charlie');
   global.toyKeyring = toyKeyring;
 }
-
 
 async function main() {
   if (args.run) {
