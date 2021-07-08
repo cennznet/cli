@@ -26,6 +26,10 @@ async function setup() {
     console.log(`using custom types: ${JSON.stringify(types)} ✅`);
   }
 
+    // A simple keyring with prepopulated test accounts
+    const { cryptoWaitReady } = utilCrypto;
+    await cryptoWaitReady();
+
   // Setup API session
   console.log(`connecting to: ${endpoint}...`);
   const provider = new WsProvider(endpoint);
@@ -43,9 +47,6 @@ async function setup() {
     return createType(api.registry, type, value);
   }
 
-  // A simple keyring with prepopulated test accounts
-  const { cryptoWaitReady } = utilCrypto;
-  await cryptoWaitReady();
   const toyKeyring = new keyring.Keyring({ type: 'sr25519' });
   toyKeyring.alice = toyKeyring.addFromUri('//Alice');
   toyKeyring.bob = toyKeyring.addFromUri('//Bob');
