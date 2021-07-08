@@ -1,0 +1,8 @@
+{
+   "EthDepositEvent": {
+        "address": "H160",
+        "amount": "U256",
+        "beneficiary": "H256"
+    },
+    "ClaimId": "u64"
+}
