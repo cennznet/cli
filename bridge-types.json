@@ -4,5 +4,12 @@
         "amount": "U256",
         "beneficiary": "H256"
     },
-    "ClaimId": "u64"
+    "EthAddress": "H160",
+    "EthTxHash": "H256",
+    "ClaimId": "u64",
+    "AssetInfo": {
+        "symbol": "Vec<u8>",
+        "decimals": "u64",
+        "existential_deposit": "u64"
+    }
 }

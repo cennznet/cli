@@ -30,10 +30,23 @@ async function setup() {
     const { cryptoWaitReady } = utilCrypto;
     await cryptoWaitReady();
 
+
+    let assetMeta = {
+      scan: {
+        description: 'Asset Meta query',
+        params: [],
+        type: 'Vec<(AssetId, AssetInfo)>',
+      }
+    };
+
   // Setup API session
   console.log(`connecting to: ${endpoint}...`);
   const provider = new WsProvider(endpoint);
-  global.api = await Api.create({ provider, types })
+  global.api = await Api.create({
+      provider,
+      types,
+      rpc: { "assetMeta": assetMeta },
+  });
   console.log(`connected ✅`);
 
   // Setup injected helper libs / functions
