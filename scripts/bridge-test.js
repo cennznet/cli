@@ -8,3 +8,4 @@
 
     console.log((await api.query.ethBridge.erc20Meta(erc20Address)).toHuman());
     console.log((await api.rpc.genericAsset.registeredAssets()).toHuman());
+    console.log((await api.query.genericAsset.freeBalance(17000, '0xacd6118e217e552ba801f7aa8a934ea6a300a5b394e7c3f42cd9d6dd9a457c10')).toHuman());
