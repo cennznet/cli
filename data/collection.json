@@ -1,0 +1,8 @@
+{
+  "name": "test",
+  "metadata_base_uri": "ipfs",
+  "royalties_schedule": {
+    "accountId": 0,
+    "entitlement": 0
+  }
+}

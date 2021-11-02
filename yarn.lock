@@ -10,12 +10,12 @@
     regenerator-runtime "^0.13.4"
 
 "@cennznet/api@1.5.0-alpha.4":
-  version "1.5.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/api/-/api-1.5.0-alpha.3.tgz#2a7130519a805e3b3b4ebb173e755a6d4e8dbbd7"
-  integrity sha512-04x0MjhYhk3gqbN9Re/em49MqzDlAotKh0JM9kk7CU201qrOLBlh7K+7siMvvnb8FNmeMnnphKp/6iMuu2YT7A==
+  version "1.5.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@cennznet/api/-/api-1.5.0-alpha.4.tgz#068ca8d52a2b7aa266ba8e20f2b4952eacd3bbda"
+  integrity sha512-R/h/lULBdwSW/Mym9D4tazWkFgkXIahI7qYOTqdVcl7mslDRFg6zeyYwio5Sd9+ZvDOVTNRZRw6eIKHoNAA/Ng==
   dependencies:
-    "@cennznet/types" "^1.5.0-alpha.3"
-    "@cennznet/util" "^1.5.0-alpha.3"
+    "@cennznet/types" "^1.5.0-alpha.4"
+    "@cennznet/util" "^1.5.0-alpha.4"
     "@polkadot/api" "3.7.1"
     "@polkadot/extension-dapp" "^0.36.1"
     "@polkadot/metadata" "3.7.1"
@@ -24,10 +24,10 @@
     "@polkadot/types" "3.7.1"
     eventemitter3 "^4.0.0"
 
-"@cennznet/types@^1.5.0-alpha.3":
-  version "1.5.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/types/-/types-1.5.0-alpha.3.tgz#8c5fb0461ebea38110836cd92717ae4f159245e0"
-  integrity sha512-+QYPac2RaHt9svWkk9vCLFTUwAR4RoJF9X0orjZO066LACcWu0d8D1hIz/8E/zPPh1/hSEOA+4tG27DESHaMAw==
+"@cennznet/types@^1.5.0-alpha.4":
+  version "1.5.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@cennznet/types/-/types-1.5.0-alpha.4.tgz#83132f29c998f4d749373576c8a4a0c3d22e2a15"
+  integrity sha512-MWUiQOo9SwMuVlxnPmCAsxMMnSkZGTgTz6Et+1sMffYjcxdimxd/61n+bIqohJevF/sESjoiRPp0G+CBYcd/cg==
   dependencies:
     "@polkadot/keyring" "5.9.2"
     "@polkadot/types" "3.7.1"
@@ -35,10 +35,10 @@
     "@polkadot/util-crypto" "^4.2.1"
     memoizee "^0.4.14"
 
-"@cennznet/util@^1.5.0-alpha.3":
-  version "1.5.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@cennznet/util/-/util-1.5.0-alpha.3.tgz#cae032909e391abea92fc547ce6beaba1f69c6b2"
-  integrity sha512-JY9RZ8vlRgdVZdySefcVginCuw7JKjbEW3+d58WD6xs1UsoGh6ovoDe5xK7vGtNj/NY55HnjlgjK/zMVPOv+Gw==
+"@cennznet/util@^1.5.0-alpha.4":
+  version "1.5.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@cennznet/util/-/util-1.5.0-alpha.4.tgz#40028788d40e635de2ae8ca736daadcb8e036c39"
+  integrity sha512-jt/kHF20MrABH8nnTQ5BzCcRrqCkhAZ3rUy3O2U0gWTDwYwHNEEwniaoPusoC/DPGu6DSsdwybZDxV2iuql4xw==
   dependencies:
     "@polkadot/util" "5.9.2"
     "@polkadot/util-crypto" "5.9.2"
