@@ -5,7 +5,7 @@ Minimal REPL env for the CENNZnet API
 ```bash
 # Usage:
 ./bin/cennz-cli \
-  --endpoint=<ws://<host>:<port>> \
+  --endpoint=<ws://<host>:<port>|nikau|mainnet> \
   --types=</path/to/types.json> \
   --run=</path/to/customScript.js>
 ```

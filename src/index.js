@@ -9,7 +9,7 @@ import * as utils from '../node_modules/@polkadot/util/index.js';
 const args = minimist(process.argv.slice(2));
 
 async function setup() {
-  args.endpoint = 'ws://localhost:9944';
+  let endpoint = 'ws://localhost:9944';
   if (args.endpoint) {
     if(args.endpoint === 'mainnet') {
       args.endpoint = 'wss://cennznet.unfrastructure.io/public/ws';
