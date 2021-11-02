@@ -17,7 +17,6 @@ async function setup() {
       args.endpoint = 'wss://nikau.centrality.me/public/ws';
     }
     endpoint = args.endpoint;
-    console.log(`using custom endpoint: ${endpoint}`);
   }
 
   let types = {};
@@ -44,7 +43,7 @@ async function setup() {
   global.keyring = keyring;
 
   // A simple keyring with pre-populated test accounts
-  let toyKeyring = new keyring.Keyring();
+  let toyKeyring = new keyring.Keyring({ type: 'sr25519' });
   toyKeyring.alice = toyKeyring.addFromUri("//Alice");
   toyKeyring.bob = toyKeyring.addFromUri("//Bob");
   toyKeyring.charlie = toyKeyring.addFromUri("//Charlie");
@@ -59,7 +58,7 @@ async function main() {
     let script = fs.readFileSync(args.run).toString();
     eval(`(async () => {${script}})()`);
   } else {
-    console.log("Launching session with: api, hashing, keyring, utils");
+    console.log("Launching session with: api, keyring, utilCrypto, utils");
     console.log("Test accounts are available via: toyKeyring");
     repl.start('> ');
   }

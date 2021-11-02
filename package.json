@@ -14,7 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "@cennznet/api": "1.5.0-alpha.4",
-    "@polkadot/util-crypto": "6.5.1",
     "minimist": "^1.2.5"
+  },
+  "resolutions": {
+    "@polkadot/util": "5.9.2",
+    "@polkadot/util-crypto": "5.9.2"
   }
 }
