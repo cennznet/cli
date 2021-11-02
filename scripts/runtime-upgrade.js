@@ -2,7 +2,7 @@
 // Usage:
 // ./bin/cennz-cli script ./scripts/runtime-upgrade.js //<sudo URI> </path/to/new-runtime.wasm>
 
-const fs = require('fs');
+import fs from 'fs';
 var myArgs = process.argv.slice(3);
 
 // <<< Change this sudo key to match you network >>>

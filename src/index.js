@@ -1,13 +1,21 @@
-const minimist = require('minimist');
-const { Api } = require('@cennznet/api');
-const repl = require('repl');
-const fs = require('fs');
+import minimist from 'minimist';
+import {Api, WsProvider } from '@cennznet/api';
+import repl from 'repl';
+import fs from 'fs';
+import keyring from '../node_modules/@polkadot/keyring/index.js';
+import * as utilCrypto from '../node_modules/@polkadot/util-crypto/index.js';
+import * as utils from '../node_modules/@polkadot/util/index.js';
 
-const args = require('minimist')(process.argv.slice(2));
+const args = minimist(process.argv.slice(2));
 
 async function setup() {
-  let endpoint = 'wss://nikau.centrality.me/public/ws';
+  args.endpoint = 'ws://localhost:9944';
   if (args.endpoint) {
+    if(args.endpoint === 'mainnet') {
+      args.endpoint = 'wss://cennznet.unfrastructure.io/public/ws';
+    } else if(args.endpoint === 'nikau') {
+      args.endpoint = 'wss://nikau.centrality.me/public/ws';
+    }
     endpoint = args.endpoint;
     console.log(`using custom endpoint: ${endpoint}`);
   }
@@ -24,42 +32,35 @@ async function setup() {
   }
 
   // Setup API session
-  global.hashing = require('../node_modules/@polkadot/util-crypto');
+  let provider = new WsProvider(endpoint, 10);
   console.log(`connecting to: ${endpoint}...`);
   global.api = await Api.create({ provider: endpoint, types })
   console.log(`connected ✅`);
 
   // Setup injected helper libs / functions
   // Note: we vendor the @cennznet/api.js compatible versions
-  global.hashing = require('../node_modules/@polkadot/util-crypto');
-  global.keyring = require('../node_modules/@polkadot/keyring');
-  global.utils = require('../node_modules/@polkadot/util');
+  global.utilCrypto = utilCrypto;
+  global.utils = utils;
+  global.keyring = keyring;
 
-  // Add type decoding/construction utility
-  const { createType } = require('../node_modules/@polkadot/types');
-  global.utils.createType = (type, value) => {
-    return createType(api.registry, type, value);
-  }
-
-  // A simple keyring with prepopulated test accounts
-  const { cryptoWaitReady } = require('../node_modules/@polkadot/util-crypto');
-  await cryptoWaitReady();
-  const toyKeyring = new keyring.Keyring({ type: 'sr25519' });
-  toyKeyring.alice = toyKeyring.addFromUri('//Alice');
-  toyKeyring.bob = toyKeyring.addFromUri('//Bob');
-  toyKeyring.charlie = toyKeyring.addFromUri('//Charlie');
+  // A simple keyring with pre-populated test accounts
+  let toyKeyring = new keyring.Keyring();
+  toyKeyring.alice = toyKeyring.addFromUri("//Alice");
+  toyKeyring.bob = toyKeyring.addFromUri("//Bob");
+  toyKeyring.charlie = toyKeyring.addFromUri("//Charlie");
+  toyKeyring.dave = toyKeyring.addFromUri("//Dave");
+  toyKeyring.eve = toyKeyring.addFromUri("//Eve");
   global.toyKeyring = toyKeyring;
 }
 
-
 async function main() {
   if (args.run) {
-    console.log(`Running user script: '${args.run}' with: api, hashing, keyring, utils`);
+    console.log(`Running user script: '${args.run}' with: api, utilCrypto, keyring, utils`);
     let script = fs.readFileSync(args.run).toString();
     eval(`(async () => {${script}})()`);
   } else {
     console.log("Launching session with: api, hashing, keyring, utils");
-    console.log("test accounts are available via: toyKeyring");
+    console.log("Test accounts are available via: toyKeyring");
     repl.start('> ');
   }
 }

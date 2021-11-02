@@ -7,7 +7,7 @@ api.rpc.system.nodeRoles().then(r => console.log(`role: ${r[0]}`));
 api.rpc.system.version().then(v => console.log(`client version: ${v.toHuman()}`));
 api.rpc.system.localPeerId().then(p => console.log(`peer id: ${p.toHuman()}`));
 
-activeSessionKeys = (await api.query.session.queuedKeys());
+let activeSessionKeys = (await api.query.session.queuedKeys());
 await Promise.all(
     activeSessionKeys.map(async ([stash, [gran, audi, imon, babe]]) => {
         let match = [
