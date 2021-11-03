@@ -1,0 +1,9 @@
+{
+  "collection_id": 0,
+  "quantity": 0,
+  "owner_address": "OwnerAddress",
+  "attributes": [{ "Text": "temp-attribute" }],
+  "royalties_schedule": {
+    "entitlements": [[0, 5]]
+  }
+}

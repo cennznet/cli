@@ -1,6 +1,6 @@
 // Example create a new generic asset
 let keys = new keyring.Keyring({'type': 'sr25519'});
-let ownerAddress = '5FWEHQqYMN8YCg8yJxKHnon7Dtx4Psp2xnjvKfQqGC6kUwgv';
+let ownerAddress = '5DVHuiWPrWomw1GxgXx6XuDCURPdDcv6YjLchobf156kwnZx';
 let sudoKey = keys.addFromUri('//YourSudoKey');
 
 // 1 million tokens with 18dp

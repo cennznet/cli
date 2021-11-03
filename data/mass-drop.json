@@ -1,0 +1,13 @@
+{
+  "price": 10,
+  "asset_id": 0,
+  "max_supply": 50,
+  "transaction_limit": 5,
+  "activation_time": 3000,
+  "pre_sale": {
+    "price": 5,
+    "transaction_limit": 1,
+    "activation_time": 2500,
+    "max_supply": 10
+  }
+}

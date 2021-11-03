@@ -1,0 +1,7 @@
+{
+  "name": "CollectionName",
+  "metadata_base_uri": "ipfs",
+  "royalties_schedule": {
+    "entitlements": [[0, 5]]
+  }
+}
