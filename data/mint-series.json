@@ -1,8 +1,10 @@
 {
-  "collectionId": 0,
+  "collection_id": 0,
   "quantity": 0,
-  "ownerAddress": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-  "attributes": [{ "i32": "test" }],
+  "owner_address": "OwnerAddress",
+  "attributes": [{ "Text": "temp-attribute" }],
   "metadata_path": "",
-  "royalties_schedule": {}
+  "royalties_schedule": {
+    "entitlements": [[0, 5]]
+  }
 }

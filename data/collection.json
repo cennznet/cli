@@ -1,8 +1,7 @@
 {
-  "name": "test",
+  "name": "CollectionName",
   "metadata_base_uri": "ipfs",
   "royalties_schedule": {
-    "accountId": 0,
-    "entitlement": 0
+    "entitlements": [[0, 5]]
   }
 }
