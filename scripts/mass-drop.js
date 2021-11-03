@@ -1,3 +1,8 @@
+dotenv.config();
+const pinata = pinataSDK(
+  process.env.PINATA_API_KEY,
+  process.env.PINATA_SECRET_API_KEY
+);
 const keys = new keyring.Keyring({ type: "sr25519" });
 const sudoKey = keys.addFromUri("//YourSudoKey");
 
@@ -22,13 +27,22 @@ const mintSeriesData = JSON.parse(rawData);
 rawData = fs.readFileSync("./data/mass-drop.json");
 const massDropData = JSON.parse(rawData);
 
+const metadata = {
+  name: collectionData.name,
+  collectionId: mintSeriesData.collection_id,
+  ownerAddress: mintSeriesData.owner_address,
+  attributes: mintSeriesData.attributes,
+};
+
+const pin = await pinata.pinJSONToIPFS(metadata);
+
 await api.tx.nft
   .mintSeries(
     mintSeriesData.collection_id,
     mintSeriesData.quantity,
     mintSeriesData.owner_address,
     mintSeriesData.attributes,
-    mintSeriesData.metadata_path,
+    pin.IpfsHash,
     mintSeriesData.royalties_schedule,
     { ...massDropData }
   )

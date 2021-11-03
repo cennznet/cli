@@ -3,7 +3,6 @@
   "quantity": 0,
   "owner_address": "OwnerAddress",
   "attributes": [{ "Text": "temp-attribute" }],
-  "metadata_path": "",
   "royalties_schedule": {
     "entitlements": [[0, 5]]
   }
