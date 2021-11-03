@@ -1,9 +1,8 @@
-//create collection
-//edit fields in data/collection.json
+const keys = new keyring.Keyring({ type: "sr25519" });
+const sudoKey = keys.addFromUri("//YourSudoKey");
 
-let keys = new keyring.Keyring({ type: "sr25519" });
-let sudoKey = keys.addFromUri("//YourSudoKey");
-
+// Create collection
+// Edit fields in data/collection.json
 let rawData = fs.readFileSync("./data/collection.json");
 const collectionData = JSON.parse(rawData);
 
@@ -15,9 +14,8 @@ await api.tx.nft
   )
   .signAndSend(sudoKey);
 
-//mass drop
-//edit fields in data/mint-series.json and data/mass-drop.json
-
+// Mass drop
+// Edit fields in data/mint-series.json and data/mass-drop.json
 rawData = fs.readFileSync("./data/mint-series.json");
 const mintSeriesData = JSON.parse(rawData);
 
