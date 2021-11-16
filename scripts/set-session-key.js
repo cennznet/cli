@@ -1,11 +1,14 @@
 /*
 
-// Please place the sessions.yaml in the root folder of this repo.
+# How to run
+1. Please place the sessions.yaml in the root folder of this repo.
+2. `./bin/cennz-cli --endpoint='nikau' --run='scripts/set-session-key.js'`
 
-// TODOs:
+# TODOs:
 1. bring the session config to be a argument of the cli
 2. import the result returned from the api.tx.session.seKeys()
 
+```
 ####################################
 #
 # Example of sessions.yaml content
@@ -19,6 +22,7 @@ validator-host-name:
     ed_pub_key: "0x00000000000000000000"
     ec_secret_key: "0x00000000000000000000"
     ec_pub_key: "0x00000000000000000000"
+```
 
 */
 
