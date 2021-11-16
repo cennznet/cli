@@ -2,6 +2,7 @@ import minimist from 'minimist';
 import {Api, WsProvider } from '@cennznet/api';
 import repl from 'repl';
 import fs from 'fs';
+import yaml from "js-yaml";
 import keyring from '../node_modules/@polkadot/keyring/index.js';
 import * as utilCrypto from '../node_modules/@polkadot/util-crypto/index.js';
 import * as utils from '../node_modules/@polkadot/util/index.js';
