@@ -43,6 +43,14 @@
     "@polkadot/util" "5.9.2"
     "@polkadot/util-crypto" "5.9.2"
 
+"@cennznet/util@^1.5.0-alpha.6":
+  version "1.5.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@cennznet/util/-/util-1.5.0-alpha.6.tgz#b6d460dce17a21612704e09549db39f46bcee1ce"
+  integrity sha512-aM2MKeQ4ikZGzZlo8Gduk8oh2CjOnBaW7DsaYjCsfF+Wj8hhkliDrI42F/T3LCPvU1U9dKv06AeEAqstfHPD2w==
+  dependencies:
+    "@polkadot/util" "5.9.2"
+    "@polkadot/util-crypto" "5.9.2"
+
 "@polkadot/api-derive@3.7.1":
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api-derive/-/api-derive-3.7.1.tgz#c9bde50001dc6c1402e7b2d3ba43cff0892e8500"
