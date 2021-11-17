@@ -6,7 +6,7 @@
 
 # TODOs:
 1. bring the session config to be a argument of the cli
-2. import the result returned from the api.tx.session.seKeys()
+2. improve the result returned from the api.tx.session.seKeys()
 
 ```
 ####################################
