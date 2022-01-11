@@ -1,6 +1,7 @@
 import minimist from 'minimist';
-import {Api, WsProvider } from '@cennznet/api';
+import {ApiPromise, WsProvider } from '@polkadot/api';
 import repl from 'repl';
+import CENNZnetRuntimeTypes from '@cennznet/api-types/dist/src/interfaces/definitions.js';
 import fs from 'fs';
 import keyring from '../node_modules/@polkadot/keyring/index.js';
 import * as utilCrypto from '../node_modules/@polkadot/util-crypto/index.js';
@@ -15,11 +16,13 @@ async function setup() {
       args.endpoint = 'wss://cennznet.unfrastructure.io/public/ws';
     } else if(args.endpoint === 'nikau') {
       args.endpoint = 'wss://nikau.centrality.me/public/ws';
+    } else if(args.endpoint === 'rata') {
+      args.endpoint = 'wss://kong2.centrality.me/public/rata/ws';
     }
     endpoint = args.endpoint;
   }
-
-  let types = {};
+  console.log(CENNZnetRuntimeTypes);
+  let types = CENNZnetRuntimeTypes;
   if (args.types) {
     console.log(`loading custom types from: '${args.types}'...`);
     try {
@@ -33,7 +36,7 @@ async function setup() {
   // Setup API session
   let provider = new WsProvider(endpoint, 10);
   console.log(`connecting to: ${endpoint}...`);
-  global.api = await Api.create({ provider: endpoint, types })
+  global.api = await ApiPromise.create({ provider, typesBundle: types })
   console.log(`connected ✅`);
 
   // Setup injected helper libs / functions
@@ -43,7 +46,7 @@ async function setup() {
   global.keyring = keyring;
 
   // A simple keyring with pre-populated test accounts
-  let toyKeyring = new keyring.Keyring({ type: 'sr25519' });
+  let toyKeyring = new keyring({ type: 'sr25519' });
   toyKeyring.alice = toyKeyring.addFromUri("//Alice");
   toyKeyring.bob = toyKeyring.addFromUri("//Bob");
   toyKeyring.charlie = toyKeyring.addFromUri("//Charlie");
