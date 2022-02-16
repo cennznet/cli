@@ -9,9 +9,9 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@cennznet/api-types@https://github.com/cennznet/api-types.git#4.0.0-dev":
-  version "4.0.0-dev"
-  resolved "https://github.com/cennznet/api-types.git#248f6b85e795eb1cf2965e263028890f6f4a4155"
+"@cennznet/api-types@https://github.com/cennznet/api-types.git#4.0.4-dev":
+  version "4.0.2-dev"
+  resolved "https://github.com/cennznet/api-types.git#0227eb13d2024484cd57f4675a9d8621f2af9781"
   dependencies:
     "@polkadot/keyring" "^7.3.1"
     "@polkadot/types" "^7.3.1"

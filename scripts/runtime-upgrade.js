@@ -5,7 +5,7 @@
 const [_unused, sudoUri, wasmPath] = process.argv.slice(3);
 // <<< Change this sudo key to match you network >>>
 let ua = utils.hexToU8a(sudoUri);
-let sudo = (new keyring.Keyring({type: 'sr25519'})).addFromSeed(ua);
+let sudo = keyring.addFromSeed(ua);
 console.log(sudo.address);
 const wasm = fs.readFileSync(wasmPath);
 const wasmHex = `0x${wasm.toString('hex')}`;

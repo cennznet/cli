@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@polkadot/api": "latest",
-    "@cennznet/api-types": "https://github.com/cennznet/api-types.git#4.0.0-dev",
+    "@cennznet/api-types": "https://github.com/cennznet/api-types.git#4.0.4-dev",
     "minimist": "^1.2.5"
   }
 }

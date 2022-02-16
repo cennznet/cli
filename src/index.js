@@ -1,9 +1,9 @@
 import minimist from 'minimist';
 import {ApiPromise, WsProvider } from '@polkadot/api';
 import repl from 'repl';
-import CENNZnetRuntimeTypes from '@cennznet/api-types/dist/src/interfaces/definitions.js';
+import typesBundle from '../node_modules/@cennznet/api-types/dist/src/interfaces/injects.js';
 import fs from 'fs';
-import keyring from '../node_modules/@polkadot/keyring/index.js';
+import Keyring from '../node_modules/@polkadot/keyring/index.js';
 import * as utilCrypto from '../node_modules/@polkadot/util-crypto/index.js';
 import * as utils from '../node_modules/@polkadot/util/index.js';
 
@@ -18,11 +18,16 @@ async function setup() {
       args.endpoint = 'wss://nikau.centrality.me/public/ws';
     } else if(args.endpoint === 'rata') {
       args.endpoint = 'wss://kong2.centrality.me/public/rata/ws';
+    } else if(args.endpoint === 'evm') {
+      args.endpoint = 'wss://evm.centrality.me/public/ws';
     }
+
     endpoint = args.endpoint;
   }
-  console.log(CENNZnetRuntimeTypes);
-  let types = CENNZnetRuntimeTypes;
+  var types = typesBundle;
+  types = types.typesBundle.spec.cennznet.types[2].types;
+  console.log(types);
+
   if (args.types) {
     console.log(`loading custom types from: '${args.types}'...`);
     try {
@@ -36,17 +41,28 @@ async function setup() {
   // Setup API session
   let provider = new WsProvider(endpoint, 10);
   console.log(`connecting to: ${endpoint}...`);
-  global.api = await ApiPromise.create({ provider, typesBundle: types })
+  global.api = await ApiPromise.create({
+      provider,
+      signedExtensions: {
+        'ChargeTransactionPayment': {
+          extrinsic: {
+            tip: 'Compact<Balance>',
+            feeExchange: 'Option<u32>',
+          },
+          payload: {},
+        }
+      }
+  });
   console.log(`connected ✅`);
 
   // Setup injected helper libs / functions
   // Note: we vendor the @cennznet/api.js compatible versions
   global.utilCrypto = utilCrypto;
   global.utils = utils;
-  global.keyring = keyring;
+  global.keyring = new Keyring({ type: 'sr25519' });
 
   // A simple keyring with pre-populated test accounts
-  let toyKeyring = new keyring({ type: 'sr25519' });
+  let toyKeyring = new Keyring({ type: 'sr25519' });
   toyKeyring.alice = toyKeyring.addFromUri("//Alice");
   toyKeyring.bob = toyKeyring.addFromUri("//Bob");
   toyKeyring.charlie = toyKeyring.addFromUri("//Charlie");
