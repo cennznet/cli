@@ -44,7 +44,7 @@ async function setup() {
   // A simple keyring with prepopulated test accounts
   const { cryptoWaitReady } = require('../node_modules/@polkadot/util-crypto');
   await cryptoWaitReady();
-  const toyKeyring = new keyring.Keyring({ type: 'sr25519' });
+  const toyKeyring = new global.keyring.Keyring({ type: 'sr25519' });
   toyKeyring.alice = toyKeyring.addFromUri('//Alice');
   toyKeyring.bob = toyKeyring.addFromUri('//Bob');
   toyKeyring.charlie = toyKeyring.addFromUri('//Charlie');
