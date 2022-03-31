@@ -43,6 +43,14 @@
     "@polkadot/util" "5.9.2"
     "@polkadot/util-crypto" "5.9.2"
 
+"@cennznet/util@^1.5.0-alpha.6":
+  version "1.5.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@cennznet/util/-/util-1.5.0-alpha.6.tgz#b6d460dce17a21612704e09549db39f46bcee1ce"
+  integrity sha512-aM2MKeQ4ikZGzZlo8Gduk8oh2CjOnBaW7DsaYjCsfF+Wj8hhkliDrI42F/T3LCPvU1U9dKv06AeEAqstfHPD2w==
+  dependencies:
+    "@polkadot/util" "5.9.2"
+    "@polkadot/util-crypto" "5.9.2"
+
 "@polkadot/api-derive@3.7.1":
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api-derive/-/api-derive-3.7.1.tgz#c9bde50001dc6c1402e7b2d3ba43cff0892e8500"
@@ -317,6 +325,11 @@
   dependencies:
     "@types/node" "*"
 
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -490,6 +503,11 @@ form-data@^3.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+fs@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+  integrity sha1-invTcYa23d84E/I4WLV+yq9eQdQ=
+
 hash-base@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/hash-base/-/hash-base-3.1.0.tgz#55c381d9e06e1d2997a883b4a3fddfe7f0d3af33"
@@ -540,6 +558,13 @@ js-sha3@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
   integrity sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
+
+js-yaml@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.1.0.tgz#c1fb65f8f5017901cdd2c951864ba18458a10602"
+  integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
+  dependencies:
+    argparse "^2.0.1"
 
 lru-queue@^0.1.0:
   version "0.1.0"
