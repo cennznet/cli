@@ -2,11 +2,26 @@
 // Usage:
 // ./bin/cennz-cli script ./scripts/runtime-upgrade.js //<sudo URI> </path/to/new-runtime.wasm>
 
-import fs from 'fs';
-var myArgs = process.argv.slice(3);
+const myArgs = process.argv.slice(3);
 
-// <<< Change this sudo key to match you network >>>
-keyring.Keyring({type: 'sr25519'}).addFromUri(myargs[1]);
-const wasm = fs.readFileSync(myargs[2]);
+console.log(myArgs)
+
+const sudo = (new keyring.Keyring({ type: 'sr25519' })).addFromUri(myArgs[0]);
+const wasm = fs.readFileSync(myArgs[1]);
 const wasmHex = `0x${wasm.toString('hex')}`;
-await api.tx.sudo.sudo(api.tx.system.setCode(wasmHex)).signAndSend(sudo);
+const setCode = api.tx.system.setCode(wasmHex);
+const scheduler = api.tx.sudo.sudo(api.tx.scheduler.scheduleAfter(10, null, 0, setCode));
+await scheduler.signAndSend(sudo, ({ status, events }) => {
+	if (status.isInBlock) {
+		events.forEach(({ event: { data, method } }) => {
+			console.log('method::', method.toString());
+			console.log('data::', data.toString());
+		});
+	}
+
+	if (status.isFinalized) {
+		process.exit()
+	}
+});
+
+
